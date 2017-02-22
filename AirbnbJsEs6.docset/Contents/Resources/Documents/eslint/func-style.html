@@ -1,0 +1,103 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-the-consistent-use-of-either-function-declarations-or-expressions-func-style-">enforce the consistent use of either <code>function</code> declarations or expressions (func-style)</h1>
+<p>There are two ways of defining functions in JavaScript: <code>function</code> declarations and <code>function</code> expressions. Declarations contain the <code>function</code> keyword first, followed by a name and then its arguments and the function body, for example:</p>
+<pre><code class="lang-js">function doSomething() {
+    // ...
+}
+</code></pre>
+<p>Equivalent function expressions begin with the <code>var</code> keyword, followed by a name and then the function itself, such as:</p>
+<pre><code class="lang-js">var doSomething = function() {
+    // ...
+};
+</code></pre>
+<p>The primary difference between <code>function</code> declarations and <code>function expressions</code> is that declarations are <em>hoisted</em> to the top of the scope in which they are defined, which allows you to write code that uses the function before its declaration. For example:</p>
+<pre><code class="lang-js">doSomething();
+
+function doSomething() {
+    // ...
+}
+</code></pre>
+<p>Although this code might seem like an error, it actually works fine because JavaScript engines hoist the <code>function</code> declarations to the top of the scope. That means this code is treated as if the declaration came before the invocation.</p>
+<p>For <code>function</code> expressions, you must define the function before it is used, otherwise it causes an error. Example:</p>
+<pre><code class="lang-js">doSomething();  // error!
+
+var doSomething = function() {
+    // ...
+};
+</code></pre>
+<p>In this case, <code>doSomething()</code> is undefined at the time of invocation and so causes a runtime error.</p>
+<p>Due to these different behaviors, it is common to have guidelines as to which style of function should be used. There is really no correct or incorrect choice here, it is just a preference.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces a particular type of <code>function</code> style throughout a JavaScript file, either declarations or expressions. You can specify which you prefer in the configuration.</p>
+<h2 id="options">Options</h2>
+<p>This rule has a string option:</p>
+<ul>
+<li><code>&quot;expression&quot;</code> (default) requires the use of function expressions instead of function declarations</li>
+<li><code>&quot;declaration&quot;</code> requires the use of function declarations instead of function expressions</li>
+</ul>
+<p>This rule has an object option for an exception:</p>
+<ul>
+<li><code>&quot;allowArrowFunctions&quot;: true</code> (default <code>false</code>) allows the use of arrow functions</li>
+</ul>
+<h3 id="expression">expression</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;expression&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint func-style: [&quot;error&quot;, &quot;expression&quot;]*/
+
+function foo() {
+    // ...
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;expression&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint func-style: [&quot;error&quot;, &quot;expression&quot;]*/
+
+var foo = function() {
+    // ...
+};
+</code></pre>
+<h3 id="declaration">declaration</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;declaration&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint func-style: [&quot;error&quot;, &quot;declaration&quot;]*/
+
+var foo = function() {
+    // ...
+};
+
+var foo = () =&gt; {};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;declaration&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint func-style: [&quot;error&quot;, &quot;declaration&quot;]*/
+
+function foo() {
+    // ...
+}
+
+// Methods (functions assigned to objects) are not checked by this rule
+SomeObject.foo = function() {
+    // ...
+};
+</code></pre>
+<h3 id="allowarrowfunctions">allowArrowFunctions</h3>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>&quot;declaration&quot;, { &quot;allowArrowFunctions&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint func-style: [&quot;error&quot;, &quot;declaration&quot;, { &quot;allowArrowFunctions&quot;: true }]*/
+
+var foo = () =&gt; {};
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you want to allow developers to each decide how they want to write functions on their own, then you can disable this rule.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html">JavaScript Scoping and Hoisting</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

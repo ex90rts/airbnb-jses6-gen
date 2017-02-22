@@ -1,0 +1,99 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="generator-star-enforce-consistent-spacing-around-the-asterisk-in-generator-functions">generator-star: enforce consistent spacing around the asterisk in generator functions</h1>
+<p class="removed icon">(removed) This rule was <strong>removed</strong> in ESLint v1.0 and <strong>replaced</strong> by the <a href="generator-star-spacing.html">generator-star-spacing</a> rule.</p>
+<p>Generators are a new type of function in ECMAScript 6 that can return multiple values over time.
+These special functions are indicated by placing an <code>*</code> after the <code>function</code> keyword.</p>
+<p>Here is an example of a generator function:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+function* generator() {
+    yield &quot;44&quot;;
+    yield &quot;55&quot;;
+}
+</code></pre>
+<p>This is also valid:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+function *generator() {
+    yield &quot;44&quot;;
+    yield &quot;55&quot;;
+}
+</code></pre>
+<p>This is valid as well:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+function * generator() {
+    yield &quot;44&quot;;
+    yield &quot;55&quot;;
+}
+</code></pre>
+<p>To keep a sense of consistency when using generators this rule enforces a single position for the <code>*</code>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces that the <code>*</code> is either placed next to the <code>function</code> keyword or the name of the function. The single
+option for this rule is a string specifying the placement of the asterisk. For this option you may pass
+<code>&quot;start&quot;</code>, <code>&quot;middle&quot;</code> or <code>&quot;end&quot;</code>. The default is <code>&quot;end&quot;</code>.</p>
+<p>You can set the style in configuration like this:</p>
+<pre><code class="lang-json">&quot;generator-star&quot;: [&quot;error&quot;, &quot;start&quot;]
+</code></pre>
+<p>When using <code>&quot;start&quot;</code> this placement will be enforced:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+function* generator() {
+}
+</code></pre>
+<p>When using <code>&quot;middle&quot;</code> this placement will be enforced:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+function * generator() {
+}
+</code></pre>
+<p>When using <code>&quot;end&quot;</code> this placement will be enforced:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+function *generator() {
+}
+</code></pre>
+<p>When using the expression syntax <code>&quot;start&quot;</code> will be enforced here:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+var generator = function* () {
+}
+</code></pre>
+<p>When using the expression syntax <code>&quot;middle&quot;</code> will be enforced here:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+var generator = function * () {
+}
+</code></pre>
+<p>When using the expression syntax <code>&quot;end&quot;</code> will be enforced here:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+var generator = function *() {
+}
+</code></pre>
+<p>When using the expression syntax this is valid for both <code>&quot;start&quot;</code> and <code>&quot;end&quot;</code>:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+var generator = function*() {
+}
+</code></pre>
+<p>The shortened object literal syntax for generators is not affected by this rule.</p>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If your project will not be using generators you do not need this rule.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="https://leanpub.com/understandinges6/read/#leanpub-auto-generators">Understanding ES6: Generators</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-or-disallow-newline-at-the-end-of-files-eol-last-">require or disallow newline at the end of files (eol-last)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Trailing newlines in non-empty files are a common UNIX idiom. Benefits of
+trailing newlines include the ability to concatenate or append to files as well
+as output files to the terminal without interfering with shell prompts.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces at least one newline (or absence thereof) at the end
+of non-empty files.</p>
+<p>Prior to v0.16.0 this rule also enforced that there was only a single line at
+the end of the file. If you still want this behaviour, consider enabling
+<a href="no-multiple-empty-lines.html">no-multiple-empty-lines</a> with <code>maxEOF</code> and/or
+<a href="no-trailing-spaces.html">no-trailing-spaces</a>.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint eol-last: [&quot;error&quot;, &quot;always&quot;]*/
+
+function doSmth() {
+  var foo = 2;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint eol-last: [&quot;error&quot;, &quot;always&quot;]*/
+
+function doSmth() {
+  var foo = 2;
+}\n
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule has a string option:</p>
+<ul>
+<li><code>&quot;always&quot;</code> (default) enforces that files end with a newline (LF)</li>
+<li><code>&quot;never&quot;</code> enforces that files do not end with a newline</li>
+<li><code>&quot;unix&quot;</code> (deprecated) is identical to &quot;always&quot;</li>
+<li><code>&quot;windows&quot;</code> (deprecated) is identical to &quot;always&quot;, but will use a CRLF character when autofixing</li>
+</ul>
+<p><strong>Deprecated:</strong> The options <code>&quot;unix&quot;</code> and <code>&quot;windows&quot;</code> are deprecated. If you need to enforce a specific linebreak style, use this rule in conjunction with <code>linebreak-style</code>.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-await-inside-of-loops-no-await-in-loop-">Disallow <code>await</code> inside of loops (no-await-in-loop)</h1>
+<p>Performing an operation on each element of an iterable is a common task. However, performing an
+<code>await</code> as part of each operation is an indication that the program is not taking full advantage of
+the parallelization benefits of <code>async</code>/<code>await</code>.</p>
+<p>Usually, the code should be refactored to create all the promises at once, then get access to the
+results using <code>Promise.all()</code>. Otherwise, each successive operation will not start until the
+previous one has completed.</p>
+<p>Concretely, the following function should be refactored as shown:</p>
+<pre><code class="lang-js">async function foo(things) {
+  const results = [];
+  for (const thing of things) {
+    // Bad: each loop iteration is delayed until the entire asynchronous operation completes
+    results.push(await bar(thing));
+  }
+  return baz(results);
+}
+</code></pre>
+<pre><code class="lang-js">async function foo(things) {
+  const results = [];
+  for (const thing of things) {
+    // Good: all asynchronous operations are immediately started.
+    results.push(bar(thing));
+  }
+  // Now that all the asynchronous operations are running, here we wait until they all complete.
+  return baz(await Promise.all(results));
+}
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows the use of <code>await</code> within loop bodies.</p>
+<h2 id="examples">Examples</h2>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">async function foo(things) {
+  const results = [];
+  for (const thing of things) {
+    // Good: all asynchronous operations are immediately started.
+    results.push(bar(thing));
+  }
+  // Now that all the asynchronous operations are running, here we wait until they all complete.
+  return baz(await Promise.all(results));
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">async function foo(things) {
+  const results = [];
+  for (const thing of things) {
+    // Bad: each loop iteration is delayed until the entire asynchronous operation completes
+    results.push(await bar(thing));
+  }
+  return baz(results);
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>In many cases the iterations of a loop are not actually independent of each-other. For example, the
+output of one iteration might be used as the input to another. Or, loops may be used to retry
+asynchronous operations that were unsuccessful. In such cases it makes sense to use <code>await</code> within a
+loop and it is recommended to disable the rule via a standard ESLint disable comment.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

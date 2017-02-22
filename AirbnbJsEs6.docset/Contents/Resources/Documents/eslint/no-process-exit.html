@@ -1,0 +1,43 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-process-exit-no-process-exit-">Disallow process.exit() (no-process-exit)</h1>
+<p>The <code>process.exit()</code> method in Node.js is used to immediately stop the Node.js process and exit. This is a dangerous operation because it can occur in any method at any point in time, potentially stopping a Node.js application completely when an error occurs. For example:</p>
+<pre><code class="lang-js">if (somethingBadHappened) {
+    console.error(&quot;Something bad happened!&quot;);
+    process.exit(1);
+}
+</code></pre>
+<p>This code could appear in any module and will stop the entire application when <code>somethingBadHappened</code> is truthy. This doesn&#39;t give the application any chance to respond to the error. It&#39;s usually better to throw an error and allow the application to handle it appropriately:</p>
+<pre><code class="lang-js">if (somethingBadHappened) {
+    throw new Error(&quot;Something bad happened!&quot;);
+}
+</code></pre>
+<p>By throwing an error in this way, other parts of the application have an opportunity to handle the error rather than stopping the application altogether. If the error bubbles all the way up to the process without being handled, then the process will exit and a non-zero exit code will returned, so the end result is the same.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to prevent the use of <code>process.exit()</code> in Node.js JavaScript. As such, it warns whenever <code>process.exit()</code> is found in code.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-process-exit: &quot;error&quot;*/
+
+process.exit(1);
+process.exit(0);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-process-exit: &quot;error&quot;*/
+
+Process.exit();
+var exit = process.exit;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>There may be a part of a Node.js application that is responsible for determining the correct exit code to return upon exiting. In that case, you should turn this rule off to allow proper handling of the exit code.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

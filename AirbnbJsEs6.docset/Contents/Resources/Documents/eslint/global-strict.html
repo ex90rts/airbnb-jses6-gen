@@ -1,0 +1,52 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="global-strict-require-or-disallow-strict-mode-directives-in-the-global-scope">global-strict: require or disallow strict mode directives in the global scope</h1>
+<p class="removed icon">(removed) This rule was <strong>removed</strong> in ESLint v1.0 and <strong>replaced</strong> by the <a href="strict.html">strict</a> rule. The <code>&quot;global&quot;</code> option in the new rule is most similar to the removed rule.</p>
+<p>Strict mode is enabled by using the following pragma in your code:</p>
+<pre><code class="lang-js">&quot;use strict&quot;;
+</code></pre>
+<p>When used globally, as in this example, the strict mode pragma applies to all code within a single file. This can be dangerous if you concatenate scripts together before serving them to a browser. For instance, if you have a file running in strict mode and you concatenate that file with jQuery, the strict mode now also applies to jQuery and may cause errors.</p>
+<p>However, if you&#39;re using Node.js, you may want to turn strict mode on globally. Files are typically not concatenated together in Node.js projects and therefore the risk of applying strict mode accidentally is minimal. Further, since every file in Node.js has its own scope, global strict mode only effects the single file in which it is placed.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule requires or disallows global strict mode invoked by a <code>&quot;use strict&quot;</code> pragma in the global scope.</p>
+<p>The following pattern is under strict mode globally and is considered valid with the <code>&quot;always&quot;</code> option and a warning with the <code>&quot;never&quot;</code> option.</p>
+<pre><code class="lang-js">&quot;use strict&quot;;
+
+function foo() {
+    return true;
+}
+</code></pre>
+<p>The following patterns apply strict mode only to functions so are valid with the <code>&quot;never&quot;</code> option but are problems with the <code>&quot;always&quot;</code> option.</p>
+<pre><code class="lang-js">function foo() {
+    &quot;use strict&quot;;
+
+    return true;
+}
+
+(function() {
+    &quot;use strict&quot;;
+
+    // other code
+}());
+</code></pre>
+<h2 id="options">Options</h2>
+<pre><code class="lang-json">&quot;global-strict&quot;: [&quot;error&quot;, &quot;always&quot;]
+</code></pre>
+<p>Requires that every file have a top-level <code>&quot;use strict&quot;</code> statement.</p>
+<pre><code class="lang-json">&quot;global-strict&quot;: [&quot;error&quot;, &quot;never&quot;]
+</code></pre>
+<p>Warns whenever <code>&quot;use strict&quot;</code> is used in the global scope such that it could contaminate concatenated files.</p>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>When a project may use non-strict-mode code side by side with strict-mode code and the files are not concatenated, the decision to use global strict mode can be made on an individual basis, rendering this rule unnecessary.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

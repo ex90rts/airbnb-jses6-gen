@@ -1,0 +1,131 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-early-use-no-use-before-define-">Disallow Early Use (no-use-before-define)</h1>
+<p>In JavaScript, prior to ES6, variable and function declarations are hoisted to the top of a scope, so it&#39;s possible to use identifiers before their formal declarations in code. This can be confusing and some believe it is best to always declare variables and functions before using them.</p>
+<p>In ES6, block-level bindings (<code>let</code> and <code>const</code>) introduce a &quot;temporal dead zone&quot; where a <code>ReferenceError</code> will be thrown with any attempt to access the variable before its declaration.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule will warn when it encounters a reference to an identifier that has not yet been declared.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-use-before-define: &quot;error&quot;*/
+/*eslint-env es6*/
+
+alert(a);
+var a = 10;
+
+f();
+function f() {}
+
+function g() {
+    return b;
+}
+var b = 1;
+
+// With blockBindings: true
+{
+    alert(c);
+    let c = 1;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-use-before-define: &quot;error&quot;*/
+/*eslint-env es6*/
+
+var a;
+a = 10;
+alert(a);
+
+function f() {}
+f(1);
+
+var b = 1;
+function g() {
+    return b;
+}
+
+// With blockBindings: true
+{
+    let C;
+    c++;
+}
+</code></pre>
+<h2 id="options">Options</h2>
+<pre><code class="lang-json">{
+    &quot;no-use-before-define&quot;: [&quot;error&quot;, { &quot;functions&quot;: true, &quot;classes&quot;: true }]
+}
+</code></pre>
+<ul>
+<li><code>functions</code> (<code>boolean</code>) -
+The flag which shows whether or not this rule checks function declarations.
+If this is <code>true</code>, this rule warns every reference to a function before the function declaration.
+Otherwise, ignores those references.
+Function declarations are hoisted, so it&#39;s safe.
+Default is <code>true</code>.</li>
+<li><code>classes</code> (<code>boolean</code>) -
+The flag which shows whether or not this rule checks class declarations of upper scopes.
+If this is <code>true</code>, this rule warns every reference to a class before the class declaration.
+Otherwise, ignores those references if the declaration is in upper function scopes.
+Class declarations are not hoisted, so it might be danger.
+Default is <code>true</code>.</li>
+<li><code>variables</code> (<code>boolean</code>) -
+This flag determines whether or not the rule checks variable declarations in upper scopes.
+If this is <code>true</code>, the rule warns every reference to a variable before the variable declaration.
+Otherwise, the rule ignores a reference if the declaration is in an upper scope, while still reporting the reference if it&#39;s in the same scope as the declaration.
+Default is <code>true</code>.</li>
+</ul>
+<p>This rule accepts <code>&quot;nofunc&quot;</code> string as a option.
+<code>&quot;nofunc&quot;</code> is the same as <code>{ &quot;functions&quot;: false, &quot;classes&quot;: true }</code>.</p>
+<h3 id="functions">functions</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;functions&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-use-before-define: [&quot;error&quot;, { &quot;functions&quot;: false }]*/
+
+f();
+function f() {}
+</code></pre>
+<h3 id="classes">classes</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{ &quot;classes&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-use-before-define: [&quot;error&quot;, { &quot;classes&quot;: false }]*/
+/*eslint-env es6*/
+
+new A();
+class A {
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;classes&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-use-before-define: [&quot;error&quot;, { &quot;classes&quot;: false }]*/
+/*eslint-env es6*/
+
+function foo() {
+    return new A();
+}
+
+class A {
+}
+</code></pre>
+<h3 id="variables">variables</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{ &quot;variables&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-use-before-define: [&quot;error&quot;, { &quot;variables&quot;: false }]*/
+
+console.log(foo);
+var foo = 1;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;variables&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-use-before-define: [&quot;error&quot;, { &quot;variables&quot;: false }]*/
+
+function baz() {
+    console.log(foo);
+}
+
+var foo = 1;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="forbid-certain-props-on-components-forbid-component-props-">Forbid certain props on Components (forbid-component-props)</h1>
+<p>By default this rule prevents passing of <a href="https://medium.com/brigade-engineering/don-t-pass-css-classes-between-components-e9f7ab192785">props that add lots of complexity</a> (<code>className</code>, <code>style</code>) to Components. This rule only applies to Components (e.g. <code>&lt;Foo /&gt;</code>) and not DOM nodes (e.g. <code>&lt;div /&gt;</code>). The list of forbidden props can be customized with the <code>forbid</code> option.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule checks all JSX elements and verifies that no forbidden props are used
+on Components. This rule is off by default.</p>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">&lt;Hello className=&#39;foo&#39; /&gt;
+</code></pre>
+<pre><code class="lang-jsx">&lt;Hello style={{color: &#39;red&#39;}} /&gt;
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">&lt;Hello name=&#39;Joe&#39; /&gt;
+</code></pre>
+<pre><code class="lang-jsx">&lt;div className=&#39;foo&#39; /&gt;
+</code></pre>
+<pre><code class="lang-jsx">&lt;div style={{color: &#39;red&#39;}} /&gt;
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<pre><code class="lang-js">...
+&quot;forbid-component-props&quot;: [&lt;enabled&gt;, { &quot;forbid&quot;: [&lt;string&gt;] }]
+...
+</code></pre>
+<h3 id="-forbid-"><code>forbid</code></h3>
+<p>An array of strings, with the names of props that are forbidden. The default value of this option is <code>[&#39;className&#39;, &#39;style&#39;]</code>.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

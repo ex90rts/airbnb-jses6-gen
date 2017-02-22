@@ -1,0 +1,36 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-function-constructor-no-new-func-">Disallow Function Constructor (no-new-func)</h1>
+<p>It&#39;s possible to create functions in JavaScript using the <code>Function</code> constructor, such as:</p>
+<pre><code class="lang-js">var x = new Function(&quot;a&quot;, &quot;b&quot;, &quot;return a + b&quot;);
+</code></pre>
+<p>This is considered by many to be a bad practice due to the difficulty in debugging and reading these types of functions.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This error is raised to highlight the use of a bad practice. By passing a string to the Function constructor, you are requiring the engine to parse that string much in the way it has to when you call the <code>eval</code> function.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-new-func: &quot;error&quot;*/
+
+var x = new Function(&quot;a&quot;, &quot;b&quot;, &quot;return a + b&quot;);
+var x = Function(&quot;a&quot;, &quot;b&quot;, &quot;return a + b&quot;);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-new-func: &quot;error&quot;*/
+
+var x = function (a, b) {
+    return a + b;
+};
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>In more advanced cases where you really need to use the <code>Function</code> constructor.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

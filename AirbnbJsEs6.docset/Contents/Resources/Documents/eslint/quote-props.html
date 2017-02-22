@@ -1,0 +1,227 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-quotes-around-object-literal-property-names-quote-props-">require quotes around object literal property names (quote-props)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Object literal property names can be defined in two ways: using literals or using strings. For example, these two objects are equivalent:</p>
+<pre><code class="lang-js">var object1 = {
+    property: true
+};
+
+var object2 = {
+    &quot;property&quot;: true
+};
+</code></pre>
+<p>In many cases, it doesn&#39;t matter if you choose to use an identifier instead of a string or vice-versa. Even so, you might decide to enforce a consistent style in your code.</p>
+<p>There are, however, some occasions when you must use quotes:</p>
+<ol>
+<li>If you are using an ECMAScript 3 JavaScript engine (such as IE8) and you want to use a keyword (such as <code>if</code>) as a property name. This restriction was removed in ECMAScript 5.</li>
+<li>You want to use a non-identifier character in your property name, such as having a property with a space like <code>&quot;one two&quot;</code>.</li>
+</ol>
+<p>Another example where quotes do matter is when using numeric literals as property keys:</p>
+<pre><code class="lang-js">var object = {
+    1e2: 1,
+    100: 2
+};
+</code></pre>
+<p>This may look alright at first sight, but this code in fact throws a syntax error in ECMAScript 5 strict mode. This happens because <code>1e2</code> and <code>100</code> are coerced into strings before getting used as the property name. Both <code>String(1e2)</code> and <code>String(100)</code> happen to be equal to <code>&quot;100&quot;</code>, which causes the &quot;Duplicate data property in object literal not allowed in strict mode&quot; error. Issues like that can be tricky to debug, so some prefer to require quotes around all property names.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule requires quotes around object literal property names.</p>
+<h2 id="options">Options</h2>
+<p>This rule has two options, a string option and an object option.</p>
+<p>String option:</p>
+<ul>
+<li><code>&quot;always&quot;</code> (default) requires quotes around all object literal property names</li>
+<li><code>&quot;as-needed&quot;</code> disallows quotes around object literal property names that are not strictly required</li>
+<li><code>&quot;consistent&quot;</code> enforces a consistent quote style requires quotes around object literal property names</li>
+<li><code>&quot;consistent-as-needed&quot;</code> requires quotes around all object literal property names if any name strictly requires quotes, otherwise disallows quotes around object property names</li>
+</ul>
+<p>Object option:</p>
+<ul>
+<li><code>&quot;keywords&quot;: true</code> requires quotes around language keywords used as object property names (only applies when using <code>as-needed</code> or <code>consistent-as-needed</code>)</li>
+<li><code>&quot;unnecessary&quot;: true</code> (default) disallows quotes around object literal property names that are not strictly required (only applies when using <code>as-needed</code>)</li>
+<li><code>&quot;unnecessary&quot;: false</code> allows quotes around object literal property names that are not strictly required (only applies when using <code>as-needed</code>)</li>
+<li><code>&quot;numbers&quot;: true</code> requires quotes around numbers used as object property names (only applies when using <code>as-needed</code>)</li>
+</ul>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint quote-props: [&quot;error&quot;, &quot;always&quot;]*/
+
+var object = {
+    foo: &quot;bar&quot;,
+    baz: 42,
+    &quot;qux-lorem&quot;: true
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint quote-props: [&quot;error&quot;, &quot;always&quot;]*/
+/*eslint-env es6*/
+
+var object1 = {
+    &quot;foo&quot;: &quot;bar&quot;,
+    &quot;baz&quot;: 42,
+    &quot;qux-lorem&quot;: true
+};
+
+var object2 = {
+    &#39;foo&#39;: &#39;bar&#39;,
+    &#39;baz&#39;: 42,
+    &#39;qux-lorem&#39;: true
+};
+
+var object3 = {
+    foo() {
+        return;
+    }
+};
+</code></pre>
+<h3 id="as-needed">as-needed</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;as-needed&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint quote-props: [&quot;error&quot;, &quot;as-needed&quot;]*/
+
+var object = {
+    &quot;a&quot;: 0,
+    &quot;0&quot;: 0,
+    &quot;true&quot;: 0,
+    &quot;null&quot;: 0
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;as-needed&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint quote-props: [&quot;error&quot;, &quot;as-needed&quot;]*/
+/*eslint-env es6*/
+
+var object1 = {
+    &quot;a-b&quot;: 0,
+    &quot;0x0&quot;: 0,
+    &quot;1e2&quot;: 0
+};
+
+var object2 = {
+    foo: &#39;bar&#39;,
+    baz: 42,
+    true: 0,
+    0: 0,
+    &#39;qux-lorem&#39;: true
+};
+
+var object3 = {
+    foo() {
+        return;
+    }
+};
+</code></pre>
+<h3 id="consistent">consistent</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;consistent&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint quote-props: [&quot;error&quot;, &quot;consistent&quot;]*/
+
+var object1 = {
+    foo: &quot;bar&quot;,
+    &quot;baz&quot;: 42,
+    &quot;qux-lorem&quot;: true
+};
+
+var object2 = {
+    &#39;foo&#39;: &#39;bar&#39;,
+    baz: 42
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;consistent&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint quote-props: [&quot;error&quot;, &quot;consistent&quot;]*/
+
+var object1 = {
+    &quot;foo&quot;: &quot;bar&quot;,
+    &quot;baz&quot;: 42,
+    &quot;qux-lorem&quot;: true
+};
+
+var object2 = {
+    &#39;foo&#39;: &#39;bar&#39;,
+    &#39;baz&#39;: 42
+};
+
+var object3 = {
+    foo: &#39;bar&#39;,
+    baz: 42
+};
+</code></pre>
+<h3 id="consistent-as-needed">consistent-as-needed</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;consistent-as-needed&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint quote-props: [&quot;error&quot;, &quot;consistent-as-needed&quot;]*/
+
+var object1 = {
+    foo: &quot;bar&quot;,
+    &quot;baz&quot;: 42,
+    &quot;qux-lorem&quot;: true
+};
+
+var object2 = {
+    &#39;foo&#39;: &#39;bar&#39;,
+    &#39;baz&#39;: 42
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;consistent-as-needed&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint quote-props: [&quot;error&quot;, &quot;consistent-as-needed&quot;]*/
+
+var object1 = {
+    &quot;foo&quot;: &quot;bar&quot;,
+    &quot;baz&quot;: 42,
+    &quot;qux-lorem&quot;: true
+};
+
+var object2 = {
+    foo: &#39;bar&#39;,
+    baz: 42
+};
+</code></pre>
+<h3 id="keywords">keywords</h3>
+<p class="incorrect icon">Examples of additional <strong>incorrect</strong> code for this rule with the <code>&quot;as-needed&quot;, { &quot;keywords&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint quote-props: [&quot;error&quot;, &quot;as-needed&quot;, { &quot;keywords&quot;: true }]*/
+
+var x = {
+    while: 1,
+    volatile: &quot;foo&quot;
+};
+</code></pre>
+<p class="incorrect icon">Examples of additional <strong>incorrect</strong> code for this rule with the <code>&quot;consistent-as-needed&quot;, { &quot;keywords&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint quote-props: [&quot;error&quot;, &quot;consistent-as-needed&quot;, { &quot;keywords&quot;: true }]*/
+
+var x = {
+    &quot;prop&quot;: 1,
+    &quot;bar&quot;: &quot;foo&quot;
+};
+</code></pre>
+<h3 id="unnecessary">unnecessary</h3>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>&quot;as-needed&quot;, { &quot;unnecessary&quot;: false }</code> options:</p>
+<pre><code class="lang-js">/*eslint quote-props: [&quot;error&quot;, &quot;as-needed&quot;, { &quot;keywords&quot;: true, &quot;unnecessary&quot;: false }]*/
+
+var x = {
+    &quot;while&quot;: 1,
+    &quot;foo&quot;: &quot;bar&quot;  // Would normally have caused a warning
+};
+</code></pre>
+<h3 id="numbers">numbers</h3>
+<p class="incorrect icon">Examples of additional <strong>incorrect</strong> code for this rule with the <code>&quot;as-needed&quot;, { &quot;numbers&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint quote-props: [&quot;error&quot;, &quot;as-needed&quot;, { &quot;numbers&quot;: true }]*/
+
+var x = {
+    100: 1
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t care if property names are consistently wrapped in quotes or not, and you don&#39;t target legacy ES3 environments, turn this rule off.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names">Reserved words as property names</a></li>
+<li><a href="https://mathiasbynens.be/notes/javascript-properties">Unquoted property names / object keys in JavaScript</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

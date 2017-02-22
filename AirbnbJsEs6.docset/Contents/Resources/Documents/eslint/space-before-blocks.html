@@ -1,0 +1,188 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-or-disallow-space-before-blocks-space-before-blocks-">Require Or Disallow Space Before Blocks (space-before-blocks)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Consistency is an important part of any style guide.
+While it is a personal preference where to put the opening brace of blocks,
+it should be consistent across a whole project.
+Having an inconsistent style distracts the reader from seeing the important parts of the code.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule will enforce consistency of spacing before blocks. It is only applied on blocks that don’t begin on a new line.</p>
+<ul>
+<li>This rule ignores spacing which is between <code>=&gt;</code> and a block. The spacing is handled by the <code>arrow-spacing</code> rule.</li>
+<li>This rule ignores spacing which is between a keyword and a block. The spacing is handled by the <code>keyword-spacing</code> rule.</li>
+</ul>
+<h2 id="options">Options</h2>
+<p>This rule takes one argument. If it is <code>&quot;always&quot;</code> then blocks must always have at least one preceding space. If <code>&quot;never&quot;</code>
+then all blocks should never have any preceding space. If different spacing is desired for function
+blocks, keyword blocks and classes, an optional configuration object can be passed as the rule argument to
+configure the cases separately.</p>
+<p>( e.g. <code>{ &quot;functions&quot;: &quot;never&quot;, &quot;keywords&quot;: &quot;always&quot;, &quot;classes&quot;: &quot;always&quot; }</code> )</p>
+<p>The default is <code>&quot;always&quot;</code>.</p>
+<h3 id="-always-">&quot;always&quot;</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the &quot;always&quot; option:</p>
+<pre><code class="lang-js">/*eslint space-before-blocks: &quot;error&quot;*/
+
+if (a){
+    b();
+}
+
+function a(){}
+
+for (;;){
+    b();
+}
+
+try {} catch(a){}
+
+class Foo{
+  constructor(){}
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the &quot;always&quot; option:</p>
+<pre><code class="lang-js">/*eslint space-before-blocks: &quot;error&quot;*/
+
+if (a) {
+    b();
+}
+
+if (a) {
+    b();
+} else{ /*no error. this is checked by `keyword-spacing` rule.*/
+    c();
+}
+
+
+function a() {}
+
+for (;;) {
+    b();
+}
+
+try {} catch(a) {}
+</code></pre>
+<h3 id="-never-">&quot;never&quot;</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the &quot;never&quot; option:</p>
+<pre><code class="lang-js">/*eslint space-before-blocks: [&quot;error&quot;, &quot;never&quot;]*/
+
+if (a) {
+    b();
+}
+
+function a() {}
+
+for (;;) {
+    b();
+}
+
+try {} catch(a) {}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the &quot;never&quot; option:</p>
+<pre><code class="lang-js">/*eslint space-before-blocks: [&quot;error&quot;, &quot;never&quot;]*/
+
+if (a){
+    b();
+}
+
+function a(){}
+
+for (;;){
+    b();
+}
+
+try{} catch(a){}
+
+class Foo{
+  constructor(){}
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule when configured <code>{ &quot;functions&quot;: &quot;never&quot;, &quot;keywords&quot;: &quot;always&quot;, &quot;classes&quot;: &quot;never&quot; }</code>:</p>
+<pre><code class="lang-js">/*eslint space-before-blocks: [&quot;error&quot;, { &quot;functions&quot;: &quot;never&quot;, &quot;keywords&quot;: &quot;always&quot;, &quot;classes&quot;: &quot;never&quot; }]*/
+/*eslint-env es6*/
+
+function a() {}
+
+try {} catch(a){}
+
+class Foo{
+  constructor() {}
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule when configured <code>{ &quot;functions&quot;: &quot;never&quot;, &quot;keywords&quot;: &quot;always&quot;, &quot;classes&quot;: &quot;never&quot; }</code>:</p>
+<pre><code class="lang-js">/*eslint space-before-blocks: [&quot;error&quot;, { &quot;functions&quot;: &quot;never&quot;, &quot;keywords&quot;: &quot;always&quot;, &quot;classes&quot;: &quot;never&quot; }]*/
+/*eslint-env es6*/
+
+for (;;) {
+  // ...
+}
+
+describe(function(){
+  // ...
+});
+
+class Foo {
+  constructor(){}
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule when configured <code>{ &quot;functions&quot;: &quot;always&quot;, &quot;keywords&quot;: &quot;never&quot;, &quot;classes&quot;: &quot;never&quot; }</code>:</p>
+<pre><code class="lang-js">/*eslint space-before-blocks: [&quot;error&quot;, { &quot;functions&quot;: &quot;always&quot;, &quot;keywords&quot;: &quot;never&quot;, &quot;classes&quot;: &quot;never&quot; }]*/
+/*eslint-env es6*/
+
+function a(){}
+
+try {} catch(a) {}
+
+class Foo {
+  constructor(){}
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule when configured <code>{ &quot;functions&quot;: &quot;always&quot;, &quot;keywords&quot;: &quot;never&quot;, &quot;classes&quot;: &quot;never&quot; }</code>:</p>
+<pre><code class="lang-js">/*eslint space-before-blocks: [&quot;error&quot;, { &quot;functions&quot;: &quot;always&quot;, &quot;keywords&quot;: &quot;never&quot;, &quot;classes&quot;: &quot;never&quot; }]*/
+/*eslint-env es6*/
+
+if (a){
+  b();
+}
+
+var a = function() {}
+
+class Foo{
+  constructor() {}
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule when configured <code>{ &quot;functions&quot;: &quot;never&quot;, &quot;keywords&quot;: &quot;never&quot;, &quot;classes&quot;: &quot;always&quot; }</code>:</p>
+<pre><code class="lang-js">/*eslint space-before-blocks: [&quot;error&quot;, { &quot;functions&quot;: &quot;never&quot;, &quot;keywords&quot;: &quot;never&quot;, &quot;classes&quot;: &quot;always&quot; }]*/
+/*eslint-env es6*/
+
+class Foo{
+  constructor(){}
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule when configured <code>{ &quot;functions&quot;: &quot;never&quot;, &quot;keywords&quot;: &quot;never&quot;, &quot;classes&quot;: &quot;always&quot; }</code>:</p>
+<pre><code class="lang-js">/*eslint space-before-blocks: [&quot;error&quot;, { &quot;functions&quot;: &quot;never&quot;, &quot;keywords&quot;: &quot;never&quot;, &quot;classes&quot;: &quot;always&quot; }]*/
+/*eslint-env es6*/
+
+class Foo {
+  constructor(){}
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You can turn this rule off if you are not concerned with the consistency of spacing before blocks.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="keyword-spacing.html">keyword-spacing</a></li>
+<li><a href="arrow-spacing.html">arrow-spacing</a></li>
+<li><a href="brace-style.html">brace-style</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

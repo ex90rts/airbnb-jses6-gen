@@ -1,0 +1,46 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-unnecessary-computed-property-keys-on-objects-no-useless-computed-key-">Disallow unnecessary computed property keys on objects (no-useless-computed-key)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>It&#39;s unnecessary to use computed properties with literals such as:</p>
+<pre><code class="lang-js">var foo = {[&quot;a&quot;]: &quot;b&quot;};
+</code></pre>
+<p>The code can be rewritten as:</p>
+<pre><code class="lang-js">var foo = {&quot;a&quot;: &quot;b&quot;};
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows unnecessary usage of computed property keys.</p>
+<h2 id="examples">Examples</h2>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-useless-computed-key: &quot;error&quot;*/
+/*eslint-env es6*/
+
+var a = { [&#39;0&#39;]: 0 };
+var a = { [&#39;0+1,234&#39;]: 0 };
+var a = { [0]: 0 };
+var a = { [&#39;x&#39;]: 0 };
+var a = { [&#39;x&#39;]() {} };
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-useless-computed-key: &quot;error&quot;*/
+
+var c = { &#39;a&#39;: 0 };
+var c = { 0: 0 };
+var a = { x() {} };
+var c = { a: 0 };
+var c = { &#39;0+1,234&#39;: 0 };
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about unnecessary computed property keys, you can safely disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

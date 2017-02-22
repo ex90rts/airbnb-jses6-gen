@@ -1,0 +1,71 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-duplicate-name-in-class-members-no-dupe-class-members-">Disallow duplicate name in class members (no-dupe-class-members)</h1>
+<p>If there are declarations of the same name in class members, the last declaration overwrites other declarations silently.
+It can cause unexpected behaviors.</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+class Foo {
+  bar() { console.log(&quot;hello&quot;); }
+  bar() { console.log(&quot;goodbye&quot;); }
+}
+
+var foo = new Foo();
+foo.bar(); // goodbye
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed to flag the use of duplicate names in class members.</p>
+<h2 id="examples">Examples</h2>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-dupe-class-members: &quot;error&quot;*/
+/*eslint-env es6*/
+
+class Foo {
+  bar() { }
+  bar() { }
+}
+
+class Foo {
+  bar() { }
+  get bar() { }
+}
+
+class Foo {
+  static bar() { }
+  static bar() { }
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-dupe-class-members: &quot;error&quot;*/
+/*eslint-env es6*/
+
+class Foo {
+  bar() { }
+  qux() { }
+}
+
+class Foo {
+  get bar() { }
+  set bar(value) { }
+}
+
+class Foo {
+  static bar() { }
+  bar() { }
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>This rule should not be used in ES3/5 environments.</p>
+<p>In ES2015 (ES6) or later, if you don&#39;t want to be notified about duplicate names in class members, you can safely disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

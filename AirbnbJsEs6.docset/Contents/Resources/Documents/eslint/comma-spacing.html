@@ -1,0 +1,114 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforces-spacing-around-commas-comma-spacing-">Enforces spacing around commas (comma-spacing)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Spacing around commas improve readability of a list of items. Although most of the style guidelines for languages prescribe adding a space after a comma and not before it, it is subjective to the preferences of a project.</p>
+<pre><code class="lang-js">var foo = 1, bar = 2;
+var foo = 1 ,bar = 2;
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces consistent spacing before and after commas in variable declarations, array literals, object literals, function parameters, and sequences.</p>
+<p>This rule does not apply in an <code>ArrayExpression</code> or <code>ArrayPattern</code> in either of the following cases:</p>
+<ul>
+<li>adjacent null elements</li>
+<li>an initial null element, to avoid conflicts with the <a href="array-bracket-spacing.html"><code>array-bracket-spacing</code></a> rule</li>
+</ul>
+<h2 id="options">Options</h2>
+<p>This rule has an object option:</p>
+<ul>
+<li><code>&quot;before&quot;: false</code> (default) disallows spaces before commas</li>
+<li><code>&quot;before&quot;: true</code> requires one or more spaces before commas</li>
+<li><code>&quot;after&quot;: true</code> (default) requires one or more spaces after commas</li>
+<li><code>&quot;after&quot;: false</code> disallows spaces after commas</li>
+</ul>
+<h3 id="after">after</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>{ &quot;before&quot;: false, &quot;after&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint comma-spacing: [&quot;error&quot;, { &quot;before&quot;: false, &quot;after&quot;: true }]*/
+
+var foo = 1 ,bar = 2;
+var arr = [1 , 2];
+var obj = {&quot;foo&quot;: &quot;bar&quot; ,&quot;baz&quot;: &quot;qur&quot;};
+foo(a ,b);
+new Foo(a ,b);
+function foo(a ,b){}
+a ,b
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>{ &quot;before&quot;: false, &quot;after&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint comma-spacing: [&quot;error&quot;, { &quot;before&quot;: false, &quot;after&quot;: true }]*/
+
+var foo = 1, bar = 2
+    , baz = 3;
+var arr = [1, 2];
+var arr = [1,, 3]
+var obj = {&quot;foo&quot;: &quot;bar&quot;, &quot;baz&quot;: &quot;qur&quot;};
+foo(a, b);
+new Foo(a, b);
+function foo(a, b){}
+a, b
+</code></pre>
+<p class="correct icon">Example of <strong>correct</strong> code for this rule with initial null element for the default <code>{ &quot;before&quot;: false, &quot;after&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint comma-spacing: [&quot;error&quot;, { &quot;before&quot;: false, &quot;after&quot;: true }]*/
+/*eslint array-bracket-spacing: [&quot;error&quot;, &quot;always&quot;]*/
+
+var arr = [ , 2, 3 ]
+</code></pre>
+<h3 id="before">before</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;before&quot;: true, &quot;after&quot;: false }</code> options:</p>
+<pre><code class="lang-js">/*eslint comma-spacing: [&quot;error&quot;, { &quot;before&quot;: true, &quot;after&quot;: false }]*/
+
+var foo = 1, bar = 2;
+var arr = [1 , 2];
+var obj = {&quot;foo&quot;: &quot;bar&quot;, &quot;baz&quot;: &quot;qur&quot;};
+new Foo(a,b);
+function foo(a,b){}
+a, b
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;before&quot;: true, &quot;after&quot;: false }</code> options:</p>
+<pre><code class="lang-js">/*eslint comma-spacing: [&quot;error&quot;, { &quot;before&quot;: true, &quot;after&quot;: false }]*/
+
+var foo = 1 ,bar = 2 ,
+    baz = true;
+var arr = [1 ,2];
+var arr = [1 ,,3]
+var obj = {&quot;foo&quot;: &quot;bar&quot; ,&quot;baz&quot;: &quot;qur&quot;};
+foo(a ,b);
+new Foo(a ,b);
+function foo(a ,b){}
+a ,b
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with initial null element for the <code>{ &quot;before&quot;: true, &quot;after&quot;: false }</code> options:</p>
+<pre><code class="lang-js">/*eslint comma-spacing: [&quot;error&quot;, { &quot;before&quot;: true, &quot;after&quot;: false }]*/
+/*eslint array-bracket-spacing: [&quot;error&quot;, &quot;never&quot;]*/
+
+var arr = [,2 ,3]
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If your project will not be following a consistent comma-spacing pattern, turn this rule off.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://javascript.crockford.com/code.html">Javascript</a></li>
+<li><a href="https://dojotoolkit.org/reference-guide/1.9/developer/styleguide.html">Dojo Style Guide</a></li>
+</ul>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="array-bracket-spacing.html">array-bracket-spacing</a></li>
+<li><a href="comma-style.html">comma-style</a></li>
+<li><a href="space-in-brackets.html">space-in-brackets</a> (deprecated)</li>
+<li><a href="space-in-parens.html">space-in-parens</a></li>
+<li><a href="space-infix-ops.html">space-infix-ops</a></li>
+<li><a href="space-after-keywords">space-after-keywords</a></li>
+<li><a href="space-unary-ops">space-unary-ops</a></li>
+<li><a href="space-return-throw-case">space-return-throw-case</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

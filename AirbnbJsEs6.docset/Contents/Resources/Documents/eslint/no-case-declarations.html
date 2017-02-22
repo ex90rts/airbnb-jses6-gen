@@ -1,0 +1,77 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-lexical-declarations-in-case-default-clauses-no-case-declarations-">Disallow lexical declarations in case/default clauses (no-case-declarations)</h1>
+<p>This rule disallows lexical declarations (<code>let</code>, <code>const</code>, <code>function</code> and <code>class</code>)
+in <code>case</code>/<code>default</code> clauses. The reason is that the lexical declaration is visible
+in the entire switch block but it only gets initialized when it is assigned, which
+will only happen if the case where it is defined is reached.</p>
+<p>To ensure that the lexical declaration only applies to the current case clause
+wrap your clauses in blocks.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to prevent access to uninitialized lexical bindings as well as accessing hoisted functions across case clauses.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-case-declarations: &quot;error&quot;*/
+/*eslint-env es6*/
+
+switch (foo) {
+    case 1:
+        let x = 1;
+        break;
+    case 2:
+        const y = 2;
+        break;
+    case 3:
+        function f() {}
+        break;
+    default:
+        class C {}
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-case-declarations: &quot;error&quot;*/
+/*eslint-env es6*/
+
+// Declarations outside switch-statements are valid
+const a = 0;
+
+switch (foo) {
+    // The following case clauses are wrapped into blocks using brackets
+    case 1: {
+        let x = 1;
+        break;
+    }
+    case 2: {
+        const y = 2;
+        break;
+    }
+    case 3: {
+        function f() {}
+        break;
+    }
+    case 4:
+        // Declarations using var without brackets are valid due to function-scope hoisting
+        var z = 4;
+        break;
+    default: {
+        class C {}
+    }
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you depend on fall through behavior and want access to bindings introduced in the case block.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-fallthrough.html">no-fallthrough</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

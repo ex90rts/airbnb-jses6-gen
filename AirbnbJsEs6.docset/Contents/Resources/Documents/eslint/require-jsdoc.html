@@ -1,0 +1,136 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-jsdoc-comments-require-jsdoc-">require JSDoc comments (require-jsdoc)</h1>
+<p><a href="http://usejsdoc.org">JSDoc</a> is a JavaScript API documentation generator. It uses specially-formatted comments inside of code to generate API documentation automatically. For example, this is what a JSDoc comment looks like for a function:</p>
+<pre><code class="lang-js">/**
+ * Adds two numbers together.
+ * @param {int} num1 The first number.
+ * @param {int} num2 The second number.
+ * @returns {int} The sum of the two numbers.
+ */
+function sum(num1, num2) {
+    return num1 + num2;
+}
+</code></pre>
+<p>Some style guides require JSDoc comments for all functions as a way of explaining function behavior.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule requires JSDoc comments for specified nodes. Supported nodes:</p>
+<ul>
+<li><code>&quot;FunctionDeclaration&quot;</code></li>
+<li><code>&quot;ClassDeclaration&quot;</code></li>
+<li><code>&quot;MethodDefinition&quot;</code></li>
+<li><code>&quot;ArrowFunctionExpression&quot;</code></li>
+</ul>
+<h2 id="options">Options</h2>
+<p>This rule has a single object option:</p>
+<ul>
+<li><code>&quot;require&quot;</code> requires JSDoc comments for the specified nodes</li>
+</ul>
+<p>Default option settings are:</p>
+<pre><code class="lang-json">{
+    &quot;require-jsdoc&quot;: [&quot;error&quot;, {
+        &quot;require&quot;: {
+            &quot;FunctionDeclaration&quot;: true,
+            &quot;MethodDefinition&quot;: false,
+            &quot;ClassDeclaration&quot;: false,
+            &quot;ArrowFunctionExpression&quot;: false
+        }
+    }]
+}
+</code></pre>
+<h3 id="require">require</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;require&quot;: { &quot;FunctionDeclaration&quot;: true, &quot;MethodDefinition&quot;: true, &quot;ClassDeclaration&quot;: true, &quot;ArrowFunctionExpression&quot;: true } }</code> option:</p>
+<pre><code class="lang-js">/*eslint &quot;require-jsdoc&quot;: [&quot;error&quot;, {
+    &quot;require&quot;: {
+        &quot;FunctionDeclaration&quot;: true,
+        &quot;MethodDefinition&quot;: true,
+        &quot;ClassDeclaration&quot;: true
+    }
+}]*/
+
+function foo() {
+    return 10;
+}
+
+var foo = () =&gt; {
+    return 10;
+}
+
+class Test{
+    getDate(){}
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;require&quot;: { &quot;FunctionDeclaration&quot;: true, &quot;MethodDefinition&quot;: true, &quot;ClassDeclaration&quot;: true, &quot;ArrowFunctionExpression&quot;: true } }</code> option:</p>
+<pre><code class="lang-js">/*eslint &quot;require-jsdoc&quot;: [&quot;error&quot;, {
+    &quot;require&quot;: {
+        &quot;FunctionDeclaration&quot;: true,
+        &quot;MethodDefinition&quot;: true,
+        &quot;ClassDeclaration&quot;: true
+    }
+}]*/
+
+/**
+ * It returns 10
+ */
+function foo() {
+    return 10;
+}
+
+/**
+ * It returns test + 10
+ * @params {int} test - some number
+ * @returns {int} sum of test and 10
+ */
+var foo = (test) =&gt; {
+    return test + 10;
+}
+
+/**
+ * It returns 10
+ */
+var foo = () =&gt; {
+    return 10;
+}
+
+/**
+ * It returns 10
+ */
+var foo = function() {
+    return 10;
+}
+
+var array = [1,2,3];
+array.filter(function(item) {
+    return item &gt; 2;
+});
+
+/**
+ * It returns 10
+ */
+class Test{
+    /**
+    * returns the date
+    */
+    getDate(){}
+}
+
+setTimeout(() =&gt; {}, 10); // since its an anonymous arrow function
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you do not require JSDoc for your functions, then you can leave this rule off.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="valid-jsdoc.html">valid-jsdoc</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

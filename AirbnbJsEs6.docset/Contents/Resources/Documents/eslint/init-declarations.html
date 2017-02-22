@@ -1,0 +1,105 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-or-disallow-initialization-in-variable-declarations-init-declarations-">require or disallow initialization in variable declarations (init-declarations)</h1>
+<p>In JavaScript, variables can be assigned during declaration, or at any point afterwards using an assignment statement. For example, in the following code, <code>foo</code> is initialized during declaration, while <code>bar</code> is initialized later.</p>
+<pre><code class="lang-js">var foo = 1;
+var bar;
+
+if (foo) {
+    bar = 1;
+} else {
+    bar = 2;
+}
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at enforcing or eliminating variable initializations during declaration. For example, in the following code, <code>foo</code> is initialized during declaration, while <code>bar</code> is not.</p>
+<pre><code class="lang-js">var foo = 1;
+var bar;
+
+bar = 2;
+</code></pre>
+<p>This rule aims to bring consistency to variable initializations and declarations.</p>
+<h2 id="options">Options</h2>
+<p>The rule takes two options:</p>
+<ol>
+<li>A string which must be either <code>&quot;always&quot;</code> (the default), to enforce initialization at declaration, or <code>&quot;never&quot;</code> to disallow initialization during declaration. This rule applies to <code>var</code>, <code>let</code>, and <code>const</code> variables, however <code>&quot;never&quot;</code> is ignored for <code>const</code> variables, as unassigned <code>const</code>s generate a parse error.</li>
+<li>An object that further controls the behavior of this rule. Currently, the only available parameter is <code>ignoreForLoopInit</code>, which indicates if initialization at declaration is allowed in <code>for</code> loops when <code>&quot;never&quot;</code> is set, since it is a very typical use case.</li>
+</ol>
+<p>You can configure the rule as follows:</p>
+<p>Variables must be initialized at declaration (default)</p>
+<pre><code class="lang-json">{
+    &quot;init-declarations&quot;: [&quot;error&quot;, &quot;always&quot;],
+}
+</code></pre>
+<p>Variables must not be initialized at declaration</p>
+<pre><code class="lang-json">{
+    &quot;init-declarations&quot;: [&quot;error&quot;, &quot;never&quot;]
+}
+</code></pre>
+<p>Variables must not be initialized at declaration, except in for loops, where it is allowed</p>
+<pre><code class="lang-json">{
+    &quot;init-declarations&quot;: [&quot;error&quot;, &quot;never&quot;, { &quot;ignoreForLoopInit&quot;: true }]
+}
+</code></pre>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint init-declarations: [&quot;error&quot;, &quot;always&quot;]*/
+/*eslint-env es6*/
+
+function foo() {
+    var bar;
+    let baz;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint init-declarations: [&quot;error&quot;, &quot;always&quot;]*/
+/*eslint-env es6*/
+
+function foo() {
+    var bar = 1;
+    let baz = 2;
+    const qux = 3;
+}
+</code></pre>
+<h3 id="never">never</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint init-declarations: [&quot;error&quot;, &quot;never&quot;]*/
+/*eslint-env es6*/
+
+function foo() {
+    var bar = 1;
+    let baz = 2;
+
+    for (var i = 0; i &lt; 1; i++) {}
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint init-declarations: [&quot;error&quot;, &quot;never&quot;]*/
+/*eslint-env es6*/
+
+function foo() {
+    var bar;
+    let baz;
+    const buzz = 1;
+}
+</code></pre>
+<p>The <code>&quot;never&quot;</code> option ignores <code>const</code> variable initializations.</p>
+<h3 id="ignoreforloopinit">ignoreForLoopInit</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>&quot;never&quot;, { &quot;ignoreForLoopInit&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint init-declarations: [&quot;error&quot;, &quot;never&quot;, { &quot;ignoreForLoopInit&quot;: true }]*/
+for (var i = 0; i &lt; 1; i++) {}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>When you are indifferent as to how your variables are initialized.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

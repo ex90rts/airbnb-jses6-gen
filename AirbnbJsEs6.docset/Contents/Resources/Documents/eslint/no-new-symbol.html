@@ -1,0 +1,46 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-symbol-constructor-no-new-symbol-">Disallow Symbol Constructor (no-new-symbol)</h1>
+<p><code>Symbol</code> is not intended to be used with the <code>new</code> operator, but to be called as a function.</p>
+<pre><code class="lang-js">var foo = new Symbol(&quot;foo&quot;);
+</code></pre>
+<p>This throws a <code>TypeError</code> exception.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at preventing the accidental calling of <code>Symbol</code> with the <code>new</code> operator.</p>
+<h2 id="examples">Examples</h2>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-new-symbol: &quot;error&quot;*/
+/*eslint-env es6*/
+
+var foo = new Symbol(&#39;foo&#39;);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-new-symbol: &quot;error&quot;*/
+/*eslint-env es6*/
+
+var foo = Symbol(&#39;foo&#39;);
+
+
+// Ignores shadowed Symbol.
+function bar(Symbol) {
+    const baz = new Symbol(&quot;baz&quot;);
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>This rule should not be used in ES3/5 environments.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-symbol-objects">Symbol Objects specification</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallows-unnecessary-return-await-no-return-await-">Disallows unnecessary <code>return await</code> (no-return-await)</h1>
+<p>Inside an <code>async function</code>, <code>return await</code> is useless. Since the return value of an <code>async function</code> is always wrapped in <code>Promise.resolve</code>, <code>return await</code> doesn&#39;t actually do anything except add extra time before the overarching Promise resolves or rejects. This pattern is almost certainly due to programmer ignorance of the return semantics of <code>async function</code>s.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to prevent a likely common performance hazard due to a lack of understanding of the semantics of <code>async function</code>.</p>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-js">async function foo() {
+  return await bar();
+}
+</code></pre>
+<p>The following patterns are not warnings:</p>
+<pre><code class="lang-js">async function foo() {
+  return bar();
+}
+
+async function foo() {
+  await bar();
+  return;
+}
+
+async function foo() {
+  const x = await bar();
+  return x;
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you want to use <code>await</code> to denote a value that is a thenable, even when it is not necessary; or if you do not want the performance benefit of avoiding <code>return await</code>, you can turn off this rule.</p>
+<h2 id="further-reading">Further Reading</h2>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function"><code>async function</code> on MDN</a></p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-dot-notation-dot-notation-">Require Dot Notation (dot-notation)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>In JavaScript, one can access properties using the dot notation (<code>foo.bar</code>) or square-bracket notation (<code>foo[&quot;bar&quot;]</code>). However, the dot notation is often preferred because it is easier to read, less verbose, and works better with aggressive JavaScript minimizers.</p>
+<pre><code class="lang-js">foo[&quot;bar&quot;];
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at maintaining code consistency and improving code readability by encouraging use of the dot notation style whenever possible. As such, it will warn when it encounters an unnecessary use of square-bracket notation.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint dot-notation: &quot;error&quot;*/
+
+var x = foo[&quot;bar&quot;];
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint dot-notation: &quot;error&quot;*/
+
+var x = foo.bar;
+
+var x = foo[bar];    // Property name is a variable, square-bracket notation required
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule accepts a single options argument:</p>
+<ul>
+<li>Set the <code>allowKeywords</code> option to <code>false</code> (default is <code>true</code>) to follow ECMAScript version 3 compatible style, avoiding dot notation for reserved word properties.</li>
+<li>Set the <code>allowPattern</code> option to a regular expression string to allow bracket notation for property names that match a pattern (by default, no pattern is tested).</li>
+</ul>
+<h3 id="allowkeywords">allowKeywords</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;allowKeywords&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint dot-notation: [&quot;error&quot;, { &quot;allowKeywords&quot;: false }]*/
+
+var foo = { &quot;class&quot;: &quot;CS 101&quot; }
+var x = foo[&quot;class&quot;]; // Property name is a reserved word, square-bracket notation required
+</code></pre>
+<h3 id="allowpattern">allowPattern</h3>
+<p>For example, when preparing data to be sent to an external API, it is often required to use property names that include underscores.  If the <code>camelcase</code> rule is in effect, these <a href="http://en.wikipedia.org/wiki/Snake_case">snake case</a> properties would not be allowed.  By providing an <code>allowPattern</code> to the <code>dot-notation</code> rule, these snake case properties can be accessed with bracket notation.</p>
+<p class="correct icon">Examples of <strong>correct</strong> code for the sample <code>{ &quot;allowPattern&quot;: &quot;^[a-z]+(_[a-z]+)+$&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint camelcase: &quot;error&quot;*/
+/*eslint dot-notation: [&quot;error&quot;, { &quot;allowPattern&quot;: &quot;^[a-z]+(_[a-z]+)+$&quot; }]*/
+
+var data = {};
+data.foo_bar = 42;
+
+var data = {};
+data[&quot;fooBar&quot;] = 42;
+
+var data = {};
+data[&quot;foo_bar&quot;] = 42; // no warning
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

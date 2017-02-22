@@ -1,0 +1,52 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-variable-and-function-declarations-in-the-global-scope-no-implicit-globals-">disallow variable and <code>function</code> declarations in the global scope (no-implicit-globals)</h1>
+<p>When working with browser scripts, developers often forget that variable and function declarations at the top-level scope become global variables on the <code>window</code> object. As opposed to modules which have their own scope. Globals should be explicitly assigned to <code>window</code> or <code>self</code> if that is the intent. Otherwise variables intended to be local to the script should be wrapped in an IIFE.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows <code>var</code> and named <code>function</code> declarations at the top-level script scope. This does not apply to ES and CommonJS modules since they have a module scope.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-implicit-globals: &quot;error&quot;*/
+
+var foo = 1;
+
+function bar() {}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-implicit-globals: &quot;error&quot;*/
+
+// explicitly set on window
+window.foo = 1;
+window.bar = function() {};
+
+// intended to be scope to this file
+(function() {
+  var foo = 1;
+
+  function bar() {}
+})();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with <code>&quot;parserOptions&quot;: { &quot;sourceType&quot;: &quot;module&quot; }</code> in the ESLint configuration:</p>
+<pre><code class="lang-js">/*eslint no-implicit-globals: &quot;error&quot;*/
+
+// foo and bar are local to module
+var foo = 1;
+function bar() {}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you want to be able to declare variables and functions in the global scope you can safely disable this rule. Or if you are always using module scoped files, this rule will never apply.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">Immediately-Invoked Function Expression (IIFE)</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

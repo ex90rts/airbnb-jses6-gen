@@ -1,0 +1,96 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="rule-to-disallow-a-duplicate-case-label-no-duplicate-case-">Rule to disallow a duplicate case label (no-duplicate-case)</h1>
+<p>If a <code>switch</code> statement has duplicate test expressions in <code>case</code> clauses, it is likely that a programmer copied a <code>case</code> clause but forgot to change the test expression.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows duplicate test expressions in <code>case</code> clauses of <code>switch</code> statements.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-duplicate-case: &quot;error&quot;*/
+
+var a = 1,
+    one = 1;
+
+switch (a) {
+    case 1:
+        break;
+    case 2:
+        break;
+    case 1:         // duplicate test expression
+        break;
+    default:
+        break;
+}
+
+switch (a) {
+    case one:
+        break;
+    case 2:
+        break;
+    case one:         // duplicate test expression
+        break;
+    default:
+        break;
+}
+
+switch (a) {
+    case &quot;1&quot;:
+        break;
+    case &quot;2&quot;:
+        break;
+    case &quot;1&quot;:         // duplicate test expression
+        break;
+    default:
+        break;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-duplicate-case: &quot;error&quot;*/
+
+var a = 1,
+    one = 1;
+
+switch (a) {
+    case 1:
+        break;
+    case 2:
+        break;
+    case 3:
+        break;
+    default:
+        break;
+}
+
+switch (a) {
+    case one:
+        break;
+    case 2:
+        break;
+    case 3:
+        break;
+    default:
+        break;
+}
+
+switch (a) {
+    case &quot;1&quot;:
+        break;
+    case &quot;2&quot;:
+        break;
+    case &quot;3&quot;:
+        break;
+    default:
+        break;
+}
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

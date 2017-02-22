@@ -1,0 +1,89 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-or-disallow-spacing-between-function-identifiers-and-their-invocations-func-call-spacing-">require or disallow spacing between function identifiers and their invocations (func-call-spacing)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>When calling a function, developers may insert optional whitespace between the function&#39;s name and the parentheses that invoke it. The following pairs of function calls are equivalent:</p>
+<pre><code class="lang-js">alert(&#39;Hello&#39;);
+alert (&#39;Hello&#39;);
+
+console.log(42);
+console.log (42);
+
+new Date();
+new Date ();
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule requires or disallows spaces between the function name and the opening parenthesis that calls it.</p>
+<h2 id="options">options</h2>
+<p>This rule has a string option:</p>
+<ul>
+<li><code>&quot;never&quot;</code> (default) disallows space between the function name and the opening parenthesis.</li>
+<li><code>&quot;always&quot;</code> requires space between the function name and the opening parenthesis.</li>
+</ul>
+<p>Further, in <code>&quot;always&quot;</code> mode, a second object option is available that contains a single boolean <code>allowNewlines</code> property.</p>
+<h3 id="never">never</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint func-call-spacing: [&quot;error&quot;, &quot;never&quot;]*/
+
+fn ();
+
+fn
+();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint func-call-spacing: [&quot;error&quot;, &quot;never&quot;]*/
+
+fn();
+</code></pre>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint func-call-spacing: [&quot;error&quot;, &quot;always&quot;]*/
+
+fn();
+
+fn
+();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint func-call-spacing: [&quot;error&quot;, &quot;always&quot;]*/
+
+fn ();
+</code></pre>
+<h4 id="allownewlines">allowNewlines</h4>
+<p>By default, <code>&quot;always&quot;</code> does not allow newlines. To permit newlines when in <code>&quot;always&quot;</code> mode, set the <code>allowNewlines</code> option to <code>true</code>. Newlines are never required.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with <code>allowNewlines</code> option enabled:</p>
+<pre><code class="lang-js">/*eslint func-call-spacing: [&quot;error&quot;, &quot;always&quot;, { &quot;allowNewlines&quot;: true }]*/
+
+fn();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>allowNewlines</code> option enabled:</p>
+<pre><code class="lang-js">/*eslint func-call-spacing: [&quot;error&quot;, &quot;always&quot;, { &quot;allowNewlines&quot;: true }]*/
+
+fn (); // Newlines are never required.
+
+fn
+();
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>This rule can safely be turned off if your project does not care about enforcing a consistent style for spacing within function calls.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-spaced-func.html">no-spaced-func</a> (deprecated)</li>
+</ul>
+<h2 id="compatibility">Compatibility</h2>
+<ul>
+<li><strong>JSCS</strong>: <a href="http://jscs.info/rule/disallowSpacesInCallExpression">disallowSpacesInCallExpression</a></li>
+<li><strong>JSCS</strong>: <a href="http://jscs.info/rule/requireSpacesInCallExpression">requireSpacesInCallExpression</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-renaming-import-export-and-destructured-assignments-to-the-same-name-no-useless-rename-">Disallow renaming import, export, and destructured assignments to the same name (no-useless-rename)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>ES2015 allows for the renaming of references in import and export statements as well as destructuring assignments. This gives programmers a concise syntax for performing these operations while renaming these references:</p>
+<pre><code class="lang-js">import { foo as bar } from &quot;baz&quot;;
+export { foo as bar };
+let { foo: bar } = baz;
+</code></pre>
+<p>With this syntax, it is possible to rename a reference to the same name. This is a completely redundant operation, as this is the same as not renaming at all. For example, this:</p>
+<pre><code class="lang-js">import { foo as foo } from &quot;bar&quot;;
+export { foo as foo };
+let { foo: foo } = bar;
+</code></pre>
+<p>is the same as:</p>
+<pre><code class="lang-js">import { foo } from &quot;bar&quot;;
+export { foo };
+let { foo } = bar;
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows the renaming of import, export, and destructured assignments to the same name.</p>
+<h2 id="options">Options</h2>
+<p>This rule allows for more fine-grained control with the following options:</p>
+<ul>
+<li><code>ignoreImport</code>: When set to <code>true</code>, this rule does not check imports</li>
+<li><code>ignoreExport</code>: When set to <code>true</code>, this rule does not check exports</li>
+<li><code>ignoreDestructuring</code>: When set to <code>true</code>, this rule does not check destructuring assignments</li>
+</ul>
+<p>By default, all options are set to <code>false</code>:</p>
+<pre><code class="lang-json">&quot;no-useless-rename&quot;: [&quot;error&quot;, {
+    &quot;ignoreDestructuring&quot;: false,
+    &quot;ignoreImport&quot;: false,
+    &quot;ignoreExport&quot;: false
+}]
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule by default:</p>
+<pre><code class="lang-js">/*eslint no-useless-rename: &quot;error&quot;*/
+
+import { foo as foo } from &quot;bar&quot;;
+export { foo as foo };
+export { foo as foo } from &quot;bar&quot;;
+let { foo: foo } = bar;
+let { &#39;foo&#39;: foo } = bar;
+function foo({ bar: bar }) {}
+({ foo: foo }) =&gt; {}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule by default:</p>
+<pre><code class="lang-js">/*eslint no-useless-rename: &quot;error&quot;*/
+
+import * as foo from &quot;foo&quot;;
+import { foo } from &quot;bar&quot;;
+import { foo as bar } from &quot;baz&quot;;
+
+export { foo };
+export { foo as bar };
+export { foo as bar } from &quot;foo&quot;;
+
+let { foo } = bar;
+let { foo: bar } = baz;
+let { [foo]: foo } = bar;
+
+function foo({ bar }) {}
+function foo({ bar: baz }) {}
+
+({ foo }) =&gt; {}
+({ foo: bar }) =&gt; {}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with <code>{ ignoreImport: true }</code>:</p>
+<pre><code class="lang-js">/*eslint no-useless-rename: [&quot;error&quot;, { ignoreImport: true }]*/
+
+import { foo as foo } from &quot;bar&quot;;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with <code>{ ignoreExport: true }</code>:</p>
+<pre><code class="lang-js">/*eslint no-useless-rename: [&quot;error&quot;, { ignoreExport: true }]*/
+
+export { foo as foo };
+export { foo as foo } from &quot;bar&quot;;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with <code>{ ignoreDestructuring: true }</code>:</p>
+<pre><code class="lang-js">/*eslint no-useless-rename: [&quot;error&quot;, { ignoreDestructuring: true }]*/
+
+let { foo: foo } = bar;
+function foo({ bar: bar }) {}
+({ foo: foo }) =&gt; {}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You can safely disable this rule if you do not care about redundantly renaming import, export, and destructuring assignments.</p>
+<h2 id="compatibility">Compatibility</h2>
+<ul>
+<li><strong>JSCS</strong>: <a href="http://jscs.info/rule/disallowIdenticalDestructuringNames">disallowIdenticalDestructuringNames</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

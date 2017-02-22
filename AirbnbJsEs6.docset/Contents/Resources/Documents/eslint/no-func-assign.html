@@ -1,0 +1,51 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-reassigning-function-declarations-no-func-assign-">disallow reassigning <code>function</code> declarations (no-func-assign)</h1>
+<p>JavaScript functions can be written as a FunctionDeclaration <code>function foo() { ... }</code> or as a FunctionExpression <code>var foo = function() { ... };</code>. While a JavaScript interpreter might tolerate it, overwriting/reassigning a function written as a FunctionDeclaration is often indicative of a mistake or issue.</p>
+<pre><code class="lang-js">function foo() {}
+foo = bar;
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows reassigning <code>function</code> declarations.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-func-assign: &quot;error&quot;*/
+
+function foo() {}
+foo = bar;
+
+function foo() {
+    foo = bar;
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule, unlike the corresponding rule in JSHint:</p>
+<pre><code class="lang-js">/*eslint no-func-assign: &quot;error&quot;*/
+
+foo = bar;
+function foo() {}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-func-assign: &quot;error&quot;*/
+
+var foo = function () {}
+foo = bar;
+
+function foo(foo) { // `foo` is shadowed.
+    foo = bar;
+}
+
+function foo() {
+    var foo = bar;  // `foo` is shadowed.
+}
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

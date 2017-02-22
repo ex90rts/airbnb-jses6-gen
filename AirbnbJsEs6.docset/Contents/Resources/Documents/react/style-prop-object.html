@@ -1,0 +1,52 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-style-prop-value-being-an-object-style-prop-object-">Enforce style prop value being an object (style-prop-object)</h1>
+<p>Require that the value of the prop <code>style</code> be an object or a variable that is
+an object.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">&lt;div style=&quot;color: &#39;red&#39;&quot; /&gt;
+
+&lt;div style={true} /&gt;
+
+&lt;Hello style={true} /&gt;
+
+const styles = true;
+&lt;div style={styles} /&gt;
+</code></pre>
+<pre><code class="lang-js">React.createElement(&quot;div&quot;, { style: &quot;color: &#39;red&#39;&quot; });
+
+React.createElement(&quot;div&quot;, { style: true });
+
+React.createElement(&quot;Hello&quot;, { style: true });
+
+const styles = true;
+React.createElement(&quot;div&quot;, { style: styles });
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">&lt;div style={{ color: &quot;red&quot; }} /&gt;
+
+&lt;Hello style={{ color: &quot;red&quot; }} /&gt;
+
+const styles = { color: &quot;red&quot; };
+&lt;div style={styles} /&gt;
+</code></pre>
+<pre><code class="lang-js">React.createElement(&quot;div&quot;, { style: { color: &#39;red&#39; }});
+
+React.createElement(&quot;Hello&quot;, { style: { color: &#39;red&#39; }});
+
+const styles = { height: &#39;100px&#39; };
+React.createElement(&quot;div&quot;, { style: styles });
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

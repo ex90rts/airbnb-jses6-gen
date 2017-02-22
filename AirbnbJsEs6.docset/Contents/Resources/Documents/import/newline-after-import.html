@@ -1,0 +1,69 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="newline-after-import">newline-after-import</h1>
+<p>Enforces having one or more empty lines after the last top-level import statement or require call.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule has one option, <code>count</code> which sets the number of newlines that are enforced after the last top-level import statement or require call. This option defaults to <code>1</code>.</p>
+<p>Valid:</p>
+<pre><code class="lang-js">import defaultExport from &#39;./foo&#39;
+
+const FOO = &#39;BAR&#39;
+</code></pre>
+<pre><code class="lang-js">import defaultExport from &#39;./foo&#39;
+import { bar }  from &#39;bar-lib&#39;
+
+const FOO = &#39;BAR&#39;
+</code></pre>
+<pre><code class="lang-js">const FOO = require(&#39;./foo&#39;)
+const BAR = require(&#39;./bar&#39;)
+
+const BAZ = 1
+</code></pre>
+<p>Invalid:</p>
+<pre><code class="lang-js">import * as foo from &#39;foo&#39;
+const FOO = &#39;BAR&#39;
+</code></pre>
+<pre><code class="lang-js">import * as foo from &#39;foo&#39;
+const FOO = &#39;BAR&#39;
+
+import { bar }  from &#39;bar-lib&#39;
+</code></pre>
+<pre><code class="lang-js">const FOO = require(&#39;./foo&#39;)
+const BAZ = 1
+const BAR = require(&#39;./bar&#39;)
+</code></pre>
+<p>With <code>count</code> set to <code>2</code> this will be considered valid:</p>
+<pre><code class="lang-js">import defaultExport from &#39;./foo&#39;
+
+
+const FOO = &#39;BAR&#39;
+</code></pre>
+<p>With <code>count</code> set to <code>2</code> these will be considered invalid:</p>
+<pre><code class="lang-js">import defaultExport from &#39;./foo&#39;
+const FOO = &#39;BAR&#39;
+</code></pre>
+<pre><code class="lang-js">import defaultExport from &#39;./foo&#39;
+
+const FOO = &#39;BAR&#39;
+</code></pre>
+<h2 id="example-options-usage">Example options usage</h2>
+<pre><code>{
+  ...
+  &quot;rules&quot;: {
+    &quot;import/newline-after-import&quot;: [{ &quot;count&quot;: 2 }]
+  }
+}
+</code></pre><h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you like to visually group module imports with its usage, you don&#39;t want to use this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

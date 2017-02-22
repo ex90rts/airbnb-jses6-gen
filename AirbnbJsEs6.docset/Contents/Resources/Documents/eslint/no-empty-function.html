@@ -1,0 +1,283 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-empty-functions-no-empty-function-">Disallow empty functions (no-empty-function)</h1>
+<p>Empty functions can reduce readability because readers need to guess whether it&#39;s intentional or not.
+So writing a clear comment for empty functions is a good practice.</p>
+<pre><code class="lang-js">function foo() {
+    // do nothing.
+}
+</code></pre>
+<p>Especially, the empty block of arrow functions might be confusing developers.
+It&#39;s very similar to an empty object literal.</p>
+<pre><code class="lang-js">list.map(() =&gt; {});   // This is a block, would return undefined.
+list.map(() =&gt; ({})); // This is an empty object.
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at eliminating empty functions.
+A function will not be considered a problem if it contains a comment.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-empty-function: &quot;error&quot;*/
+/*eslint-env es6*/
+
+function foo() {}
+
+var foo = function() {};
+
+var foo = () =&gt; {};
+
+function* foo() {}
+
+var foo = function*() {};
+
+var obj = {
+    foo: function() {},
+
+    foo: function*() {},
+
+    foo() {},
+
+    *foo() {},
+
+    get foo() {},
+
+    set foo(value) {}
+};
+
+class A {
+    constructor() {}
+
+    foo() {}
+
+    *foo() {}
+
+    get foo() {}
+
+    set foo(value) {}
+
+    static foo() {}
+
+    static *foo() {}
+
+    static get foo() {}
+
+    static set foo(value) {}
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-empty-function: &quot;error&quot;*/
+/*eslint-env es6*/
+
+function foo() {
+    // do nothing.
+}
+
+var foo = function() {
+    // any clear comments.
+};
+
+var foo = () =&gt; {
+    bar();
+};
+
+function* foo() {
+    // do nothing.
+}
+
+var foo = function*() {
+    // do nothing.
+};
+
+var obj = {
+    foo: function() {
+        // do nothing.
+    },
+
+    foo: function*() {
+        // do nothing.
+    },
+
+    foo() {
+        // do nothing.
+    },
+
+    *foo() {
+        // do nothing.
+    },
+
+    get foo() {
+        // do nothing.
+    },
+
+    set foo(value) {
+        // do nothing.
+    }
+};
+
+class A {
+    constructor() {
+        // do nothing.
+    }
+
+    foo() {
+        // do nothing.
+    }
+
+    *foo() {
+        // do nothing.
+    }
+
+    get foo() {
+        // do nothing.
+    }
+
+    set foo(value) {
+        // do nothing.
+    }
+
+    static foo() {
+        // do nothing.
+    }
+
+    static *foo() {
+        // do nothing.
+    }
+
+    static get foo() {
+        // do nothing.
+    }
+
+    static set foo(value) {
+        // do nothing.
+    }
+}
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule has an option to allow specific kinds of functions to be empty.</p>
+<ul>
+<li><code>allow</code> (<code>string[]</code>) - A list of kind to allow empty functions. List items are some of the following strings. An empty array (<code>[]</code>) by default.<ul>
+<li><code>&quot;functions&quot;</code> - Normal functions.</li>
+<li><code>&quot;arrowFunctions&quot;</code> - Arrow functions.</li>
+<li><code>&quot;generatorFunctions&quot;</code> - Generator functions.</li>
+<li><code>&quot;methods&quot;</code> - Class methods and method shorthands of object literals.</li>
+<li><code>&quot;generatorMethods&quot;</code> - Class methods and method shorthands of object literals with generator.</li>
+<li><code>&quot;getters&quot;</code> - Getters.</li>
+<li><code>&quot;setters&quot;</code> - Setters.</li>
+<li><code>&quot;constructors&quot;</code> - Class constructors.</li>
+</ul>
+</li>
+</ul>
+<h4 id="allow-functions">allow: functions</h4>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;allow&quot;: [&quot;functions&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-empty-function: [&quot;error&quot;, { &quot;allow&quot;: [&quot;functions&quot;] }]*/
+
+function foo() {}
+
+var foo = function() {};
+
+var obj = {
+    foo: function() {}
+};
+</code></pre>
+<h4 id="allow-arrowfunctions">allow: arrowFunctions</h4>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;allow&quot;: [&quot;arrowFunctions&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-empty-function: [&quot;error&quot;, { &quot;allow&quot;: [&quot;arrowFunctions&quot;] }]*/
+/*eslint-env es6*/
+
+var foo = () =&gt; {};
+</code></pre>
+<h4 id="allow-generatorfunctions">allow: generatorFunctions</h4>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;allow&quot;: [&quot;generatorFunctions&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-empty-function: [&quot;error&quot;, { &quot;allow&quot;: [&quot;generatorFunctions&quot;] }]*/
+/*eslint-env es6*/
+
+function* foo() {}
+
+var foo = function*() {};
+
+var obj = {
+    foo: function*() {}
+};
+</code></pre>
+<h4 id="allow-methods">allow: methods</h4>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;allow&quot;: [&quot;methods&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-empty-function: [&quot;error&quot;, { &quot;allow&quot;: [&quot;methods&quot;] }]*/
+/*eslint-env es6*/
+
+var obj = {
+    foo() {}
+};
+
+class A {
+    foo() {}
+    static foo() {}
+}
+</code></pre>
+<h4 id="allow-generatormethods">allow: generatorMethods</h4>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;allow&quot;: [&quot;generatorMethods&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-empty-function: [&quot;error&quot;, { &quot;allow&quot;: [&quot;generatorMethods&quot;] }]*/
+/*eslint-env es6*/
+
+var obj = {
+    *foo() {}
+};
+
+class A {
+    *foo() {}
+    static *foo() {}
+}
+</code></pre>
+<h4 id="allow-getters">allow: getters</h4>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;allow&quot;: [&quot;getters&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-empty-function: [&quot;error&quot;, { &quot;allow&quot;: [&quot;getters&quot;] }]*/
+/*eslint-env es6*/
+
+var obj = {
+    get foo() {}
+};
+
+class A {
+    get foo() {}
+    static get foo() {}
+}
+</code></pre>
+<h4 id="allow-setters">allow: setters</h4>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;allow&quot;: [&quot;setters&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-empty-function: [&quot;error&quot;, { &quot;allow&quot;: [&quot;setters&quot;] }]*/
+/*eslint-env es6*/
+
+var obj = {
+    set foo(value) {}
+};
+
+class A {
+    set foo(value) {}
+    static set foo(value) {}
+}
+</code></pre>
+<h4 id="allow-constructors">allow: constructors</h4>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;allow&quot;: [&quot;constructors&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-empty-function: [&quot;error&quot;, { &quot;allow&quot;: [&quot;constructors&quot;] }]*/
+/*eslint-env es6*/
+
+class A {
+    constructor() {}
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about empty functions, then it&#39;s safe to disable this rule.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="./no-empty.html">no-empty</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

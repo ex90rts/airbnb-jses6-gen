@@ -1,0 +1,52 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-or-enforce-spaces-inside-of-single-line-blocks-block-spacing-">Disallow or enforce spaces inside of single line blocks (block-spacing)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces consistent spacing inside single-line blocks.</p>
+<h2 id="options">Options</h2>
+<p>This rule has a string option:</p>
+<ul>
+<li><code>&quot;always&quot;</code> (default) requires one or more spaces</li>
+<li><code>&quot;never&quot;</code> disallows spaces</li>
+</ul>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint block-spacing: &quot;error&quot;*/
+
+function foo() {return true;}
+if (foo) { bar = 0;}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint block-spacing: &quot;error&quot;*/
+
+function foo() { return true; }
+if (foo) { bar = 0; }
+</code></pre>
+<h3 id="never">never</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint block-spacing: [&quot;error&quot;, &quot;never&quot;]*/
+
+function foo() { return true; }
+if (foo) { bar = 0;}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint block-spacing: [&quot;error&quot;, &quot;never&quot;]*/
+
+function foo() {return true;}
+if (foo) {bar = 0;}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about spacing style inside of blocks, you can safely disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

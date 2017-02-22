@@ -1,0 +1,133 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-variable-or-function-declarations-in-nested-blocks-no-inner-declarations-">disallow variable or <code>function</code> declarations in nested blocks  (no-inner-declarations)</h1>
+<p>In JavaScript, prior to ES6, a function declaration is only allowed in the first level of a program or the body of another function, though parsers sometimes <a href="https://code.google.com/p/esprima/issues/detail?id=422">erroneously accept them elsewhere</a>. This only applies to function declarations; named or anonymous function expressions can occur anywhere an expression is permitted.</p>
+<pre><code class="lang-js">// Good
+function doSomething() { }
+
+// Bad
+if (test) {
+    function doSomethingElse () { }
+}
+
+function anotherThing() {
+    var fn;
+
+    if (test) {
+
+        // Good
+        fn = function expression() { };
+
+        // Bad
+        function declaration() { }
+    }
+}
+</code></pre>
+<p>A variable declaration is permitted anywhere a statement can go, even nested deeply inside other blocks. This is often undesirable due to variable hoisting, and moving declarations to the root of the program or function body can increase clarity. Note that <a href="https://leanpub.com/understandinges6/read#leanpub-auto-block-bindings">block bindings</a> (<code>let</code>, <code>const</code>) are not hoisted and therefore they are not affected by this rule.</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+// Good
+var foo = 42;
+
+// Good
+if (foo) {
+    let bar1;
+}
+
+// Bad
+while (test) {
+    var bar2;
+}
+
+function doSomething() {
+    // Good
+    var baz = true;
+
+    // Bad
+    if (baz) {
+        var quux;
+    }
+}
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule requires that function declarations and, optionally, variable declarations be in the root of a program or the body of a function.</p>
+<h2 id="options">Options</h2>
+<p>This rule has a string option:</p>
+<ul>
+<li><code>&quot;functions&quot;</code> (default) disallows <code>function</code> declarations in nested blocks</li>
+<li><code>&quot;both&quot;</code> disallows <code>function</code> and <code>var</code> declarations in nested blocks</li>
+</ul>
+<h3 id="functions">functions</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;functions&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint no-inner-declarations: &quot;error&quot;*/
+
+if (test) {
+    function doSomething() { }
+}
+
+function doSomethingElse() {
+    if (test) {
+        function doAnotherThing() { }
+    }
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;functions&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint no-inner-declarations: &quot;error&quot;*/
+
+function doSomething() { }
+
+function doSomethingElse() {
+    function doAnotherThing() { }
+}
+
+if (test) {
+    asyncCall(id, function (err, data) { });
+}
+
+var fn;
+if (test) {
+    fn = function fnExpression() { };
+}
+</code></pre>
+<h3 id="both">both</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;both&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint no-inner-declarations: [&quot;error&quot;, &quot;both&quot;]*/
+
+if (test) {
+    var foo = 42;
+}
+
+function doAnotherThing() {
+    if (test) {
+        var bar = 81;
+    }
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;both&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint no-inner-declarations: &quot;error&quot;*/
+/*eslint-env es6*/
+
+var bar = 42;
+
+if (test) {
+    let baz = 43;
+}
+
+function doAnotherThing() {
+    var baz = 81;
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>The function declaration portion rule will be rendered obsolete when <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=585536">block-scoped functions</a> land in ES6, but until then, it should be left on to enforce valid constructions. Disable checking variable declarations when using <a href="block-scoped-var.html">block-scoped-var</a> or if declaring variables in nested blocks is acceptable despite hoisting.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

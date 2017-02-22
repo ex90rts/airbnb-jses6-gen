@@ -1,0 +1,107 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-require-calls-to-be-mixed-with-regular-variable-declarations-no-mixed-requires-">disallow <code>require</code> calls to be mixed with regular variable declarations (no-mixed-requires)</h1>
+<p>In the Node.js community it is often customary to separate initializations with calls to <code>require</code> modules from other variable declarations, sometimes also grouping them by the type of module. This rule helps you enforce this convention.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>When this rule is enabled, each <code>var</code> statement must satisfy the following conditions:</p>
+<ul>
+<li>either none or all variable declarations must be require declarations (default)</li>
+<li>all require declarations must be of the same type (grouping)</li>
+</ul>
+<p>This rule distinguishes between six kinds of variable declaration types:</p>
+<ul>
+<li><code>core</code>: declaration of a required <a href="http://nodejs.org/api/modules.html#modules_core_modules">core module</a></li>
+<li><code>file</code>: declaration of a required <a href="http://nodejs.org/api/modules.html#modules_file_modules">file module</a></li>
+<li><code>module</code>: declaration of a required module from the <a href="http://nodejs.org/api/modules.html#modules_loading_from_node_modules_folders">node_modules folder</a></li>
+<li><code>computed</code>: declaration of a required module whose type could not be determined (either because it is computed or because require was called without an argument)</li>
+<li><code>uninitialized</code>: a declaration that is not initialized</li>
+<li><code>other</code>: any other kind of declaration</li>
+</ul>
+<p>In this document, the first four types are summed up under the term <em>require declaration</em>.</p>
+<pre><code class="lang-js">var fs = require(&#39;fs&#39;),        // &quot;core&quot;     \
+    async = require(&#39;async&#39;),  // &quot;module&quot;   |- these are &quot;require declaration&quot;s
+    foo = require(&#39;./foo&#39;),    // &quot;file&quot;     |
+    bar = require(getName()),  // &quot;computed&quot; /
+    baz = 42,                  // &quot;other&quot;
+    bam;                       // &quot;uninitialized&quot;
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule can have an object literal option whose two properties have <code>false</code> values by default.</p>
+<p>Configuring this rule with one boolean option <code>true</code> is deprecated.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>{ &quot;grouping&quot;: false, &quot;allowCall&quot;: false }</code> options:</p>
+<pre><code class="lang-js">/*eslint no-mixed-requires: &quot;error&quot;*/
+
+var fs = require(&#39;fs&#39;),
+    i = 0;
+
+var async = require(&#39;async&#39;),
+    debug = require(&#39;diagnostics&#39;).someFunction(&#39;my-module&#39;),
+    eslint = require(&#39;eslint&#39;);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>{ &quot;grouping&quot;: false, &quot;allowCall&quot;: false }</code> options:</p>
+<pre><code class="lang-js">/*eslint no-mixed-requires: &quot;error&quot;*/
+
+// only require declarations (grouping off)
+var eventEmitter = require(&#39;events&#39;).EventEmitter,
+    myUtils = require(&#39;./utils&#39;),
+    util = require(&#39;util&#39;),
+    bar = require(getBarModuleName());
+
+// only non-require declarations
+var foo = 42,
+    bar = &#39;baz&#39;;
+
+// always valid regardless of grouping because all declarations are of the same type
+var foo = require(&#39;foo&#39; + VERSION),
+    bar = require(getBarModuleName()),
+    baz = require();
+</code></pre>
+<h3 id="grouping">grouping</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;grouping&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-mixed-requires: [&quot;error&quot;, { &quot;grouping&quot;: true }]*/
+
+// invalid because of mixed types &quot;core&quot; and &quot;file&quot;
+var fs = require(&#39;fs&#39;),
+    async = require(&#39;async&#39;);
+
+// invalid because of mixed types &quot;file&quot; and &quot;unknown&quot;
+var foo = require(&#39;foo&#39;),
+    bar = require(getBarModuleName());
+</code></pre>
+<h3 id="allowcall">allowCall</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;allowCall&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-mixed-requires: [&quot;error&quot;, { &quot;allowCall&quot;: true }]*/
+
+var async = require(&#39;async&#39;),
+    debug = require(&#39;diagnostics&#39;).someFunction(&#39;my-module&#39;), /* allowCall doesn&#39;t allow calling any function */
+    eslint = require(&#39;eslint&#39;);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;allowCall&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-mixed-requires: [&quot;error&quot;, { &quot;allowCall&quot;: true }]*/
+
+var async = require(&#39;async&#39;),
+    debug = require(&#39;diagnostics&#39;)(&#39;my-module&#39;),
+    eslint = require(&#39;eslint&#39;);
+</code></pre>
+<h2 id="known-limitations">Known Limitations</h2>
+<ul>
+<li><p>The implementation is not aware of any local functions with the name <code>require</code> that may shadow Node.js&#39; global <code>require</code>.</p>
+</li>
+<li><p>Internally, the list of core modules is retrieved via <code>require(&quot;repl&quot;)._builtinLibs</code>. If you use different versions of Node.js for ESLint and your application, the list of core modules for each version may be different.
+The above mentioned <code>_builtinLibs</code> property became available in 0.8, for earlier versions a hardcoded list of module names is used as a fallback. If your version of Node.js is older than 0.6 that list may be inaccurate.</p>
+</li>
+</ul>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you use a pattern such as <a href="https://github.com/umdjs/umd">UMD</a> where the <code>require</code>d modules are not loaded in variable declarations, this rule will obviously do nothing for you.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

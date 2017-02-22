@@ -1,0 +1,78 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-consistent-this-consistent-this-">Require Consistent This (consistent-this)</h1>
+<p>It is often necessary to capture the current execution context in order to make it available subsequently. A prominent example of this are jQuery callbacks:</p>
+<pre><code class="lang-js">var that = this;
+jQuery(&#39;li&#39;).click(function (event) {
+    // here, &quot;this&quot; is the HTMLElement where the click event occurred
+    that.setFoo(42);
+});
+</code></pre>
+<p>There are many commonly used aliases for <code>this</code> such as <code>that</code>, <code>self</code> or <code>me</code>. It is desirable to ensure that whichever alias the team agrees upon is used consistently throughout the application.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces two things about variables with the designated alias names for <code>this</code>:</p>
+<ul>
+<li>If a variable with a designated name is declared, it <em>must</em> be either initialized (in the declaration) or assigned (in the same scope as the declaration) the value <code>this</code>.</li>
+<li>If a variable is initialized or assigned the value <code>this</code>, the name of the variable <em>must</em> be a designated alias.</li>
+</ul>
+<h2 id="options">Options</h2>
+<p>This rule has one or more string options:</p>
+<ul>
+<li>designated alias names for <code>this</code> (default <code>&quot;that&quot;</code>)</li>
+</ul>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;that&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint consistent-this: [&quot;error&quot;, &quot;that&quot;]*/
+
+var that = 42;
+
+var self = this;
+
+that = 42;
+
+self = this;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;that&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint consistent-this: [&quot;error&quot;, &quot;that&quot;]*/
+
+var that = this;
+
+var self = 42;
+
+var self;
+
+that = this;
+
+foo.bar = this;
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;that&quot;</code> option, if the variable is not initialized:</p>
+<pre><code class="lang-js">/*eslint consistent-this: [&quot;error&quot;, &quot;that&quot;]*/
+
+var that;
+function f() {
+    that = this;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;that&quot;</code> option, if the variable is not initialized:</p>
+<pre><code class="lang-js">/*eslint consistent-this: [&quot;error&quot;, &quot;that&quot;]*/
+
+var that;
+that = this;
+
+var foo, that;
+foo = 42;
+that = this;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you need to capture nested context, <code>consistent-this</code> is going to be problematic. Code of that nature is usually difficult to read and maintain and you should consider refactoring it.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

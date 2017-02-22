@@ -1,0 +1,37 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-webpack-loader-syntax">no-webpack-loader-syntax</h1>
+<p>Forbid Webpack loader syntax in imports.</p>
+<p><a href="http://webpack.github.io">Webpack</a> allows specifying the <a href="http://webpack.github.io/docs/loaders.html">loaders</a> to use in the import source string using a special syntax like this:</p>
+<pre><code class="lang-js">var moduleWithOneLoader = require(&quot;my-loader!./my-awesome-module&quot;);
+</code></pre>
+<p>This syntax is non-standard, so it couples the code to Webpack. The recommended way to specify Webpack loader configuration is in a <a href="http://webpack.github.io/docs/loaders.html#loaders-by-config">Webpack configuration file</a>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<h3 id="fail">Fail</h3>
+<pre><code class="lang-js">import myModule from &#39;my-loader!my-module&#39;;
+import theme from &#39;style!css!./theme.css&#39;;
+
+var myModule = require(&#39;my-loader!./my-module&#39;);
+var theme = require(&#39;style!css!./theme.css&#39;);
+</code></pre>
+<h3 id="pass">Pass</h3>
+<pre><code class="lang-js">import myModule from &#39;my-module&#39;;
+import theme from &#39;./theme.css&#39;;
+
+var myModule = require(&#39;my-module&#39;);
+var theme = require(&#39;./theme.css&#39;);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you have a project that doesn&#39;t use Webpack you can safely disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

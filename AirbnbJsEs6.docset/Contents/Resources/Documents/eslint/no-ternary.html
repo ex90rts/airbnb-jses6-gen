@@ -1,0 +1,53 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-ternary-operators-no-ternary-">disallow ternary operators (no-ternary)</h1>
+<p>The ternary operator is used to conditionally assign a value to a variable. Some believe that the use of ternary operators leads to unclear code.</p>
+<pre><code class="lang-js">var foo = isBar ? baz : qux;
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows ternary operators.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-ternary: &quot;error&quot;*/
+
+var foo = isBar ? baz : qux;
+
+function quux() {
+  return foo ? bar() : baz();
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-ternary: &quot;error&quot;*/
+
+var foo;
+
+if (isBar) {
+    foo = baz;
+} else {
+    foo = qux;
+}
+
+function quux() {
+    if (foo) {
+        return bar();
+    } else {
+        return baz();
+    }
+}
+</code></pre>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-nested-ternary.html">no-nested-ternary</a></li>
+<li><a href="no-unneeded-ternary.html">no-unneeded-ternary</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

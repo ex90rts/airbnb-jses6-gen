@@ -1,0 +1,36 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-new-for-side-effects-no-new-">Disallow new For Side Effects (no-new)</h1>
+<p>The goal of using <code>new</code> with a constructor is typically to create an object of a particular type and store that object in a variable, such as:</p>
+<pre><code class="lang-js">var person = new Person();
+</code></pre>
+<p>It&#39;s less common to use <code>new</code> and not store the result, such as:</p>
+<pre><code class="lang-js">new Person();
+</code></pre>
+<p>In this case, the created object is thrown away because its reference isn&#39;t stored anywhere, and in many cases, this means that the constructor should be replaced with a function that doesn&#39;t require <code>new</code> to be used.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at maintaining consistency and convention by disallowing constructor calls using the <code>new</code> keyword that do not assign the resulting object to a variable.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-new: &quot;error&quot;*/
+
+new Thing();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-new: &quot;error&quot;*/
+
+var thing = new Thing();
+
+Thing();
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

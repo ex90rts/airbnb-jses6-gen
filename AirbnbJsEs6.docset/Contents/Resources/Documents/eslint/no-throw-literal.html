@@ -1,0 +1,75 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="restrict-what-can-be-thrown-as-an-exception-no-throw-literal-">Restrict what can be thrown as an exception (no-throw-literal)</h1>
+<p>It is considered good practice to only <code>throw</code> the <code>Error</code> object itself or an object using the <code>Error</code> object as base objects for user-defined exceptions.
+The fundamental benefit of <code>Error</code> objects is that they automatically keep track of where they were built and originated.</p>
+<p>This rule restricts what can be thrown as an exception.  When it was first created, it only prevented literals from being thrown (hence the name), but it has now been expanded to only allow expressions which have a possibility of being an <code>Error</code> object.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at maintaining consistency when throwing exception by disallowing to throw literals and other expressions which cannot possibly be an <code>Error</code> object.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-throw-literal: &quot;error&quot;*/
+/*eslint-env es6*/
+
+throw &quot;error&quot;;
+
+throw 0;
+
+throw undefined;
+
+throw null;
+
+var err = new Error();
+throw &quot;an &quot; + err;
+// err is recast to a string literal
+
+var err = new Error();
+throw `${err}`
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-throw-literal: &quot;error&quot;*/
+
+throw new Error();
+
+throw new Error(&quot;error&quot;);
+
+var e = new Error(&quot;error&quot;);
+throw e;
+
+try {
+    throw new Error(&quot;error&quot;);
+} catch (e) {
+    throw e;
+}
+</code></pre>
+<h2 id="known-limitations">Known Limitations</h2>
+<p>Due to the limits of static analysis, this rule cannot guarantee that you will only throw <code>Error</code> objects.</p>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule, but which do not throw an <code>Error</code> object:</p>
+<pre><code class="lang-js">/*eslint no-throw-literal: &quot;error&quot;*/
+
+var err = &quot;error&quot;;
+throw err;
+
+function foo(bar) {
+    console.log(bar);
+}
+throw foo(&quot;error&quot;);
+
+throw new String(&quot;error&quot;);
+
+var foo = {
+    bar: &quot;error&quot;
+};
+throw foo.bar;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

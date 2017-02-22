@@ -1,0 +1,67 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-whitespace-before-properties-no-whitespace-before-property-">disallow whitespace before properties (no-whitespace-before-property)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>JavaScript allows whitespace between objects and their properties. However, inconsistent spacing can make code harder to read and can lead to errors.</p>
+<pre><code class="lang-js">foo. bar .baz . quz
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows whitespace around the dot or before the opening bracket before properties of objects if they are on the same line. This rule allows whitespace when the object and property are on separate lines, as it is common to add newlines to longer chains of properties:</p>
+<pre><code class="lang-js">foo
+  .bar()
+  .baz()
+  .qux()
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-whitespace-before-property: &quot;error&quot;*/
+
+foo [bar]
+
+foo. bar
+
+foo .bar
+
+foo. bar. baz
+
+foo. bar()
+  .baz()
+
+foo
+  .bar(). baz()
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-whitespace-before-property: &quot;error&quot;*/
+
+foo.bar
+
+foo[bar]
+
+foo[ bar ]
+
+foo.bar.baz
+
+foo
+  .bar().baz()
+
+foo
+  .bar()
+  .baz()
+
+foo.
+  bar().
+  baz()
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>Turn this rule off if you do not care about allowing whitespace around the dot or before the opening bracket before properties of objects if they are on the same line.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

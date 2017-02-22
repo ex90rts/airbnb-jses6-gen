@@ -1,0 +1,33 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="detect-missing-key-prop-jsx-key-">Detect missing <code>key</code> prop (jsx-key)</h1>
+<p>Warn if an element that likely requires a <code>key</code> prop--namely, one present in an
+array literal or an arrow function expression.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">[&lt;Hello /&gt;, &lt;Hello /&gt;, &lt;Hello /&gt;];
+
+data.map(x =&gt; &lt;Hello&gt;x&lt;/Hello&gt;);
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">[&lt;Hello key=&quot;first&quot; /&gt;, &lt;Hello key=&quot;second&quot; /&gt;, &lt;Hello key=&quot;third&quot; /&gt;];
+
+data.map((x, i) =&gt; &lt;Hello key={i}&gt;x&lt;/Hello&gt;);
+</code></pre>
+<h2 id="when-not-to-use">When not to use</h2>
+<p>If you are not using JSX then you can disable this rule.</p>
+<p>Also, if you have some prevalent situation where you use arrow functions to 
+return JSX that will not be held in an iterable, you may want to disable this 
+rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

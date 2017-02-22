@@ -1,0 +1,179 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-unnecessary-parentheses-no-extra-parens-">disallow unnecessary parentheses (no-extra-parens)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>This rule restricts the use of parentheses to only where they are necessary.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule always ignores extra parentheses around the following:</p>
+<ul>
+<li>RegExp literals such as <code>(/abc/).test(var)</code> to avoid conflicts with the <a href="wrap-regex.html">wrap-regex</a> rule</li>
+<li>immediately-invoked function expressions (also known as IIFEs) such as <code>var x = (function () {})();</code> and <code>((function foo() {return 1;})())</code> to avoid conflicts with the <a href="wrap-iife.html">wrap-iife</a> rule</li>
+</ul>
+<h2 id="options">Options</h2>
+<p>This rule has a string option:</p>
+<ul>
+<li><code>&quot;all&quot;</code> (default) disallows unnecessary parentheses around <em>any</em> expression</li>
+<li><code>&quot;functions&quot;</code> disallows unnecessary parentheses <em>only</em> around function expressions</li>
+</ul>
+<p>This rule has an object option for exceptions to the <code>&quot;all&quot;</code> option:</p>
+<ul>
+<li><code>&quot;conditionalAssign&quot;: false</code> allows extra parentheses around assignments in conditional test expressions</li>
+<li><code>&quot;returnAssign&quot;: false</code> allows extra parentheses around assignments in <code>return</code> statements</li>
+<li><code>&quot;nestedBinaryExpressions&quot;: false</code> allows extra parentheses in nested binary expressions</li>
+<li><code>&quot;ignoreJSX&quot;: &quot;none|all|multi-line|single-line&quot;</code> allows extra parentheses around no/all/multi-line/single-line JSX components. Defaults to <code>none</code>.</li>
+</ul>
+<h3 id="all">all</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;all&quot;</code> option:</p>
+<pre><code class="lang-js">/* eslint no-extra-parens: &quot;error&quot; */
+
+a = (b * c);
+
+(a * b) + c;
+
+typeof (a);
+
+(function(){} ? a() : b());
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;all&quot;</code> option:</p>
+<pre><code class="lang-js">/* eslint no-extra-parens: &quot;error&quot; */
+
+(0).toString();
+
+(Object.prototype.toString.call());
+
+({}.toString.call());
+
+(function(){}) ? a() : b();
+
+(/^a$/).test(x);
+</code></pre>
+<h3 id="conditionalassign">conditionalAssign</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;all&quot;</code> and <code>{ &quot;conditionalAssign&quot;: false }</code> options:</p>
+<pre><code class="lang-js">/* eslint no-extra-parens: [&quot;error&quot;, &quot;all&quot;, { &quot;conditionalAssign&quot;: false }] */
+
+while ((foo = bar())) {}
+
+if ((foo = bar())) {}
+
+do; while ((foo = bar()))
+
+for (;(a = b););
+</code></pre>
+<h3 id="returnassign">returnAssign</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;all&quot;</code> and <code>{ &quot;returnAssign&quot;: false }</code> options:</p>
+<pre><code class="lang-js">/* eslint no-extra-parens: [&quot;error&quot;, &quot;all&quot;, { &quot;returnAssign&quot;: false }] */
+
+function a(b) {
+  return (b = 1);
+}
+
+function a(b) {
+  return b ? (c = d) : (c = e);
+}
+
+b =&gt; (b = 1);
+
+b =&gt; b ? (c = d) : (c = e);
+</code></pre>
+<h3 id="nestedbinaryexpressions">nestedBinaryExpressions</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;all&quot;</code> and <code>{ &quot;nestedBinaryExpressions&quot;: false }</code> options:</p>
+<pre><code class="lang-js">/* eslint no-extra-parens: [&quot;error&quot;, &quot;all&quot;, { &quot;nestedBinaryExpressions&quot;: false }] */
+
+x = a || (b &amp;&amp; c);
+x = a + (b * c);
+x = (a * b) / c;
+</code></pre>
+<h3 id="ignorejsx">ignoreJSX</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>all</code> and <code>{ &quot;ignoreJSX&quot;: &quot;all&quot; }</code> options:</p>
+<pre><code class="lang-js">/* eslint no-extra-parens: [&quot;error&quot;, &quot;all&quot;, { ignoreJSX: &quot;all&quot; }] */
+const Component = (&lt;div /&gt;)
+const Component = (
+    &lt;div
+        prop={true}
+    /&gt;
+)
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>all</code> and <code>{ &quot;ignoreJSX&quot;: &quot;multi-line&quot; }</code> options:</p>
+<pre><code class="lang-js">/* eslint no-extra-parens: [&quot;error&quot;, &quot;all&quot;, { ignoreJSX: &quot;multi-line&quot; }] */
+const Component = (&lt;div /&gt;)
+const Component = (&lt;div&gt;&lt;p /&gt;&lt;/div&gt;)
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>all</code> and <code>{ &quot;ignoreJSX&quot;: &quot;multi-line&quot; }</code> options:</p>
+<pre><code class="lang-js">/* eslint no-extra-parens: [&quot;error&quot;, &quot;all&quot;, { ignoreJSX: &quot;multi-line&quot; }] */
+const Component = (
+    &lt;div&gt;
+        &lt;p /&gt;
+    &lt;/div&gt;
+)
+const Component = (
+    &lt;div
+        prop={true}
+    /&gt;
+)
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>all</code> and <code>{ &quot;ignoreJSX&quot;: &quot;single-line&quot; }</code> options:</p>
+<pre><code class="lang-js">/* eslint no-extra-parens: [&quot;error&quot;, &quot;all&quot;, { ignoreJSX: &quot;single-line&quot; }] */
+const Component = (
+    &lt;div&gt;
+        &lt;p /&gt;
+    &lt;/div&gt;
+)
+const Component = (
+    &lt;div
+        prop={true}
+    /&gt;
+)
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>all</code> and <code>{ &quot;ignoreJSX&quot;: &quot;single-line&quot; }</code> options:</p>
+<pre><code class="lang-js">/* eslint no-extra-parens: [&quot;error&quot;, &quot;all&quot;, { ignoreJSX: &quot;single-line&quot; }] */
+const Component = (&lt;div /&gt;)
+const Component = (&lt;div&gt;&lt;p /&gt;&lt;/div&gt;)
+</code></pre>
+<h3 id="functions">functions</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;functions&quot;</code> option:</p>
+<pre><code class="lang-js">/* eslint no-extra-parens: [&quot;error&quot;, &quot;functions&quot;] */
+
+((function foo() {}))();
+
+var y = (function () {return 1;});
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;functions&quot;</code> option:</p>
+<pre><code class="lang-js">/* eslint no-extra-parens: [&quot;error&quot;, &quot;functions&quot;] */
+
+(0).toString();
+
+(Object.prototype.toString.call());
+
+({}.toString.call());
+
+(function(){} ? a() : b());
+
+(/^a$/).test(x);
+
+a = (b * c);
+
+(a * b) + c;
+
+typeof (a);
+</code></pre>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence">MDN: Operator Precedence</a></li>
+</ul>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-cond-assign.html">no-cond-assign</a></li>
+<li><a href="no-return-assign.html">no-return-assign</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

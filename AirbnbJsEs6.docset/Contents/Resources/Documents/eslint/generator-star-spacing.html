@@ -1,0 +1,121 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-spacing-around-the-in-generator-functions-generator-star-spacing-">Enforce spacing around the * in generator functions (generator-star-spacing)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Generators are a new type of function in ECMAScript 6 that can return multiple values over time.
+These special functions are indicated by placing an <code>*</code> after the <code>function</code> keyword.</p>
+<p>Here is an example of a generator function:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+function* generator() {
+    yield &quot;44&quot;;
+    yield &quot;55&quot;;
+}
+</code></pre>
+<p>This is also valid:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+function *generator() {
+    yield &quot;44&quot;;
+    yield &quot;55&quot;;
+}
+</code></pre>
+<p>This is valid as well:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+function * generator() {
+    yield &quot;44&quot;;
+    yield &quot;55&quot;;
+}
+</code></pre>
+<p>To keep a sense of consistency when using generators this rule enforces a single position for the <code>*</code>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to enforce spacing around the <code>*</code> of generator functions.</p>
+<h2 id="options">Options</h2>
+<p>The rule takes one option, an object, which has two keys <code>before</code> and <code>after</code> having boolean values <code>true</code> or <code>false</code>.</p>
+<ul>
+<li><p><code>before</code> enforces spacing between the <code>*</code> and the <code>function</code> keyword.
+If it is <code>true</code>, a space is required, otherwise spaces are disallowed.</p>
+<p>In object literal shorthand methods, spacing before the <code>*</code> is not checked, as they lack a <code>function</code> keyword.</p>
+</li>
+<li><p><code>after</code> enforces spacing between the <code>*</code> and the function name (or the opening parenthesis for anonymous generator functions).
+If it is <code>true</code>, a space is required, otherwise spaces are disallowed.</p>
+</li>
+</ul>
+<p>The default is <code>{&quot;before&quot;: true, &quot;after&quot;: false}</code>.</p>
+<p>An example configuration:</p>
+<pre><code class="lang-json">&quot;generator-star-spacing&quot;: [&quot;error&quot;, {&quot;before&quot;: true, &quot;after&quot;: false}]
+</code></pre>
+<p>And the option has shorthand as a string keyword:</p>
+<ul>
+<li><code>{&quot;before&quot;: true, &quot;after&quot;: false}</code> → <code>&quot;before&quot;</code></li>
+<li><code>{&quot;before&quot;: false, &quot;after&quot;: true}</code> → <code>&quot;after&quot;</code></li>
+<li><code>{&quot;before&quot;: true, &quot;after&quot;: true}</code> → <code>&quot;both&quot;</code></li>
+<li><code>{&quot;before&quot;: false, &quot;after&quot;: false}</code> → <code>&quot;neither&quot;</code></li>
+</ul>
+<p>An example of shorthand configuration:</p>
+<pre><code class="lang-json">&quot;generator-star-spacing&quot;: [&quot;error&quot;, &quot;after&quot;]
+</code></pre>
+<h2 id="examples">Examples</h2>
+<h3 id="before">before</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;before&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint generator-star-spacing: [&quot;error&quot;, {&quot;before&quot;: true, &quot;after&quot;: false}]*/
+/*eslint-env es6*/
+
+function *generator() {}
+
+var anonymous = function *() {};
+
+var shorthand = { *generator() {} };
+</code></pre>
+<h3 id="after">after</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;after&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint generator-star-spacing: [&quot;error&quot;, {&quot;before&quot;: false, &quot;after&quot;: true}]*/
+/*eslint-env es6*/
+
+function* generator() {}
+
+var anonymous = function* () {};
+
+var shorthand = { * generator() {} };
+</code></pre>
+<h3 id="both">both</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;both&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint generator-star-spacing: [&quot;error&quot;, {&quot;before&quot;: true, &quot;after&quot;: true}]*/
+/*eslint-env es6*/
+
+function * generator() {}
+
+var anonymous = function * () {};
+
+var shorthand = { * generator() {} };
+</code></pre>
+<h3 id="neither">neither</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;neither&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint generator-star-spacing: [&quot;error&quot;, {&quot;before&quot;: false, &quot;after&quot;: false}]*/
+/*eslint-env es6*/
+
+function*generator() {}
+
+var anonymous = function*() {};
+
+var shorthand = { *generator() {} };
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If your project will not be using generators or you are not concerned with spacing consistency, you do not need this rule.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="https://leanpub.com/understandinges6/read/#leanpub-auto-generators">Understanding ES6: Generators</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

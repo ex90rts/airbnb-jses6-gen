@@ -1,0 +1,133 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-control-flow-statements-in-finally-blocks-no-unsafe-finally-">disallow control flow statements in <code>finally</code> blocks (no-unsafe-finally)</h1>
+<p>JavaScript suspends the control flow statements of <code>try</code> and <code>catch</code> blocks until the execution of <code>finally</code> block finishes. So, when <code>return</code>, <code>throw</code>, <code>break</code>, or <code>continue</code> is used in <code>finally</code>, control flow statements inside <code>try</code> and <code>catch</code> are overwritten, which is considered as unexpected behavior. Such as:</p>
+<pre><code class="lang-js">// We expect this function to return 1;
+(() =&gt; {
+    try {
+        return 1; // 1 is returned but suspended until finally block ends
+    } catch(err) {
+        return 2;
+    } finally {
+        return 3; // 3 is returned before 1, which we did not expect
+    }
+})();
+
+// &gt; 3
+</code></pre>
+<pre><code class="lang-js">// We expect this function to throw an error, then return
+(() =&gt; {
+    try {
+        throw new Error(&quot;Try&quot;); // error is thrown but suspended until finally block ends
+    } finally {
+        return 3; // 3 is returned before the error is thrown, which we did not expect
+    }
+})();
+
+// &gt; 3
+</code></pre>
+<pre><code class="lang-js">// We expect this function to throw Try(...) error from the catch block
+(() =&gt; {
+    try {
+        throw new Error(&quot;Try&quot;)
+    } catch(err) {
+        throw err; // The error thrown from try block is catched and rethrown
+    } finally {
+        throw new Error(&quot;Finally&quot;); // Finally(...) is thrown, which we did not expect
+    }
+})();
+
+// &gt; Uncaught Error: Finally(...)
+</code></pre>
+<pre><code class="lang-js">// We expect this function to return 0 from try block.
+(() =&gt; {
+  label: try {
+    return 0; // 1 is returned but suspended until finally block ends
+  } finally {
+    break label; // It breaks out the try-finally block, before 0 is returned.
+  }
+  return 1;
+})();
+
+// &gt; 1
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows <code>return</code>, <code>throw</code>, <code>break</code>, and <code>continue</code> statements inside <code>finally</code> blocks. It allows indirect usages, such as in <code>function</code> or <code>class</code> definitions.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-unsafe-finally: &quot;error&quot;*/
+let foo = function() {
+    try {
+        return 1;
+    } catch(err) {
+        return 2;
+    } finally {
+        return 3;
+    }
+};
+</code></pre>
+<pre><code class="lang-js">/*eslint no-unsafe-finally: &quot;error&quot;*/
+let foo = function() {
+    try {
+        return 1;
+    } catch(err) {
+        return 2;
+    } finally {
+        throw new Error;
+    }
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-unsafe-finally: &quot;error&quot;*/
+let foo = function() {
+    try {
+        return 1;
+    } catch(err) {
+        return 2;
+    } finally {
+        console.log(&quot;hola!&quot;);
+    }
+};
+</code></pre>
+<pre><code class="lang-js">/*eslint no-unsafe-finally: &quot;error&quot;*/
+let foo = function() {
+    try {
+        return 1;
+    } catch(err) {
+        return 2;
+    } finally {
+        let a = function() {
+            return &quot;hola!&quot;;
+        }
+    }
+};
+</code></pre>
+<pre><code class="lang-js">/*eslint no-unsafe-finally: &quot;error&quot;*/
+let foo = function(a) {
+    try {
+        return 1;
+    } catch(err) {
+        return 2;
+    } finally {
+        switch(a) {
+            case 1: {
+                console.log(&quot;hola!&quot;)
+                break;
+            }
+        }
+    }
+};
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you want to allow control flow operations in <code>finally</code> blocks, you can turn this rule off.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

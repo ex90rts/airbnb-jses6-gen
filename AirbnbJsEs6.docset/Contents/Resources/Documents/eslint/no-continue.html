@@ -1,0 +1,72 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-continue-statements-no-continue-">disallow <code>continue</code> statements (no-continue)</h1>
+<p>The <code>continue</code> statement terminates execution of the statements in the current iteration of the current or labeled loop, and continues execution of the loop with the next iteration. When used incorrectly it makes code less testable, less readable and less maintainable. Structured control flow statements such as <code>if</code> should be used instead.</p>
+<pre><code class="lang-js">var sum = 0,
+    i;
+
+for(i = 0; i &lt; 10; i++) {
+    if(i &gt;= 5) {
+        continue;
+    }
+
+    a += i;
+}
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows <code>continue</code> statements.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-continue: &quot;error&quot;*/
+
+var sum = 0,
+    i;
+
+for(i = 0; i &lt; 10; i++) {
+    if(i &gt;= 5) {
+        continue;
+    }
+
+    a += i;
+}
+</code></pre>
+<pre><code class="lang-js">/*eslint no-continue: &quot;error&quot;*/
+
+var sum = 0,
+    i;
+
+labeledLoop: for(i = 0; i &lt; 10; i++) {
+    if(i &gt;= 5) {
+        continue labeledLoop;
+    }
+
+    a += i;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-continue: &quot;error&quot;*/
+
+var sum = 0,
+    i;
+
+for(i = 0; i &lt; 10; i++) {
+    if(i &lt; 5) {
+       a += i;
+    }
+}
+</code></pre>
+<h2 id="compatibility">Compatibility</h2>
+<ul>
+<li><strong>JSLint</strong>: <code>continue</code></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

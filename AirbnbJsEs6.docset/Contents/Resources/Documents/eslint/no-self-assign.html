@@ -1,0 +1,83 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-self-assignment-no-self-assign-">Disallow Self Assignment (no-self-assign)</h1>
+<p>Self assignments have no effect, so probably those are an error due to incomplete refactoring.
+Those indicate that what you should do is still remaining.</p>
+<pre><code class="lang-js">foo = foo;
+[bar, baz] = [bar, qiz];
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at eliminating self assignments.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-self-assign: &quot;error&quot;*/
+
+foo = foo;
+
+[a, b] = [a, b];
+
+[a, ...b] = [x, ...b];
+
+({a, b} = {a, x});
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-self-assign: &quot;error&quot;*/
+
+foo = bar;
+[a, b] = [b, a];
+
+// This pattern is warned by the `no-use-before-define` rule.
+let foo = foo;
+
+// The default values have an effect.
+[foo = 1] = [foo];
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule has the option to check properties as well.</p>
+<pre><code class="lang-json">{
+    &quot;no-self-assign&quot;: [&quot;error&quot;, {&quot;props&quot;: false}]
+}
+</code></pre>
+<ul>
+<li><code>props</code> - if this is <code>true</code>, <code>no-self-assign</code> rule warns self-assignments of properties. Default is <code>false</code>.</li>
+</ul>
+<h3 id="props">props</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{ &quot;props&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-self-assign: [error, {props: true}]*/
+
+// self-assignments with properties.
+obj.a = obj.a;
+obj.a.b = obj.a.b;
+obj[&quot;a&quot;] = obj[&quot;a&quot;];
+obj[a] = obj[a];
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;props&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-self-assign: [error, {props: true}]*/
+
+// non-self-assignments with properties.
+obj.a = obj.b;
+obj.a.b = obj.c.b;
+obj.a.b = obj.a.c;
+obj[a] = obj[&quot;a&quot;]
+
+// This ignores if there is a function call.
+obj.a().b = obj.a().b
+a().b = a().b
+
+// Known limitation: this does not support computed properties except single literal or single identifier.
+obj[a + b] = obj[a + b];
+obj[&quot;a&quot; + &quot;b&quot;] = obj[&quot;a&quot; + &quot;b&quot;];
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to notify about self assignments, then it&#39;s safe to disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

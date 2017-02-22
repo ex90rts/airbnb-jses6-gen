@@ -1,0 +1,51 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-guarding-for-in-guard-for-in-">Require Guarding for-in (guard-for-in)</h1>
+<p>Looping over objects with a <code>for in</code> loop will include properties that are inherited through the prototype chain. This behavior can lead to unexpected items in your for loop.</p>
+<pre><code class="lang-js">for (key in foo) {
+    doSomething(key);
+}
+</code></pre>
+<p>Note that simply checking <code>foo.hasOwnProperty(key)</code> is likely to cause an error in some cases; see <a href="no-prototype-builtins.html">no-prototype-builtins</a>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at preventing unexpected behavior that could arise from using a <code>for in</code> loop without filtering the results in the loop. As such, it will warn when <code>for in</code> loops do not filter their results with an <code>if</code> statement.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint guard-for-in: &quot;error&quot;*/
+
+for (key in foo) {
+    doSomething(key);
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint guard-for-in: &quot;error&quot;*/
+
+for (key in foo) {
+    if (Object.prototype.hasOwnProperty.call(foo, key)) {
+        doSomething(key);
+    }
+    if ({}.hasOwnProperty.call(foo, key)) {
+        doSomething(key);
+    }
+}
+</code></pre>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-prototype-builtins.html">no-prototype-builtins</a></li>
+</ul>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://javascriptweblog.wordpress.com/2011/01/04/exploring-javascript-for-in-loops/">Exploring JavaScript for-in loops</a></li>
+<li><a href="http://www.2ality.com/2012/01/objects-as-maps.html">The pitfalls of using objects as maps in JavaScript</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

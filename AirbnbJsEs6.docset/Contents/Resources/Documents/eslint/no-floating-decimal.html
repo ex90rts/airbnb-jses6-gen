@@ -1,0 +1,44 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-floating-decimals-no-floating-decimal-">Disallow Floating Decimals (no-floating-decimal)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Float values in JavaScript contain a decimal point, and there is no requirement that the decimal point be preceded or followed by a number. For example, the following are all valid JavaScript numbers:</p>
+<pre><code class="lang-js">var num = .5;
+var num = 2.;
+var num = -.7;
+</code></pre>
+<p>Although not a syntax error, this format for numbers can make it difficult to distinguish between true decimal numbers and the dot operator. For this reason, some recommend that you should always include a number before and after a decimal point to make it clear the intent is to create a decimal number.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at eliminating floating decimal points and will warn whenever a numeric value has a decimal point but is missing a number either before or after it.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-floating-decimal: &quot;error&quot;*/
+
+var num = .5;
+var num = 2.;
+var num = -.7;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-floating-decimal: &quot;error&quot;*/
+
+var num = 0.5;
+var num = 2.0;
+var num = -0.7;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you aren&#39;t concerned about misinterpreting floating decimal point values, then you can safely turn this rule off.</p>
+<h2 id="compatibility">Compatibility</h2>
+<ul>
+<li><strong>JSHint</strong>: W008</li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

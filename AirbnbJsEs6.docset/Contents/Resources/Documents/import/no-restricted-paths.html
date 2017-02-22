@@ -1,0 +1,37 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-restricted-paths-restrict-which-files-can-be-imported-in-a-given-folder">no-restricted-paths - Restrict which files can be imported in a given folder</h1>
+<p>Some projects contain files which are not always meant to be executed in the same environment.
+For example consider a web application that contains specific code for the server and some specific code for the browser/client. In this case you don’t want to import server-only files in your client code.</p>
+<p>In order to prevent such scenarios this rule allows you to define restricted zones where you can forbid files from imported if they match a specific path.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule has one option. The option is an object containing the definition of all restricted <code>zones</code> and the optional <code>basePath</code> which is used to resolve relative paths within.
+The default value for <code>basePath</code> is the current working directory.
+Each zone consists of the <code>target</code> path and a <code>from</code> path. The <code>target</code> is the path where the restricted imports should be applied. The <code>from</code> path defines the folder that is not allowed to be used in an import.</p>
+<h3 id="examples">Examples</h3>
+<p>Given the following folder structure:</p>
+<pre><code>my-project
+├── client
+│   └── foo.js
+│   └── baz.js
+└── server
+    └── bar.js
+</code></pre><p>and the current file being linted is <code>my-project/client/foo.js</code>.</p>
+<p>The following patterns are considered problems when configuration set to <code>{ &quot;zones&quot;: [ { &quot;target&quot;: &quot;./client&quot;, &quot;from&quot;: &quot;./server&quot; } ] }</code>:</p>
+<pre><code class="lang-js">import bar from &#39;../server/bar&#39;;
+</code></pre>
+<p>The following patterns are not considered problems when configuration set to <code>{ &quot;zones&quot;: [ { &quot;target&quot;: &quot;./client&quot;, &quot;from&quot;: &quot;./server&quot; } ] }</code>:</p>
+<pre><code class="lang-js">import baz from &#39;../client/baz&#39;;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

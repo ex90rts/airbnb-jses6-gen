@@ -1,0 +1,85 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-redundant-return-statements-no-useless-return-">Disallow redundant return statements (no-useless-return)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>A <code>return;</code> statement with nothing after it is redundant, and has no effect on the runtime behavior of a function. This can be confusing, so it&#39;s better to disallow these redundant statements.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to report redundant <code>return</code> statements.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/* eslint no-useless-return: &quot;error&quot; */
+
+function foo() { return; }
+
+function foo() {
+  doSomething();
+  return;
+}
+
+function foo() {
+  if (condition) {
+    bar();
+    return;
+  } else {
+    baz();
+  }
+}
+
+function foo() {
+  switch (bar) {
+    case 1:
+      doSomething();
+    default:
+      doSomethingElse();
+      return;
+  }
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/* eslint no-useless-return: &quot;error&quot; */
+
+function foo() { return 5; }
+
+function foo() {
+  return doSomething();
+}
+
+function foo() {
+  if (condition) {
+    bar();
+    return;
+  } else {
+    baz();
+  }
+  qux();
+}
+
+function foo() {
+  switch (bar) {
+    case 1:
+      doSomething();
+      return;
+    default:
+      doSomethingElse();
+  }
+}
+
+function foo() {
+  for (const foo of bar) {
+    return;
+  }
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t care about disallowing redundant return statements, you can turn off this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

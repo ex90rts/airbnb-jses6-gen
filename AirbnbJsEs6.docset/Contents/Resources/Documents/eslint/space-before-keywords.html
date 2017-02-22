@@ -1,0 +1,104 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="space-before-keywords-enforce-consistent-spacing-before-keywords">space-before-keywords: enforce consistent spacing before keywords</h1>
+<p class="removed icon">(removed) This rule was <strong>removed</strong> in ESLint v2.0 and <strong>replaced</strong> by the <a href="keyword-spacing.html">keyword-spacing</a> rule.</p>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixed problems reported by this rule.</p>
+<p>Keywords are syntax elements of JavaScript, such as <code>function</code> and <code>if</code>. These identifiers have special meaning to the language and so often appear in a different color in code editors. As an important part of the language, style guides often refer to the spacing that should be used around keywords. For example, you might have a style guide that says keywords should be always be preceded by spaces, which would mean <code>if-else</code> statements must look like this:</p>
+<pre><code class="lang-js">if (foo) {
+    // ...
+} else {
+    // ...
+}
+</code></pre>
+<p>Of course, you could also have a style guide that disallows spaces before keywords.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule will enforce consistency of spacing before the keywords <code>if</code>, <code>else</code>, <code>for</code>,
+<code>while</code>, <code>do</code>, <code>switch</code>, <code>throw</code>, <code>try</code>, <code>catch</code>, <code>finally</code>, <code>with</code>, <code>break</code>, <code>continue</code>,
+<code>return</code>, <code>function</code>, <code>yield</code>, <code>class</code> and variable declarations (<code>let</code>, <code>const</code>, <code>var</code>)
+and label statements.</p>
+<p>This rule takes one argument: <code>&quot;always&quot;</code> or <code>&quot;never&quot;</code>. If <code>&quot;always&quot;</code> then the keywords
+must be preceded by at least one space. If <code>&quot;never&quot;</code> then no spaces will be allowed before
+the keywords <code>else</code>, <code>while</code> (do...while), <code>finally</code> and <code>catch</code>. The default value is <code>&quot;always&quot;</code>.</p>
+<p>This rule will allow keywords to be preceded by an opening curly brace (<code>{</code>). If you wish to alter
+this behaviour, consider using the <a href="block-spacing.html">block-spacing</a> rule.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint space-before-keywords: [&quot;error&quot;, &quot;always&quot;]*/
+/*eslint-env es6*/
+
+if (foo) {
+    // ...
+}else {}
+
+const foo = &#39;bar&#39;;let baz = &#39;qux&#39;;
+
+var foo =function bar () {}
+
+function bar() {
+    if (foo) {return; }
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint space-before-keywords: [&quot;error&quot;, &quot;always&quot;]*/
+/*eslint-env es6*/
+
+if (foo) {
+    // ...
+} else {}
+
+(function() {})()
+
+&lt;Foo onClick={function bar() {}} /&gt;
+
+for (let foo of [&#39;bar&#39;, &#39;baz&#39;, &#39;qux&#39;]) {}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint space-before-keywords: [&quot;error&quot;, &quot;never&quot;]*/
+
+if (foo) {
+    // ...
+} else {}
+
+do {
+
+}
+while (foo)
+
+try {} finally {}
+
+try {} catch(e) {}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint space-before-keywords: [&quot;error&quot;, &quot;never&quot;]*/
+
+if (foo) {
+    // ...
+}else {}
+
+do {}while (foo)
+
+try {}finally {}
+
+try{}catch(e) {}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you do not wish to enforce consistency on keyword spacing.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="space-after-keywords.html">space-after-keywords</a></li>
+<li><a href="block-spacing.html">block-spacing</a></li>
+<li><a href="space-return-throw-case.html">space-return-throw-case</a></li>
+<li><a href="space-unary-ops.html">space-unary-ops</a></li>
+<li><a href="space-infix-ops.html">space-infix-ops</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

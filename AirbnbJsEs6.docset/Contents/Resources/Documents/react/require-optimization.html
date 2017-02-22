@@ -1,0 +1,68 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-react-components-to-have-a-shouldcomponentupdate-method-require-optimization-">Enforce React components to have a shouldComponentUpdate method (require-optimization)</h1>
+<p>This rule prevents you from creating React components without declaring a <code>shouldComponentUpdate</code> method.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-js">class YourComponent extends React.Component {
+
+}
+</code></pre>
+<pre><code class="lang-js">React.createClass({
+});
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-js">class YourComponent extends React.Component {
+    shouldComponentUpdate () {
+        return false;
+    }
+}
+</code></pre>
+<pre><code class="lang-js">React.createClass({
+    shouldComponentUpdate: function () {
+        return false;
+    }
+});
+</code></pre>
+<pre><code class="lang-js">React.createClass({
+    mixins: [PureRenderMixin]
+});
+</code></pre>
+<pre><code class="lang-js">@reactMixin.decorate(PureRenderMixin)
+React.createClass({
+
+});
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<pre><code class="lang-js">...
+&quot;require-optimization&quot;: [&lt;enabled&gt;, { allowDecorators: [&lt;allowDecorator&gt;] }]
+...
+</code></pre>
+<ul>
+<li><code>enabled</code>: for enabling the rule. 0=off, 1=warn, 2=error. Defaults to 0.</li>
+<li><code>allowDecorators</code>: optional array of decorators names to allow validation.</li>
+</ul>
+<h3 id="-allowdecorators-"><code>allowDecorators</code></h3>
+<p>Sets the allowed names of decorators. If the variable is present in the chain of decorators, it validates</p>
+<p>The following patterns are not warnings:</p>
+<pre><code class="lang-js">// [&#39;pureRender&#39;]
+@pureRender
+class Hello extends React.Component {}
+</code></pre>
+<h3 id="example">Example</h3>
+<pre><code class="lang-js">...
+&quot;require-optimization&quot;: [2, {allowDecorators: [&#39;customDecorators&#39;]}]
+...
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

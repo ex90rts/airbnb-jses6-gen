@@ -1,0 +1,52 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-the-use-of-console-no-console-">disallow the use of <code>console</code> (no-console)</h1>
+<p>In JavaScript that is designed to be executed in the browser, it&#39;s considered a best practice to avoid using methods on <code>console</code>. Such messages are considered to be for debugging purposes and therefore not suitable to ship to the client. In general, calls using <code>console</code> should be stripped before being pushed to production.</p>
+<pre><code class="lang-js">console.log(&quot;Made it here.&quot;);
+console.error(&quot;That shouldn&#39;t have happened.&quot;);
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows calls to methods of the <code>console</code> object.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-console: &quot;error&quot;*/
+
+console.log(&quot;Log a debug level message.&quot;);
+console.warn(&quot;Log a warn level message.&quot;);
+console.error(&quot;Log an error level message.&quot;);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-console: &quot;error&quot;*/
+
+// custom console
+Console.log(&quot;Hello world!&quot;);
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule has an object option for exceptions:</p>
+<ul>
+<li><code>&quot;allow&quot;</code> has an array of strings which are allowed methods of the <code>console</code> object</li>
+</ul>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with a sample <code>{ &quot;allow&quot;: [&quot;warn&quot;, &quot;error&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-console: [&quot;error&quot;, { allow: [&quot;warn&quot;, &quot;error&quot;] }] */
+
+console.warn(&quot;Log a warn level message.&quot;);
+console.error(&quot;Log an error level message.&quot;);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you&#39;re using Node.js, however, <code>console</code> is used to output information to the user and so is not strictly used for debugging purposes. If you are developing for Node.js then you most likely do not want this rule enabled.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-alert.html">no-alert</a></li>
+<li><a href="no-debugger.html">no-debugger</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="validate-spacing-before-closing-bracket-in-jsx-jsx-space-before-closing-">Validate spacing before closing bracket in JSX (jsx-space-before-closing)</h1>
+<p>Enforce or forbid spaces before the closing bracket of self-closing JSX elements.</p>
+<p class="fixable icon"><strong>Fixable:</strong> This rule is automatically fixable using the <code>--fix</code> flag on the command line.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule checks if there is one or more spaces before the closing bracket of self-closing JSX elements.</p>
+<p>This rule takes one argument. If it is <code>&quot;always&quot;</code> then it warns whenever a space is missing before the closing bracket. If <code>&quot;never&quot;</code> then it warns if a space is present before the closing bracket. The default value of this option is <code>&quot;always&quot;</code>.</p>
+<p>The following patterns are considered warnings when configured <code>&quot;always&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt;Hello/&gt;
+&lt;Hello firstname=&quot;John&quot;/&gt;
+</code></pre>
+<p>The following patterns are not considered warnings when configured <code>&quot;always&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt;Hello /&gt;
+&lt;Hello firstName=&quot;John&quot; /&gt;
+&lt;Hello
+  firstName=&quot;John&quot;
+  lastName=&quot;Smith&quot;
+/&gt;
+</code></pre>
+<p>The following patterns are considered warnings when configured <code>&quot;never&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt;Hello /&gt;
+&lt;Hello firstName=&quot;John&quot; /&gt;
+</code></pre>
+<p>The following patterns are not considered warnings when configured <code>&quot;never&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt;Hello/&gt;
+&lt;Hello firstname=&quot;John&quot;/&gt;
+&lt;Hello
+  firstName=&quot;John&quot;
+  lastName=&quot;Smith&quot;
+/&gt;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You can turn this rule off if you are not concerned with the consistency of spacing before closing brackets.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

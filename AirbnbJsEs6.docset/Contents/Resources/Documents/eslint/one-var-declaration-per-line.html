@@ -1,0 +1,80 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-or-disallow-newlines-around-variable-declarations-one-var-declaration-per-line-">require or disallow newlines around variable declarations (one-var-declaration-per-line)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Some developers declare multiple var statements on the same line:</p>
+<pre><code class="lang-js">var foo, bar, baz;
+</code></pre>
+<p>Others prefer to declare one var per line.</p>
+<pre><code class="lang-js">var foo,
+    bar,
+    baz;
+</code></pre>
+<p>Keeping to one of these styles across a project&#39;s codebase can help with maintaining code consistency.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces a consistent newlines around variable declarations. This rule ignores variable declarations inside <code>for</code> loop conditionals.</p>
+<h2 id="options">Options</h2>
+<p>This rule has a single string option:</p>
+<ul>
+<li><code>&quot;initializations&quot;</code> (default) enforces a newline around variable initializations</li>
+<li><code>&quot;always&quot;</code> enforces a newline around variable declarations</li>
+</ul>
+<h3 id="initializations">initializations</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;initializations&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var-declaration-per-line: [&quot;error&quot;, &quot;initializations&quot;]*/
+/*eslint-env es6*/
+
+var a, b, c = 0;
+
+let a,
+    b = 0, c;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;initializations&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var-declaration-per-line: [&quot;error&quot;, &quot;initializations&quot;]*/
+/*eslint-env es6*/
+
+var a, b;
+
+let a,
+    b;
+
+let a,
+    b = 0;
+</code></pre>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var-declaration-per-line: [&quot;error&quot;, &quot;always&quot;]*/
+/*eslint-env es6*/
+
+var a, b;
+
+let a, b = 0;
+
+const a = 0, b = 0;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var-declaration-per-line: [&quot;error&quot;, &quot;always&quot;]*/
+/*eslint-env es6*/
+
+var a,
+    b;
+
+let a,
+    b = 0;
+</code></pre>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="one-var.html">one-var</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

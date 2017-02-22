@@ -1,0 +1,30 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="aria-role">aria-role</h1>
+<p>Elements with ARIA roles must use a valid, non-abstract ARIA role. A reference to role defintions can be found at <a href="https://www.w3.org/TR/wai-aria/roles#role_definitions">WAI-ARIA</a> site.</p>
+<p><a href="https://github.com/GoogleChrome/accessibility-developer-tools/wiki/Audit-Rules#ax_aria_01">AX_ARIA_01</a>
+<a href="https://www.w3.org/TR/dpub-aria-1.0/">DPUB-ARIA roles</a></p>
+<h2 id="rule-details">Rule details</h2>
+<p>This rule takes no arguments.</p>
+<h3 id="succeed">Succeed</h3>
+<pre><code class="lang-jsx">&lt;div role=&quot;button&quot;&gt;&lt;/div&gt;     &lt;!-- Good: &quot;button&quot; is a valid ARIA role --&gt;
+&lt;div role={role}&gt;&lt;/div&gt;       &lt;!-- Good: role is a variable &amp; cannot be determined until runtime. --&gt;
+&lt;div&gt;&lt;/div&gt;                   &lt;!-- Good: No ARIA role --&gt;
+</code></pre>
+<h3 id="fail">Fail</h3>
+<pre><code class="lang-jsx">&lt;div role=&quot;datepicker&quot;&gt;&lt;/div&gt; &lt;!-- Bad: &quot;datepicker&quot; is not an ARIA role --&gt;
+&lt;div role=&quot;range&quot;&gt;&lt;/div&gt;      &lt;!-- Bad: &quot;range&quot; is an _abstract_ ARIA role --&gt;
+&lt;div role=&quot;&quot;&gt;&lt;/div&gt;           &lt;!-- Bad: An empty ARIA role is not allowed --&gt;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

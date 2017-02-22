@@ -1,0 +1,38 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="onclick-has-role">onclick-has-role</h1>
+<p>Enforce visible, non-interactive elements with click handlers use role attribute. Visible means that it is not hidden from a screen reader. Examples of non-interactive elements are <code>div</code>, <code>section</code>, and <code>a</code> elements without a href prop. The purpose of the role attribute is to identify to screenreaders the exact function of an element. This rule will only test low-level DOM components, as we can not deterministically map wrapper JSX components to their correct DOM element.</p>
+<p>In cases where a non-interactive element has a handler, but does not map to an interactive role such as <code>button</code> or <code>link</code> -- for example a <code>div</code> container that catches bubbled click events -- <code>onclick-has-role</code> may be satisfied by providing a role value of <code>presentation</code>. This indicates that the element has no semantic value. A role like <code>button</code> or <code>link</code> should only be applied when the non-interactive element truly represents such a UI element.</p>
+<h4 id="references">References</h4>
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role#Keyboard_and_focus">MDN</a></li>
+</ol>
+<h2 id="rule-details">Rule details</h2>
+<p>This rule takes no arguments.</p>
+<h3 id="succeed">Succeed</h3>
+<pre><code class="lang-jsx">&lt;div onClick={() =&gt; void 0} role=&quot;button&quot; /&gt;
+&lt;div onClick={() =&gt; void 0} role=&quot;presentation&quot; /&gt;
+&lt;input type=&quot;text&quot; onClick={() =&gt; void 0} /&gt; // Interactive element does not require role.
+&lt;a tabIndex=&quot;0&quot; onClick={() =&gt; void 0} /&gt; // tabIndex makes this interactive.
+&lt;button onClick={() =&gt; void 0} className=&quot;foo&quot; /&gt; // button is interactive.
+&lt;div onClick={() =&gt; void 0} role=&quot;button&quot; aria-hidden /&gt; // This is hidden from screenreader.
+&lt;Input onClick={() =&gt; void 0} type=&quot;hidden&quot; /&gt; // This is a higher-level DOM component
+</code></pre>
+<h3 id="fail">Fail</h3>
+<pre><code class="lang-jsx">&lt;div onClick={() =&gt; void 0} /&gt;
+&lt;div onClick={() =&gt; void 0} {...props} /&gt;
+&lt;div onClick={() =&gt; void 0} aria-hidden={false} /&gt;
+&lt;a onClick={() =&gt; void 0} /&gt;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

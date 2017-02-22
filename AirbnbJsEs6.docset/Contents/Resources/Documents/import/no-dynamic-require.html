@@ -1,0 +1,28 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="forbid-require-calls-with-expressions">Forbid <code>require()</code> calls with expressions</h1>
+<p>The <code>require</code> method from CommonJS is used to import modules from different files. Unlike the ES6 <code>import</code> syntax, it can be given expressions that will be resolved at runtime. While this is sometimes necessary and useful, in most cases it isn&#39;t. Using expressions (for instance, concatenating a path and variable) as the argument makes it harder for tools to do static code analysis, or to find where in the codebase a module is used.</p>
+<p>This rule checks every call to <code>require()</code> that uses expressions for the module name argument.</p>
+<h2 id="rule-details">Rule Details</h2>
+<h3 id="fail">Fail</h3>
+<pre><code class="lang-js">require(name);
+require(&#39;../&#39; + name);
+require(`../${name}`);
+require(name());
+</code></pre>
+<h3 id="pass">Pass</h3>
+<pre><code class="lang-js">require(&#39;../name&#39;);
+require(`../name`);
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

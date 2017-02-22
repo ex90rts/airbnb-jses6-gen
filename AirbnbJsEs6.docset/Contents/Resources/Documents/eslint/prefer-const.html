@@ -1,0 +1,175 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="suggest-using-const-prefer-const-">Suggest using <code>const</code> (prefer-const)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes some instances of problems reported by this rule.</p>
+<p>If a variable is never reassigned, using the <code>const</code> declaration is better.</p>
+<p><code>const</code> declaration tells readers, &quot;this variable is never reassigned,&quot; reducing cognitive load and improving maintainability.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at flagging variables that are declared using <code>let</code> keyword, but never reassigned after the initial assignment.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint prefer-const: &quot;error&quot;*/
+/*eslint-env es6*/
+
+// it&#39;s initialized and never reassigned.
+let a = 3;
+console.log(a);
+
+let a;
+a = 0;
+console.log(a);
+
+// `i` is redefined (not reassigned) on each loop step.
+for (let i in [1, 2, 3]) {
+    console.log(i);
+}
+
+// `a` is redefined (not reassigned) on each loop step.
+for (let a of [1, 2, 3]) {
+    console.log(a);
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint prefer-const: &quot;error&quot;*/
+/*eslint-env es6*/
+
+// using const.
+const a = 0;
+
+// it&#39;s never initialized.
+let a;
+console.log(a);
+
+// it&#39;s reassigned after initialized.
+let a;
+a = 0;
+a = 1;
+console.log(a);
+
+// it&#39;s initialized in a different block from the declaration.
+let a;
+if (true) {
+    a = 0;
+}
+console.log(a);
+
+// it&#39;s initialized at a place that we cannot write a variable declaration.
+let a;
+if (true) a = 0;
+console.log(a);
+
+// `i` gets a new binding each iteration
+for (const i in [1, 2, 3]) {
+  console.log(i);
+}
+
+// `a` gets a new binding each iteration
+for (const a of [1, 2, 3]) {
+  console.log(a);
+}
+
+// `end` is never reassigned, but we cannot separate the declarations without modifying the scope.
+for (let i = 0, end = 10; i &lt; end; ++i) {
+    console.log(a);
+}
+
+// suggest to use `no-var` rule.
+var b = 3;
+console.log(b);
+</code></pre>
+<h2 id="options">Options</h2>
+<pre><code class="lang-json">{
+    &quot;prefer-const&quot;: [&quot;error&quot;, {
+        &quot;destructuring&quot;: &quot;any&quot;,
+        &quot;ignoreReadBeforeAssign&quot;: false
+    }]
+}
+</code></pre>
+<h3 id="destructuring">destructuring</h3>
+<p>The kind of the way to address variables in destructuring.
+There are 2 values:</p>
+<ul>
+<li><code>&quot;any&quot;</code> (default) - If any variables in destructuring should be <code>const</code>, this rule warns for those variables.</li>
+<li><code>&quot;all&quot;</code> - If all variables in destructuring should be <code>const</code>, this rule warns the variables. Otherwise, ignores them.</li>
+</ul>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the default <code>{&quot;destructuring&quot;: &quot;any&quot;}</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-const: &quot;error&quot;*/
+/*eslint-env es6*/
+
+let {a, b} = obj;    /*error &#39;b&#39; is never reassigned, use &#39;const&#39; instead.*/
+a = a + 1;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the default <code>{&quot;destructuring&quot;: &quot;any&quot;}</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-const: &quot;error&quot;*/
+/*eslint-env es6*/
+
+// using const.
+const {a: a0, b} = obj;
+const a = a0 + 1;
+
+// all variables are reassigned.
+let {a, b} = obj;
+a = a + 1;
+b = b + 1;
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{&quot;destructuring&quot;: &quot;all&quot;}</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-const: [&quot;error&quot;, {&quot;destructuring&quot;: &quot;all&quot;}]*/
+/*eslint-env es6*/
+
+// all of `a` and `b` should be const, so those are warned.
+let {a, b} = obj;    /*error &#39;a&#39; is never reassigned, use &#39;const&#39; instead.
+                             &#39;b&#39; is never reassigned, use &#39;const&#39; instead.*/
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{&quot;destructuring&quot;: &quot;all&quot;}</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-const: [&quot;error&quot;, {&quot;destructuring&quot;: &quot;all&quot;}]*/
+/*eslint-env es6*/
+
+// &#39;b&#39; is never reassigned, but all of `a` and `b` should not be const, so those are ignored.
+let {a, b} = obj;
+a = a + 1;
+</code></pre>
+<h3 id="ignorereadbeforeassign">ignoreReadBeforeAssign</h3>
+<p>This is an option to avoid conflicting with <code>no-use-before-define</code> rule (without <code>&quot;nofunc&quot;</code> option).
+If <code>true</code> is specified, this rule will ignore variables that are read between the declaration and the first assignment.
+Default is <code>false</code>.</p>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{&quot;ignoreReadBeforeAssign&quot;: true}</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-const: [&quot;error&quot;, {&quot;ignoreReadBeforeAssign&quot;: true}]*/
+/*eslint-env es6*/
+
+let timer;
+function initialize() {
+    if (foo()) {
+        clearInterval(timer);
+    }
+}
+timer = setInterval(initialize, 100);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the defaut <code>{&quot;ignoreReadBeforeAssign&quot;: false}</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-const: [&quot;error&quot;, {&quot;ignoreReadBeforeAssign&quot;: false}]*/
+/*eslint-env es6*/
+
+const timer = setInterval(initialize, 100);
+function initialize() {
+    if (foo()) {
+        clearInterval(timer);
+    }
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about variables that are never reassigned after initial assignment, you can safely disable this rule.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-var.html">no-var</a></li>
+<li><a href="no-use-before-define.html">no-use-before-define</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

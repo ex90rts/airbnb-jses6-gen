@@ -1,0 +1,56 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="forbid-certain-elements-forbid-elements-">Forbid certain elements (forbid-elements)</h1>
+<p>You may want to forbid usage of certain elements in favor of others, (e.g. forbid all <code>&lt;div /&gt;</code> and use <code>&lt;Box /&gt;</code> instead). This rule allows you to configure a list of forbidden elements and to specify their desired replacements.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule checks all JSX elements and <code>React.createElement</code> calls and verifies that no forbidden elements are used. This rule is off by default. If on, no elements are forbidden by default.</p>
+<h2 id="rule-options">Rule Options</h2>
+<pre><code class="lang-js">...
+&quot;forbid-elements&quot;: [&lt;enabled&gt;, { &quot;forbid&quot;: [&lt;string|object&gt;] }]
+...
+</code></pre>
+<h3 id="-forbid-"><code>forbid</code></h3>
+<p>An array of strings and/or objects. An object in this array may have the following properties: </p>
+<ul>
+<li><code>element</code> (required): the name of the forbidden element (e.g. <code>&#39;button&#39;</code>, <code>&#39;Modal&#39;</code>)</li>
+<li><code>message</code>: additional message that gets reported</li>
+</ul>
+<p>A string item in the array is a shorthand for <code>{ element: string }</code>. </p>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">// [1, { &quot;forbid&quot;: [&quot;button&quot;] }]
+&lt;Button /&gt;
+
+// [1, { &quot;forbid&quot;: [{ &quot;element&quot;: &quot;button&quot; }] }]
+&lt;Button /&gt;
+</code></pre>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">// [1, { &quot;forbid&quot;: [&quot;button&quot;] }]
+&lt;button /&gt;
+React.createElement(&#39;button&#39;);
+
+// [1, { &quot;forbid&quot;: [&quot;Modal&quot;] }]
+&lt;Modal /&gt;
+React.createElement(Modal);
+
+// [1, { &quot;forbid&quot;: [&quot;Namespaced.Element&quot;] }]
+&lt;Namespaced.Element /&gt;
+React.createElement(Namespaced.Element);
+
+// [1, { &quot;forbid&quot;: [{ &quot;element&quot;: &quot;button&quot;, &quot;message&quot;: &quot;use &lt;Button&gt; instead&quot; }, &quot;input&quot;] }]
+&lt;div&gt;&lt;button /&gt;&lt;input /&gt;&lt;/div&gt;
+React.createElement(&#39;div&#39;, {}, React.createElemet(&#39;button&#39;, {}, React.createElement(&#39;input&#39;)));
+</code></pre>
+<h2 id="when-not-to-use">When not to use</h2>
+<p>If you don&#39;t want to forbid any elements.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

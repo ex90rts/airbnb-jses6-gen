@@ -1,0 +1,70 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-use-of-the-comma-operator-no-sequences-">Disallow Use of the Comma Operator (no-sequences)</h1>
+<p>The comma operator includes multiple expressions where only one is expected. It evaluates each operand from left to right and returns the value of the last operand. However, this frequently obscures side effects, and its use is often an accident. Here are some examples of sequences:</p>
+<pre><code class="lang-js">var a = (3, 5); // a = 5
+
+a = b += 5, a + b;
+
+while (a = next(), a &amp;&amp; a.length);
+
+(0, eval)(&quot;doSomething();&quot;);
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule forbids the use of the comma operator, with the following exceptions:</p>
+<ul>
+<li>In the initialization or update portions of a <code>for</code> statement.</li>
+<li>If the expression sequence is explicitly wrapped in parentheses.</li>
+</ul>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-sequences: &quot;error&quot;*/
+
+foo = doSomething(), val;
+
+0, eval(&quot;doSomething();&quot;);
+
+do {} while (doSomething(), !!test);
+
+for (; doSomething(), !!test; );
+
+if (doSomething(), !!test);
+
+switch (val = foo(), val) {}
+
+while (val = foo(), val &lt; 42);
+
+with (doSomething(), val) {}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-sequences: &quot;error&quot;*/
+
+foo = (doSomething(), val);
+
+(0, eval)(&quot;doSomething();&quot;);
+
+do {} while ((doSomething(), !!test));
+
+for (i = 0, j = 10; i &lt; j; i++, j--);
+
+if ((doSomething(), !!test));
+
+switch ((val = foo(), val)) {}
+
+while ((val = foo(), val &lt; 42));
+
+// with ((doSomething(), val)) {}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>Disable this rule if sequence expressions with the comma operator are acceptable.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

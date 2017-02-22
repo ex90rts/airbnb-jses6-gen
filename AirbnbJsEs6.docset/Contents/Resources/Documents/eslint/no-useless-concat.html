@@ -1,0 +1,48 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-unnecessary-concatenation-of-strings-no-useless-concat-">Disallow unnecessary concatenation of strings (no-useless-concat)</h1>
+<p>It&#39;s unnecessary to concatenate two strings together, such as:</p>
+<pre><code class="lang-js">var foo = &quot;a&quot; + &quot;b&quot;;
+</code></pre>
+<p>This code is likely the result of refactoring where a variable was removed from the concatenation (such as <code>&quot;a&quot; + b + &quot;b&quot;</code>). In such a case, the concatenation isn&#39;t important and the code can be rewritten as:</p>
+<pre><code class="lang-js">var foo = &quot;ab&quot;;
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to flag the concatenation of 2 literals when they could be combined into a single literal. Literals can be strings or template literals.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-useless-concat: &quot;error&quot;*/
+/*eslint-env es6*/
+
+// these are the same as &quot;10&quot;
+var a = `some` + `string`;
+var a = &#39;1&#39; + &#39;0&#39;;
+var a = &#39;1&#39; + `0`;
+var a = `1` + &#39;0&#39;;
+var a = `1` + `0`;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-useless-concat: &quot;error&quot;*/
+
+// when a non string is included
+var c = a + b;
+var c = &#39;1&#39; + a;
+var a = 1 + &#39;1&#39;;
+var c = 1 - 2;
+// when the string concatenation is multiline
+var c = &quot;foo&quot; +
+    &quot;bar&quot;;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about unnecessary string concatenation, you can safely disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

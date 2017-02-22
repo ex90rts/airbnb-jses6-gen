@@ -1,0 +1,77 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-stateless-react-components-to-be-written-as-a-pure-function-prefer-stateless-function-">Enforce stateless React Components to be written as a pure function (prefer-stateless-function)</h1>
+<p>Stateless functional components are simpler than class based components and will benefit from future React performance optimizations specific to these components.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule will check your class based React components for</p>
+<ul>
+<li>methods/properties other than <code>displayName</code>, <code>propTypes</code>, <code>render</code> and useless constructor (same detection as ESLint <a href="http://eslint.org/docs/rules/no-useless-constructor">no-useless-constructor rule</a>)</li>
+<li>instance property other than <code>this.props</code> and <code>this.context</code></li>
+<li>extension of <code>React.PureComponent</code> (if the <code>ignorePureComponents</code> flag is true)</li>
+<li>presence of <code>ref</code> attribute in JSX</li>
+<li><code>render</code> method that return anything but JSX: <code>undefined</code>, <code>null</code>, etc. (only in React &lt;15.0.0, see <a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/README.md#configuration">shared settings</a> for React version configuration)</li>
+</ul>
+<p>If none of these elements are found, the rule will warn you to write this component as a pure function.</p>
+<p>The following pattern is considered a warning:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+});
+</code></pre>
+<p>The following pattern is not considered a warning:</p>
+<pre><code class="lang-jsx">const Foo = function(props, context) {
+  const {
+    location
+  } = context.router;
+
+  return &lt;div&gt;{props.foo}&lt;/div&gt;;
+};
+</code></pre>
+<p>The following pattern is not considered a warning in React &lt;15.0.0:</p>
+<pre><code class="lang-jsx">class Foo extends React.Component {
+  render() {
+    if (!this.props.foo) {
+      return null
+    }
+    return &lt;div&gt;{this.props.foo}&lt;/div&gt;;
+  }
+}
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<pre><code class="lang-js">...
+&quot;prefer-stateless-function&quot;: [&lt;enabled&gt;, { &quot;ignorePureComponents&quot;: &lt;ignorePureComponents&gt; }]
+...
+</code></pre>
+<ul>
+<li><code>enabled</code>: for enabling the rule. 0=off, 1=warn, 2=error. Defaults to 0.</li>
+<li><code>ignorePureComponents</code>: optional boolean set to <code>true</code> to ignore components extending from <code>React.PureComponent</code> (default to <code>false</code>).</li>
+</ul>
+<h3 id="-ignorepurecomponents-"><code>ignorePureComponents</code></h3>
+<p>When <code>true</code> the rule will ignore Components extending from <code>React.PureComponent</code> that use <code>this.props</code> or <code>this.context</code>.</p>
+<p>The following patterns is considered okay and does not cause warnings:</p>
+<pre><code class="lang-jsx">class Foo extends React.PureComponent {
+  render() {
+    return &lt;div&gt;{this.props.foo}&lt;/div&gt;;
+  }
+}
+</code></pre>
+<p>The following pattern is considered a warning because it&#39;s not using props or context:</p>
+<pre><code class="lang-jsx">class Foo extends React.PureComponent {
+  render() {
+    return &lt;div&gt;Bar&lt;/div&gt;;
+  }
+}
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

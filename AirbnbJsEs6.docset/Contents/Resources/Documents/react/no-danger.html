@@ -1,0 +1,30 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-usage-of-dangerous-jsx-properties-no-danger-">Prevent usage of dangerous JSX properties (no-danger)</h1>
+<p>Dangerous properties in React are those whose behavior is known to be a common source of application vulnerabilities. The properties names clearly indicate they are dangerous and should be avoided unless great care is taken.</p>
+<p>See <a href="https://facebook.github.io/react/tips/dangerously-set-inner-html.html">https://facebook.github.io/react/tips/dangerously-set-inner-html.html</a></p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var React = require(&#39;react&#39;);
+
+var Hello = &lt;div dangerouslySetInnerHTML={{ __html: &quot;Hello World&quot; }}&gt;&lt;/div&gt;;
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var React = require(&#39;react&#39;);
+
+var Hello = &lt;div&gt;Hello World&lt;/div&gt;;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you are certain the content passed to dangerouslySetInnerHTML is sanitized HTML you can disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

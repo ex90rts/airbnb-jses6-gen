@@ -1,0 +1,147 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-return-after-callback-callback-return-">Enforce Return After Callback (callback-return)</h1>
+<p>The callback pattern is at the heart of most I/O and event-driven programming
+ in JavaScript.</p>
+<pre><code class="lang-js">function doSomething(err, callback) {
+    if (err) {
+        return callback(err);
+    }
+    callback();
+}
+</code></pre>
+<p>To prevent calling the callback multiple times it is important to <code>return</code> anytime the callback is triggered outside
+ of the main function body. Neglecting this technique often leads to issues where you do something more than once.
+ For example, in the case of an HTTP request, you may try to send HTTP headers more than once leading Node.js to <code>throw</code>
+ a <code>Can&#39;t render headers after they are sent to the client.</code> error.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at ensuring that callbacks used outside of the main function block are always part-of or immediately
+preceding a <code>return</code> statement. This rule decides what is a callback based on the name of the function being called.</p>
+<h2 id="options">Options</h2>
+<p>The rule takes a single option - an array of possible callback names - which may include object methods. The default callback names are <code>callback</code>, <code>cb</code>, <code>next</code>.</p>
+<h3 id="default-callback-names">Default callback names</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>[&quot;callback&quot;, &quot;cb&quot;, &quot;next&quot;]</code> option:</p>
+<pre><code class="lang-js">/*eslint callback-return: &quot;error&quot;*/
+
+function foo(err, callback) {
+    if (err) {
+        callback(err);
+    }
+    callback();
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>[&quot;callback&quot;, &quot;cb&quot;, &quot;next&quot;]</code> option:</p>
+<pre><code class="lang-js">/*eslint callback-return: &quot;error&quot;*/
+
+function foo(err, callback) {
+    if (err) {
+        return callback(err);
+    }
+    callback();
+}
+</code></pre>
+<h3 id="supplied-callback-names">Supplied callback names</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the option <code>[&quot;done&quot;, &quot;send.error&quot;, &quot;send.success&quot;]</code>:</p>
+<pre><code class="lang-js">/*eslint callback-return: [&quot;error&quot;, [&quot;done&quot;, &quot;send.error&quot;, &quot;send.success&quot;]]*/
+
+function foo(err, done) {
+    if (err) {
+        done(err);
+    }
+    done();
+}
+
+function bar(err, send) {
+    if (err) {
+        send.error(err);
+    }
+    send.success();
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the the option <code>[&quot;done&quot;, &quot;send.error&quot;, &quot;send.success&quot;]</code>:</p>
+<pre><code class="lang-js">/*eslint callback-return: [&quot;error&quot;, [&quot;done&quot;, &quot;send.error&quot;, &quot;send.success&quot;]]*/
+
+function foo(err, done) {
+    if (err) {
+        return done(err);
+    }
+    done();
+}
+
+function bar(err, send) {
+    if (err) {
+        return send.error(err);
+    }
+    send.success();
+}
+</code></pre>
+<h2 id="known-limitations">Known Limitations</h2>
+<p>Because it is difficult to understand the meaning of a program through static analysis, this rule has limitations:</p>
+<ul>
+<li><em>false negatives</em> when this rule reports correct code, but the program calls the callback more than one time (which is incorrect behavior)</li>
+<li><em>false positives</em> when this rule reports incorrect code, but the program calls the callback only one time (which is correct behavior)</li>
+</ul>
+<h3 id="passing-the-callback-by-reference">Passing the callback by reference</h3>
+<p>The static analysis of this rule does not detect that the program calls the callback if it is an argument of a function (for example,  <code>setTimeout</code>).</p>
+<p>Example of a <em>false negative</em> when this rule reports correct code:</p>
+<pre><code class="lang-js">/*eslint callback-return: &quot;error&quot;*/
+
+function foo(err, callback) {
+    if (err) {
+        setTimeout(callback, 0); // this is bad, but WILL NOT warn
+    }
+    callback();
+}
+</code></pre>
+<h3 id="triggering-the-callback-within-a-nested-function">Triggering the callback within a nested function</h3>
+<p>The static analysis of this rule does not detect that the program calls the callback from within a nested function or an immediately-invoked function expression (IIFE).</p>
+<p>Example of a <em>false negative</em> when this rule reports correct code:</p>
+<pre><code class="lang-js">/*eslint callback-return: &quot;error&quot;*/
+
+function foo(err, callback) {
+    if (err) {
+        process.nextTick(function() {
+            return callback(); // this is bad, but WILL NOT warn
+        });
+    }
+    callback();
+}
+</code></pre>
+<h3 id="if-else-statements">If/else statements</h3>
+<p>The static analysis of this rule does not detect that the program calls the callback only one time in each branch of an <code>if</code> statement.</p>
+<p>Example of a <em>false positive</em> when this rule reports incorrect code:</p>
+<pre><code class="lang-js">/*eslint callback-return: &quot;error&quot;*/
+
+function foo(err, callback) {
+    if (err) {
+        callback(err); // this is fine, but WILL warn
+    } else {
+        callback();    // this is fine, but WILL warn
+    }
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>There are some cases where you might want to call a callback function more than once. In those cases this rule
+ may lead to incorrect behavior. In those cases you may want to reserve a special name for those callbacks and
+ not include that in the list of callbacks that trigger warnings.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="https://github.com/maxogden/art-of-node#callbacks">The Art Of Node: Callbacks</a></li>
+<li><a href="http://docs.nodejitsu.com/articles/errors/what-are-the-error-conventions">Nodejitsu: What are the error conventions?</a></li>
+</ul>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="handle-callback-err.html">handle-callback-err</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

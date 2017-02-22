@@ -1,0 +1,55 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prefer-default-export">prefer-default-export</h1>
+<p>When there is only a single export from a module, prefer using default export over named export.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-javascript">// bad.js
+
+// There is only a single module export and it&#39;s a named export.
+export const foo = &#39;foo&#39;;
+</code></pre>
+<p>The following patterns are not warnings:</p>
+<pre><code class="lang-javascript">// good1.js
+
+// There is a default export.
+export const foo = &#39;foo&#39;;
+const bar = &#39;bar&#39;;
+export default &#39;bar&#39;;
+</code></pre>
+<pre><code class="lang-javascript">// good2.js
+
+// There is more than one named export in the module.
+export const foo = &#39;foo&#39;;
+export const bar = &#39;bar&#39;;
+</code></pre>
+<pre><code class="lang-javascript">// good3.js
+
+// There is more than one named export in the module
+const foo = &#39;foo&#39;;
+const bar = &#39;bar&#39;;
+export { foo, bar }
+</code></pre>
+<pre><code class="lang-javascript">// good4.js
+
+// There is a default export.
+const foo = &#39;foo&#39;;
+export { foo as default }
+</code></pre>
+<pre><code class="lang-javascript">// export-star.js
+
+// Any batch export will disable this rule. The remote module is not inspected.
+export * from &#39;./other-module&#39;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-named-as-default-member">no-named-as-default-member</h1>
+<p>Reports use of an exported name as a property on the default export.</p>
+<p>Rationale: Accessing a property that has a name that is shared by an exported
+name from the same module is likely to be a mistake.</p>
+<p>Named import syntax looks very similar to destructuring assignment. It&#39;s easy to
+make the (incorrect) assumption that named exports are also accessible as
+properties of the default export.</p>
+<p>Furthermore, <a href="https://medium.com/@kentcdodds/misunderstanding-es6-modules-upgrading-babel-tears-and-a-solution-ad2d5ab93ce0">in Babel 5 this is actually how things worked</a>. This was
+fixed in Babel 6. Before upgrading an existing codebase to Babel 6, it can be
+useful to run this lint rule.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>Given:</p>
+<pre><code class="lang-js">// foo.js
+export default &#39;foo&#39;;
+export const bar = &#39;baz&#39;;
+</code></pre>
+<p>...this would be valid:</p>
+<pre><code class="lang-js">import foo, {bar} from &#39;./foo.js&#39;;
+</code></pre>
+<p>...and the following would be reported:</p>
+<pre><code class="lang-js">// Caution: `foo` also has a named export `bar`.
+// Check if you meant to write `import {bar} from &#39;./foo.js&#39;` instead.
+import foo from &#39;./foo.js&#39;;
+const bar = foo.bar;
+</code></pre>
+<pre><code class="lang-js">// Caution: `foo` also has a named export `bar`.
+// Check if you meant to write `import {bar} from &#39;./foo.js&#39;` instead.
+import foo from &#39;./foo.js&#39;;
+const {bar} = foo;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-definitions-of-unused-prop-types-no-unused-prop-types-">Prevent definitions of unused prop types (no-unused-prop-types)</h1>
+<p>Warns you if you have defined a prop type but it is never being used anywhere.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  propTypes: {
+    name: React.PropTypes.string
+  },
+  render: function() {
+    return &lt;div&gt;Hello Bob&lt;/div&gt;;
+  }
+});
+
+var Hello = React.createClass({
+  propTypes: {
+    firstname: React.PropTypes.string.isRequired,
+    middlename: React.PropTypes.string.isRequired, // middlename is never used below
+    lastname: React.PropTypes.string.isRequired
+  },
+  render: function() {
+    return &lt;div&gt;Hello {this.props.firstname} {this.props.lastname}&lt;/div&gt;;
+  }
+});
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  propTypes: {
+    name: React.PropTypes.string
+  },
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+});
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<p>This rule can take one argument to ignore some specific props during validation.</p>
+<pre><code>...
+&quot;no-unused-prop-types&quot;: [&lt;enabled&gt;, { customValidators: &lt;customValidator&gt;, skipShapeProps: &lt;skipShapeProps&gt; }]
+...
+</code></pre><ul>
+<li><code>enabled</code>: for enabling the rule. 0=off, 1=warn, 2=error. Defaults to 0.</li>
+<li><code>customValidators</code>: optional array of validators used for propTypes validation.</li>
+<li><code>skipShapeProps</code>: In some cases it is impossible to accurately detect whether or not a <code>React.PropTypes.shape</code>&#39;s values are being used. Setting this option to <code>true</code> will skip validation of <code>PropTypes.shape</code> (<code>true</code> by default).</li>
+</ul>
+<h2 id="caveats">Caveats</h2>
+<p>This rule does not track component props as they move from function to function or during variable renaming (such as in the event of prop object destructuring assignments). As such, it&#39;s prone to false positives in situations where the prop use cannot be accurately detected.</p>
+<h2 id="about-component-detection">About component detection</h2>
+<p>For this rule to work we need to detect React components, this could be very hard since components could be declared in a lot of ways.</p>
+<p>For now we should detect components created with:</p>
+<ul>
+<li><code>React.createClass()</code></li>
+<li>an ES6 class that inherit from <code>React.Component</code> or <code>Component</code></li>
+<li>a stateless function that return JSX or the result of a <code>React.createElement</code> call.</li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-brace-style-brace-style-">Require Brace Style (brace-style)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Brace style is closely related to <a href="http://en.wikipedia.org/wiki/Indent_style">indent style</a> in programming and describes the placement of braces relative to their control statement and body. There are probably a dozen, if not more, brace styles in the world.</p>
+<p>The <em>one true brace style</em> is one of the most common brace styles in JavaScript, in which the opening brace of a block is placed on the same line as its corresponding statement or declaration. For example:</p>
+<pre><code class="lang-js">if (foo) {
+  bar();
+} else {
+  baz();
+}
+</code></pre>
+<p>One common variant of one true brace style is called Stroustrup, in which the <code>else</code> statements in an <code>if-else</code> construct, as well as <code>catch</code> and <code>finally</code>, must be on its own line after the preceding closing brace. For example:</p>
+<pre><code class="lang-js">if (foo) {
+  bar();
+}
+else {
+  baz();
+}
+</code></pre>
+<p>Another style is called <a href="https://en.wikipedia.org/wiki/Indent_style#Allman_style">Allman</a>, in which all the braces are expected to be on their own lines without any extra indentation. For example:</p>
+<pre><code class="lang-js">if (foo)
+{
+  bar();
+}
+else
+{
+  baz();
+}
+</code></pre>
+<p>While no style is considered better than the other, most developers agree that having a consistent style throughout a project is important for its long-term maintainability.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces consistent brace style for blocks.</p>
+<h2 id="options">Options</h2>
+<p>This rule has a string option:</p>
+<ul>
+<li><code>&quot;1tbs&quot;</code> (default) enforces one true brace style</li>
+<li><code>&quot;stroustrup&quot;</code> enforces Stroustrup style</li>
+<li><code>&quot;allman&quot;</code> enforces Allman style</li>
+</ul>
+<p>This rule has an object option for an exception:</p>
+<ul>
+<li><code>&quot;allowSingleLine&quot;: true</code> (default <code>false</code>) allows the opening and closing braces for a block to be on the <em>same</em> line</li>
+</ul>
+<h3 id="1tbs">1tbs</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;1tbs&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint brace-style: &quot;error&quot;*/
+
+function foo()
+{
+  return true;
+}
+
+if (foo)
+{
+  bar();
+}
+
+try
+{
+  somethingRisky();
+} catch(e)
+{
+  handleError();
+}
+
+if (foo) {
+  bar();
+}
+else {
+  baz();
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;1tbs&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint brace-style: &quot;error&quot;*/
+
+function foo() {
+  return true;
+}
+
+if (foo) {
+  bar();
+}
+
+if (foo) {
+  bar();
+} else {
+  baz();
+}
+
+try {
+  somethingRisky();
+} catch(e) {
+  handleError();
+}
+
+// when there are no braces, there are no problems
+if (foo) bar();
+else if (baz) boom();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;1tbs&quot;, { &quot;allowSingleLine&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint brace-style: [&quot;error&quot;, &quot;1tbs&quot;, { &quot;allowSingleLine&quot;: true }]*/
+
+function nop() { return; }
+
+if (foo) { bar(); }
+
+if (foo) { bar(); } else { baz(); }
+
+try { somethingRisky(); } catch(e) { handleError(); }
+</code></pre>
+<h3 id="stroustrup">stroustrup</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;stroustrup&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint brace-style: [&quot;error&quot;, &quot;stroustrup&quot;]*/
+
+function foo()
+{
+  return true;
+}
+
+if (foo)
+{
+  bar();
+}
+
+try
+{
+  somethingRisky();
+} catch(e)
+{
+  handleError();
+}
+
+if (foo) {
+  bar();
+} else {
+  baz();
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;stroustrup&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint brace-style: [&quot;error&quot;, &quot;stroustrup&quot;]*/
+
+function foo() {
+  return true;
+}
+
+if (foo) {
+  bar();
+}
+
+if (foo) {
+  bar();
+}
+else {
+  baz();
+}
+
+try {
+  somethingRisky();
+}
+catch(e) {
+  handleError();
+}
+
+// when there are no braces, there are no problems
+if (foo) bar();
+else if (baz) boom();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;stroustrup&quot;, { &quot;allowSingleLine&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint brace-style: [&quot;error&quot;, &quot;stroustrup&quot;, { &quot;allowSingleLine&quot;: true }]*/
+
+function nop() { return; }
+
+if (foo) { bar(); }
+
+if (foo) { bar(); }
+else { baz(); }
+
+try { somethingRisky(); }
+catch(e) { handleError(); }
+</code></pre>
+<h3 id="allman">allman</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;allman&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint brace-style: [&quot;error&quot;, &quot;allman&quot;]*/
+
+function foo() {
+  return true;
+}
+
+if (foo)
+{
+  bar(); }
+
+try
+{
+  somethingRisky();
+} catch(e)
+{
+  handleError();
+}
+
+if (foo) {
+  bar();
+} else {
+  baz();
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;allman&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint brace-style: [&quot;error&quot;, &quot;allman&quot;]*/
+
+function foo()
+{
+  return true;
+}
+
+if (foo)
+{
+  bar();
+}
+
+if (foo)
+{
+  bar();
+}
+else
+{
+  baz();
+}
+
+try
+{
+  somethingRisky();
+}
+catch(e)
+{
+  handleError();
+}
+
+// when there are no braces, there are no problems
+if (foo) bar();
+else if (baz) boom();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;allman&quot;, { &quot;allowSingleLine&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint brace-style: [&quot;error&quot;, &quot;allman&quot;, { &quot;allowSingleLine&quot;: true }]*/
+
+function nop() { return; }
+
+if (foo) { bar(); }
+
+if (foo) { bar(); }
+else { baz(); }
+
+try { somethingRisky(); }
+catch(e) { handleError(); }
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to enforce a particular brace style, don&#39;t enable this rule.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Indent_style">Indent style</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

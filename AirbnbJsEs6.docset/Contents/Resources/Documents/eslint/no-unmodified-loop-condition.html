@@ -1,0 +1,82 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-unmodified-conditions-of-loops-no-unmodified-loop-condition-">Disallow unmodified conditions of loops (no-unmodified-loop-condition)</h1>
+<p>Variables in a loop condition often are modified in the loop.
+If not, it&#39;s possibly a mistake.</p>
+<pre><code class="lang-js">while (node) {
+    doSomething(node);
+}
+</code></pre>
+<pre><code class="lang-js">while (node) {
+    doSomething(node);
+    node = node.parent;
+}
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule finds references which are inside of loop conditions, then checks the
+variables of those references are modified in the loop.</p>
+<p>If a reference is inside of a binary expression or a ternary expression, this rule checks the result of
+the expression instead.
+If a reference is inside of a dynamic expression (e.g. <code>CallExpression</code>,
+<code>YieldExpression</code>, ...), this rule ignores it.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">while (node) {
+    doSomething(node);
+}
+node = other;
+
+for (var j = 0; j &lt; items.length; ++i) {
+    doSomething(items[j]);
+}
+
+while (node !== root) {
+    doSomething(node);
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">while (node) {
+    doSomething(node);
+    node = node.parent;
+}
+
+for (var j = 0; j &lt; items.length; ++j) {
+    doSomething(items[j]);
+}
+
+// OK, the result of this binary expression is changed in this loop.
+while (node !== root) {
+    doSomething(node);
+    node = node.parent;
+}
+
+// OK, the result of this ternary expression is changed in this loop.
+while (node ? A : B) {
+    doSomething(node);
+    node = node.parent;
+}
+
+// A property might be a getter which has side effect...
+// Or &quot;doSomething&quot; can modify &quot;obj.foo&quot;.
+while (obj.foo) {
+    doSomething(obj);
+}
+
+// A function call can return various values.
+while (check(obj)) {
+    doSomething(obj);
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to notified about references inside of loop conditions, then it&#39;s safe to disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

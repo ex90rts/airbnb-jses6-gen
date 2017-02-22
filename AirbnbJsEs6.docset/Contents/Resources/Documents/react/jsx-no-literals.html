@@ -1,0 +1,27 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-usage-of-unwrapped-jsx-strings-jsx-no-literals-">Prevent usage of unwrapped JSX strings (jsx-no-literals)</h1>
+<p>In JSX when using a literal string you can wrap it in a JSX container <code>{&#39;TEXT&#39;}</code>.
+This rules requires that you wrap all literal strings.
+Prevents any odd artifacts of highlighters if your unwrapped string contains an enclosing character like <code>&#39;</code> in contractions and enforces consistency.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = &lt;div&gt;test&lt;/div&gt;;
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = &lt;div&gt;{&#39;test&#39;}&lt;/div&gt;;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you do not want to enforce any style JSX literals, then you can disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

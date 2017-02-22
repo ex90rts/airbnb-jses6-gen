@@ -1,0 +1,74 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-unresolved">no-unresolved</h1>
+<p>Ensures an imported module can be resolved to a module on the local filesystem,
+as defined by standard Node <code>require.resolve</code> behavior.</p>
+<p>See <a href="../../README.md#settings">settings</a> for customization options for the resolution (i.e.
+additional filetypes, <code>NODE_PATH</code>, etc.)</p>
+<p>This rule can also optionally report on unresolved modules in CommonJS <code>require(&#39;./foo&#39;)</code> calls and AMD <code>require([&#39;./foo&#39;], function (foo){...})</code> and <code>define([&#39;./foo&#39;], function (foo){...})</code>.</p>
+<p>To enable this, send <code>{ commonjs: true/false, amd: true/false }</code> as a rule option.
+Both are disabled by default.</p>
+<p>If you are using Webpack, see the section on <a href="../../README.md#resolvers">resolvers</a>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<h3 id="options">Options</h3>
+<p>By default, only ES6 imports will be resolved:</p>
+<pre><code class="lang-js">/*eslint import/no-unresolved: 2*/
+import x from &#39;./foo&#39; // reports if &#39;./foo&#39; cannot be resolved on the filesystem
+</code></pre>
+<p>If <code>{commonjs: true}</code> is provided, single-argument <code>require</code> calls will be resolved:</p>
+<pre><code class="lang-js">/*eslint import/no-unresolved: [2, { commonjs: true }]*/
+const { default: x } = require(&#39;./foo&#39;) // reported if &#39;./foo&#39; is not found
+
+require(0) // ignored
+require([&#39;x&#39;, &#39;y&#39;], function (x, y) { /*...*/ }) // ignored
+</code></pre>
+<p>Similarly, if <code>{ amd: true }</code> is provided, dependency paths for <code>define</code> and <code>require</code>
+calls will be resolved:</p>
+<pre><code class="lang-js">/*eslint import/no-unresolved: [2, { amd: true }]*/
+define([&#39;./foo&#39;], function (foo) { /*...*/ }) // reported if &#39;./foo&#39; is not found
+require([&#39;./foo&#39;], function (foo) { /*...*/ }) // reported if &#39;./foo&#39; is not found
+
+const { default: x } = require(&#39;./foo&#39;) // ignored
+</code></pre>
+<p>Both may be provided, too:</p>
+<pre><code class="lang-js">/*eslint import/no-unresolved: [2, { commonjs: true, amd: true }]*/
+const { default: x } = require(&#39;./foo&#39;) // reported if &#39;./foo&#39; is not found
+define([&#39;./foo&#39;], function (foo) { /*...*/ }) // reported if &#39;./foo&#39; is not found
+require([&#39;./foo&#39;], function (foo) { /*...*/ }) // reported if &#39;./foo&#39; is not found
+</code></pre>
+<h4 id="-ignore-"><code>ignore</code></h4>
+<p>This rule has its own ignore list, separate from <a href="../../README.md#importignore"><code>import/ignore</code></a>. This is because you may want to know whether a module can be located, regardless of whether it can be parsed for exports: <code>node_modules</code>, CoffeeScript files, etc. are all good to resolve properly, but will not be parsed if configured as such via <a href="../../README.md#importignore"><code>import/ignore</code></a>.</p>
+<p>To suppress errors from files that may not be properly resolved by your <a href="../../README.md#resolver-plugins">resolver settings</a>, you may add an <code>ignore</code> key with an array of <code>RegExp</code> pattern strings:</p>
+<pre><code class="lang-js">/*eslint import/no-unresolved: [2, { ignore: [&#39;\.img$&#39;] }]*/
+
+import { x } from &#39;./mod&#39; // may be reported, if not resolved to a module
+
+import coolImg from &#39;../../img/coolImg.img&#39; // will not be reported, even if not found
+</code></pre>
+<h4 id="-casesensitive-"><code>caseSensitive</code></h4>
+<p>By default, this rule will report paths whose case do not match the underlying filesystem path, if the FS is not case-sensitive. To disable this behavior, set the <code>caseSensitive</code> option to <code>false</code>.</p>
+<pre><code class="lang-js">/*eslint import/no-unresolved: [2, { caseSensitive: true (default) | false }]*/
+const { default: x } = require(&#39;./foo&#39;) // reported if &#39;./foo&#39; is actually &#39;./Foo&#39; and caseSensitive: true
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you&#39;re using a module bundler other than Node or Webpack, you may end up with
+a lot of false positive reports of missing dependencies.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="../../README.md#resolver-plugins">Resolver plugins</a></li>
+<li><a href="https://npmjs.com/package/eslint-import-resolver-node">Node resolver</a> (default)</li>
+<li><a href="https://npmjs.com/package/eslint-import-resolver-webpack">Webpack resolver</a></li>
+<li><a href="../../README.md#importignore"><code>import/ignore</code></a> global setting</li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-or-disallow-assignment-operator-shorthand-where-possible-operator-assignment-">require or disallow assignment operator shorthand where possible (operator-assignment)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>JavaScript provides shorthand operators that combine variable assignment and some simple mathematical operations. For example, <code>x = x + 4</code> can be shortened to <code>x += 4</code>. The supported shorthand forms are as follows:</p>
+<pre><code class="lang-text"> Shorthand | Separate
+-----------|------------
+ x += y    | x = x + y
+ x -= y    | x = x - y
+ x *= y    | x = x * y
+ x /= y    | x = x / y
+ x %= y    | x = x % y
+ x &lt;&lt;= y   | x = x &lt;&lt; y
+ x &gt;&gt;= y   | x = x &gt;&gt; y
+ x &gt;&gt;&gt;= y  | x = x &gt;&gt;&gt; y
+ x &amp;= y    | x = x &amp; y
+ x ^= y    | x = x ^ y
+ x |= y    | x = x | y
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule requires or disallows assignment operator shorthand where possible.</p>
+<h2 id="options">Options</h2>
+<p>This rule has a single string option:</p>
+<ul>
+<li><code>&quot;always&quot;</code> (default)  requires assignment operator shorthand where possible</li>
+<li><code>&quot;never&quot;</code> disallows assignment operator shorthand</li>
+</ul>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint operator-assignment: [&quot;error&quot;, &quot;always&quot;]*/
+
+x = x + y;
+x = y * x;
+x[0] = x[0] / y;
+x.y = x.y &lt;&lt; z;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint operator-assignment: [&quot;error&quot;, &quot;always&quot;]*/
+
+x = y;
+x += y;
+x = y * z;
+x = (x * y) * z;
+x[0] /= y;
+x[foo()] = x[foo()] % 2;
+x = y + x; // `+` is not always commutative (e.g. x = &quot;abc&quot;)
+</code></pre>
+<h3 id="never">never</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint operator-assignment: [&quot;error&quot;, &quot;never&quot;]*/
+
+x *= y;
+x ^= (y + z) / foo();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint operator-assignment: [&quot;error&quot;, &quot;never&quot;]*/
+
+x = x + y;
+x.y = x.y / a.b;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>Use of operator assignment shorthand is a stylistic choice. Leaving this rule turned off would allow developers to choose which style is more readable on a case-by-case basis.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

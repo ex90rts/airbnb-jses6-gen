@@ -1,0 +1,55 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-commonjs">no-commonjs</h1>
+<p>Reports <code>require([string])</code> function calls. Will not report if &gt;1 argument,
+or single argument is not a literal string.</p>
+<p>Reports <code>module.exports</code> or <code>exports.*</code>, also.</p>
+<p>Intended for temporary use when migrating to pure ES6 modules.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This will be reported:</p>
+<pre><code class="lang-js">var mod = require(&#39;./mod&#39;)
+  , common = require(&#39;./common&#39;)
+  , fs = require(&#39;fs&#39;)
+  , whateverModule = require(&#39;./not-found&#39;)
+
+module.exports = { a: &quot;b&quot; }
+exports.c = &quot;d&quot;
+</code></pre>
+<p>If <code>allow-primitive-modules</code> is provided as an option, the following is valid:</p>
+<pre><code class="lang-js">/*eslint no-commonjs: [2, &quot;allow-primitive-modules&quot;]*/
+
+module.exports = &quot;foo&quot;
+module.exports = function rule(context) { return { /* ... */ } }
+</code></pre>
+<p>but this is still reported:</p>
+<pre><code class="lang-js">/*eslint no-commonjs: [2, &quot;allow-primitive-modules&quot;]*/
+
+module.exports = { x: &quot;y&quot; }
+exports.z = function boop() { /* ... */ }
+</code></pre>
+<p>This is useful for things like ESLint rule modules, which must export a function as
+the module.</p>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t mind mixing module systems (sometimes this is useful), you probably
+don&#39;t want this rule.</p>
+<p>It is also fairly noisy if you have a larger codebase that is being transitioned
+from CommonJS to ES6 modules.</p>
+<h2 id="contributors">Contributors</h2>
+<p>Special thanks to @xjamundx for donating the module.exports and exports.* bits.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="./no-amd.html"><code>no-amd</code></a>: report on AMD <code>require</code>, <code>define</code></li>
+<li>Source: <a href="https://github.com/xjamundx/eslint-plugin-modules">https://github.com/xjamundx/eslint-plugin-modules</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

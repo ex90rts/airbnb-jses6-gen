@@ -1,0 +1,27 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-self-compare-no-self-compare-">Disallow Self Compare (no-self-compare)</h1>
+<p>Comparing a variable against itself is usually an error, either an typo or refactoring error. It is confusing to the reader and may potentially introduce a runtime error.</p>
+<p>The only time you would compare a variable against itself is when you are testing for <code>NaN</code>. However, it is far more appropriate to use <code>typeof x === &#39;number&#39; &amp;&amp; isNaN(x)</code> or the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isNaN">Number.isNaN ES2015 function</a> for that use case rather than leaving the reader of the code to determine the intent of self comparison.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This error is raised to highlight a potentially confusing and potentially pointless piece of code. There are almost no situations in which you would need to compare something to itself.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-self-compare: &quot;error&quot;*/
+
+var x = 10;
+if (x === x) {
+    x = 20;
+}
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

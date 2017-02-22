@@ -1,0 +1,84 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="namespace">namespace</h1>
+<p>Enforces names exist at the time they are dereferenced, when imported as a full namespace (i.e. <code>import * as foo from &#39;./foo&#39;; foo.bar();</code> will report if <code>bar</code> is not exported by <code>./foo</code>.).</p>
+<p>Will report at the import declaration if there are <em>no</em> exported names found.</p>
+<p>Also, will report for computed references (i.e. <code>foo[&quot;bar&quot;]()</code>).</p>
+<p>Reports on assignment to a member of an imported namespace.</p>
+<p>Note: for packages, the plugin will find exported names
+from <a href="https://github.com/rollup/rollup/wiki/jsnext:main"><code>jsnext:main</code></a>, if present in <code>package.json</code>.
+Redux&#39;s npm module includes this key, and thereby is lintable, for example.</p>
+<p>A module path that is <a href="../README.md#importignore">ignored</a> or not <a href="https://github.com/bmeck/UnambiguousJavaScriptGrammar">unambiguously an ES module</a> will not be reported when imported.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>Currently, this rule does not check for possible
+redefinition of the namespace in an intermediate scope. Adherence to the ESLint
+<code>no-shadow</code> rule for namespaces will prevent this from being a problem.</p>
+<p>For <a href="https://github.com/leebyron/ecmascript-more-export-from">ES7</a>, reports if an exported namespace would be empty (no names exported from the referenced module.)</p>
+<p>Given:</p>
+<pre><code class="lang-js">// @module ./named-exports
+export const a = 1
+const b = 2
+export { b }
+
+const c = 3
+export { c as d }
+
+export class ExportedClass { }
+
+// ES7
+export * as deep from &#39;./deep&#39;
+</code></pre>
+<p>and:</p>
+<pre><code class="lang-js">// @module ./deep
+export const e = &quot;MC2&quot;
+</code></pre>
+<p>See what is valid and reported:</p>
+<pre><code class="lang-js">// @module ./foo
+import * as names from &#39;./named-exports&#39;
+
+function great() {
+  return names.a + names.b  // so great https://youtu.be/ei7mb8UxEl8
+}
+
+function notGreat() {
+  doSomethingWith(names.c) // Reported: &#39;c&#39; not found in imported namespace &#39;names&#39;.
+
+  const { a, b, c } = names // also reported, only for &#39;c&#39;
+}
+
+// also tunnels through re-exported namespaces!
+function deepTrouble() {
+  doSomethingWith(names.deep.e) // fine
+  doSomethingWith(names.deep.f) // Reported: &#39;f&#39; not found in deeply imported namespace &#39;names.deep&#39;.
+}
+</code></pre>
+<h3 id="options">Options</h3>
+<h4 id="-allowcomputed-"><code>allowComputed</code></h4>
+<p>Defaults to <code>false</code>. When false, will report the following:</p>
+<pre><code class="lang-js">/*eslint import/namespace: [2, { allowComputed: false }]*/
+import * as a from &#39;./a&#39;
+
+function f(x) {
+  return a[x] // Unable to validate computed reference to imported namespace &#39;a&#39;.
+}
+</code></pre>
+<p>When set to <code>true</code>, the above computed namespace member reference is allowed, but
+still can&#39;t be statically analyzed any further.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li>Lee Byron&#39;s <a href="https://github.com/leebyron/ecmascript-more-export-from">ES7</a> export proposal</li>
+<li><a href="../../README.md#importignore"><code>import/ignore</code></a> setting</li>
+<li><a href="Rollup"><code>jsnext:main</code></a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

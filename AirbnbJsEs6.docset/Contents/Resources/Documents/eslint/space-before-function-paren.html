@@ -1,0 +1,338 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-or-disallow-a-space-before-function-parenthesis-space-before-function-paren-">Require or disallow a space before function parenthesis (space-before-function-paren)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>When formatting a function, whitespace is allowed between the function name or <code>function</code> keyword and the opening paren. Named functions also require a space between the <code>function</code> keyword and the function name, but anonymous functions require no whitespace. For example:</p>
+<pre><code class="lang-js">function withoutSpace(x) {
+    // ...
+}
+
+function withSpace (x) {
+    // ...
+}
+
+var anonymousWithoutSpace = function() {};
+
+var anonymousWithSpace = function () {};
+</code></pre>
+<p>Style guides may require a space after the <code>function</code> keyword for anonymous functions, while others specify no whitespace. Similarly, the space after a function name may or may not be required.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to enforce consistent spacing before function parentheses and as such, will warn whenever whitespace doesn&#39;t match the preferences specified.</p>
+<h2 id="options">Options</h2>
+<p>This rule has a string option or an object option:</p>
+<pre><code class="lang-js">{
+    &quot;space-before-function-paren&quot;: [&quot;error&quot;, &quot;always&quot;],
+    // or
+    &quot;space-before-function-paren&quot;: [&quot;error&quot;, {
+        &quot;anonymous&quot;: &quot;always&quot;,
+        &quot;named&quot;: &quot;always&quot;,
+        &quot;asyncArrow&quot;: &quot;ignore&quot;
+    }],
+}
+</code></pre>
+<ul>
+<li><code>always</code> (default) requires a space followed by the <code>(</code> of arguments.</li>
+<li><code>never</code> disallows any space followed by the <code>(</code> of arguments.</li>
+</ul>
+<p>The string option does not check async arrow function expressions for backward compatibility.</p>
+<p>You can also use a separate option for each type of function.
+Each of the following options can be set to <code>&quot;always&quot;</code>, <code>&quot;never&quot;</code>, or <code>&quot;ignore&quot;</code>.
+Default is <code>&quot;always&quot;</code> basically.</p>
+<ul>
+<li><code>anonymous</code> is for anonymous function expressions (e.g. <code>function () {}</code>).</li>
+<li><code>named</code> is for named function expressions (e.g. <code>function foo () {}</code>).</li>
+<li><code>asyncArrow</code> is for async arrow function expressions (e.g. <code>async () =&gt; {}</code>).
+<code>asyncArrow</code> is set to <code>&quot;ignore&quot;</code> by default for backwards compatibility.</li>
+</ul>
+<h3 id="-always-">&quot;always&quot;</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint space-before-function-paren: &quot;error&quot;*/
+/*eslint-env es6*/
+
+function foo() {
+    // ...
+}
+
+var bar = function() {
+    // ...
+};
+
+var bar = function foo() {
+    // ...
+};
+
+class Foo {
+    constructor() {
+        // ...
+    }
+}
+
+var foo = {
+    bar() {
+        // ...
+    }
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint space-before-function-paren: &quot;error&quot;*/
+/*eslint-env es6*/
+
+function foo () {
+    // ...
+}
+
+var bar = function () {
+    // ...
+};
+
+var bar = function foo () {
+    // ...
+};
+
+class Foo {
+    constructor () {
+        // ...
+    }
+}
+
+var foo = {
+    bar () {
+        // ...
+    }
+};
+
+// async arrow function expressions are ignored by default.
+var foo = async () =&gt; 1
+var foo = async() =&gt; 1
+</code></pre>
+<h3 id="-never-">&quot;never&quot;</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint space-before-function-paren: [&quot;error&quot;, &quot;never&quot;]*/
+/*eslint-env es6*/
+
+function foo () {
+    // ...
+}
+
+var bar = function () {
+    // ...
+};
+
+var bar = function foo () {
+    // ...
+};
+
+class Foo {
+    constructor () {
+        // ...
+    }
+}
+
+var foo = {
+    bar () {
+        // ...
+    }
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint space-before-function-paren: [&quot;error&quot;, &quot;never&quot;]*/
+/*eslint-env es6*/
+
+function foo() {
+    // ...
+}
+
+var bar = function() {
+    // ...
+};
+
+var bar = function foo() {
+    // ...
+};
+
+class Foo {
+    constructor() {
+        // ...
+    }
+}
+
+var foo = {
+    bar() {
+        // ...
+    }
+};
+
+// async arrow function expressions are ignored by default.
+var foo = async () =&gt; 1
+var foo = async() =&gt; 1
+</code></pre>
+<h3 id="-anonymous-always-named-never-asyncarrow-always-"><code>{&quot;anonymous&quot;: &quot;always&quot;, &quot;named&quot;: &quot;never&quot;, &quot;asyncArrow&quot;: &quot;always&quot;}</code></h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{&quot;anonymous&quot;: &quot;always&quot;, &quot;named&quot;: &quot;never&quot;, &quot;asyncArrow&quot;: &quot;always&quot;}</code> option:</p>
+<pre><code class="lang-js">/*eslint space-before-function-paren: [&quot;error&quot;, {&quot;anonymous&quot;: &quot;always&quot;, &quot;named&quot;: &quot;never&quot;, &quot;asyncArrow&quot;: &quot;always&quot;}]*/
+/*eslint-env es6*/
+
+function foo () {
+    // ...
+}
+
+var bar = function() {
+    // ...
+};
+
+class Foo {
+    constructor () {
+        // ...
+    }
+}
+
+var foo = {
+    bar () {
+        // ...
+    }
+};
+
+var foo = async(a) =&gt; await a
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{&quot;anonymous&quot;: &quot;always&quot;, &quot;named&quot;: &quot;never&quot;, &quot;asyncArrow&quot;: &quot;always&quot;}</code> option:</p>
+<pre><code class="lang-js">/*eslint space-before-function-paren: [&quot;error&quot;, {&quot;anonymous&quot;: &quot;always&quot;, &quot;named&quot;: &quot;never&quot;, &quot;asyncArrow&quot;: &quot;always&quot;}]*/
+/*eslint-env es6*/
+
+function foo() {
+    // ...
+}
+
+var bar = function () {
+    // ...
+};
+
+class Foo {
+    constructor() {
+        // ...
+    }
+}
+
+var foo = {
+    bar() {
+        // ...
+    }
+};
+
+var foo = async (a) =&gt; await a
+</code></pre>
+<h3 id="-anonymous-never-named-always-"><code>{&quot;anonymous&quot;: &quot;never&quot;, &quot;named&quot;: &quot;always&quot;}</code></h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{&quot;anonymous&quot;: &quot;never&quot;, &quot;named&quot;: &quot;always&quot;}</code> option:</p>
+<pre><code class="lang-js">/*eslint space-before-function-paren: [&quot;error&quot;, { &quot;anonymous&quot;: &quot;never&quot;, &quot;named&quot;: &quot;always&quot; }]*/
+/*eslint-env es6*/
+
+function foo() {
+    // ...
+}
+
+var bar = function () {
+    // ...
+};
+
+class Foo {
+    constructor() {
+        // ...
+    }
+}
+
+var foo = {
+    bar() {
+        // ...
+    }
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{&quot;anonymous&quot;: &quot;never&quot;, &quot;named&quot;: &quot;always&quot;}</code> option:</p>
+<pre><code class="lang-js">/*eslint space-before-function-paren: [&quot;error&quot;, { &quot;anonymous&quot;: &quot;never&quot;, &quot;named&quot;: &quot;always&quot; }]*/
+/*eslint-env es6*/
+
+function foo () {
+    // ...
+}
+
+var bar = function() {
+    // ...
+};
+
+class Foo {
+    constructor () {
+        // ...
+    }
+}
+
+var foo = {
+    bar () {
+        // ...
+    }
+};
+</code></pre>
+<h3 id="-anonymous-ignore-named-always-"><code>{&quot;anonymous&quot;: &quot;ignore&quot;, &quot;named&quot;: &quot;always&quot;}</code></h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{&quot;anonymous&quot;: &quot;ignore&quot;, &quot;named&quot;: &quot;always&quot;}</code> option:</p>
+<pre><code class="lang-js">/*eslint space-before-function-paren: [&quot;error&quot;, { &quot;anonymous&quot;: &quot;ignore&quot;, &quot;named&quot;: &quot;always&quot; }]*/
+/*eslint-env es6*/
+
+function foo() {
+    // ...
+}
+
+class Foo {
+    constructor() {
+        // ...
+    }
+}
+
+var foo = {
+    bar() {
+        // ...
+    }
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{&quot;anonymous&quot;: &quot;ignore&quot;, &quot;named&quot;: &quot;always&quot;}</code> option:</p>
+<pre><code class="lang-js">/*eslint space-before-function-paren: [&quot;error&quot;, { &quot;anonymous&quot;: &quot;ignore&quot;, &quot;named&quot;: &quot;always&quot; }]*/
+/*eslint-env es6*/
+
+var bar = function() {
+    // ...
+};
+
+var bar = function () {
+    // ...
+};
+
+function foo () {
+    // ...
+}
+
+class Foo {
+    constructor () {
+        // ...
+    }
+}
+
+var foo = {
+    bar () {
+        // ...
+    }
+};
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You can turn this rule off if you are not concerned with the consistency of spacing before function parenthesis.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="space-after-keywords.html">space-after-keywords</a></li>
+<li><a href="space-return-throw-case.html">space-return-throw-case</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

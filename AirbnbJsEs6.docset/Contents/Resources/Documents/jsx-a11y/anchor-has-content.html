@@ -1,0 +1,55 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="anchor-has-content">anchor-has-content</h1>
+<p>Enforce that anchors have content and that the content is accessible to screen readers. Accessible means that it is not hidden using the <code>aria-hidden</code> prop. Refer to the references to learn about why this is important.</p>
+<h4 id="references">References</h4>
+<ol>
+<li><a href="https://dequeuniversity.com/rules/axe/1.1/link-name">Deque University</a></li>
+</ol>
+<h2 id="rule-details">Rule details</h2>
+<p>This rule takes one optional object argument of type object:</p>
+<pre><code class="lang-json">{
+    &quot;rules&quot;: {
+        &quot;jsx-a11y/anchor-has-content&quot;: [ 2, {
+            &quot;components&quot;: [ &quot;Anchor&quot; ],
+          }],
+    }
+}
+</code></pre>
+<p>For the <code>components</code> option, these strings determine which JSX elements (<strong>always including</strong> <code>&lt;a&gt;</code>) should be checked for having content. This is a good use case when you have a wrapper component that simply renders an <code>a</code> element (like in React):</p>
+<pre><code class="lang-js">// Anchor.js
+const Anchor = props =&gt; {
+  return (
+    &lt;a {...props}&gt;{ props.children }&lt;/a&gt;
+  );
+}
+
+...
+
+// CreateAccount.js (for example)
+...
+return (
+  &lt;Anchor&gt;Create Account&lt;/Anchor&gt;
+);
+</code></pre>
+<h3 id="succeed">Succeed</h3>
+<pre><code class="lang-jsx">&lt;a&gt;Anchor Content!&lt;/a&gt;
+&lt;a&gt;&lt;TextWrapper /&gt;&lt;a&gt;
+&lt;a dangerouslySetInnerHTML={{ __html: &#39;foo&#39; }} /&gt;
+</code></pre>
+<h3 id="fail">Fail</h3>
+<pre><code class="lang-jsx">&lt;a /&gt;
+&lt;a&gt;&lt;TextWrapper aria-hidden /&gt;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

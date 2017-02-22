@@ -1,0 +1,133 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-constructor-names-to-begin-with-a-capital-letter-new-cap-">require constructor names to begin with a capital letter (new-cap)</h1>
+<p>The <code>new</code> operator in JavaScript creates a new instance of a particular type of object. That type of object is represented by a constructor function. Since constructor functions are just regular functions, the only defining characteristic is that <code>new</code> is being used as part of the call. Native JavaScript functions begin with an uppercase letter to distinguish those functions that are to be used as constructors from functions that are not. Many style guides recommend following this pattern to more easily determine which functions are to be used as constructors.</p>
+<pre><code class="lang-js">var friend = new Person();
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule requires constructor names to begin with a capital letter. Certain built-in identifiers are exempt from this rule. These identifiers are:</p>
+<ul>
+<li><code>Array</code></li>
+<li><code>Boolean</code></li>
+<li><code>Date</code></li>
+<li><code>Error</code></li>
+<li><code>Function</code></li>
+<li><code>Number</code></li>
+<li><code>Object</code></li>
+<li><code>RegExp</code></li>
+<li><code>String</code></li>
+<li><code>Symbol</code></li>
+</ul>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint new-cap: &quot;error&quot;*/
+
+function foo(arg) {
+    return Boolean(arg);
+}
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule has an object option:</p>
+<ul>
+<li><code>&quot;newIsCap&quot;: true</code> (default) requires all <code>new</code> operators to be called with uppercase-started functions.</li>
+<li><code>&quot;newIsCap&quot;: false</code> allows <code>new</code> operators to be called with lowercase-started or uppercase-started functions.</li>
+<li><code>&quot;capIsNew&quot;: true</code> (default) requires all uppercase-started functions to be called with <code>new</code> operators.</li>
+<li><code>&quot;capIsNew&quot;: false</code> allows uppercase-started functions to be called without <code>new</code> operators.</li>
+<li><code>&quot;newIsCapExceptions&quot;</code> allows specified lowercase-started function names to be called with the <code>new</code> operator.</li>
+<li><code>&quot;newIsCapExceptionPattern&quot;</code> allows any lowercase-started function names that match the specified regex pattern to be called with the <code>new</code> operator.</li>
+<li><code>&quot;capIsNewExceptions&quot;</code> allows specified uppercase-started function names to be called without the <code>new</code> operator.</li>
+<li><code>&quot;capIsNewExceptionPattern&quot;</code> allows any uppercase-started function names that match the specified regex pattern to be called without the <code>new</code> operator.</li>
+<li><code>&quot;properties&quot;: true</code> (default) enables checks on object properties</li>
+<li><code>&quot;properties&quot;: false</code> disables checks on object properties</li>
+</ul>
+<h3 id="newiscap">newIsCap</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>{ &quot;newIsCap&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint new-cap: [&quot;error&quot;, { &quot;newIsCap&quot;: true }]*/
+
+var friend = new person();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>{ &quot;newIsCap&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint new-cap: [&quot;error&quot;, { &quot;newIsCap&quot;: true }]*/
+
+var friend = new Person();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;newIsCap&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint new-cap: [&quot;error&quot;, { &quot;newIsCap&quot;: false }]*/
+
+var friend = new person();
+</code></pre>
+<h3 id="capisnew">capIsNew</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>{ &quot;capIsNew&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint new-cap: [&quot;error&quot;, { &quot;capIsNew&quot;: true }]*/
+
+var colleague = Person();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>{ &quot;capIsNew&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint new-cap: [&quot;error&quot;, { &quot;capIsNew&quot;: true }]*/
+
+var colleague = new Person();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;capIsNew&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint new-cap: [&quot;error&quot;, { &quot;capIsNew&quot;: false }]*/
+
+var colleague = Person();
+</code></pre>
+<h3 id="newiscapexceptions">newIsCapExceptions</h3>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>{ &quot;newIsCapExceptions&quot;: [&quot;events&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint new-cap: [&quot;error&quot;, { &quot;newIsCapExceptions&quot;: [&quot;events&quot;] }]*/
+
+var events = require(&#39;events&#39;);
+
+var emitter = new events();
+</code></pre>
+<h3 id="newiscapexceptionpattern">newIsCapExceptionPattern</h3>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>{ &quot;newIsCapExceptionPattern&quot;: &quot;^person\..&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint new-cap: [&quot;error&quot;, { &quot;newIsCapExceptionPattern&quot;: &quot;^person\..&quot; }]*/
+
+var friend = new person.acquaintance();
+var bestFriend = new person.friend();
+</code></pre>
+<h3 id="capisnewexceptions">capIsNewExceptions</h3>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>{ &quot;capIsNewExceptions&quot;: [&quot;Person&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint new-cap: [&quot;error&quot;, { &quot;capIsNewExceptions&quot;: [&quot;Person&quot;] }]*/
+
+function foo(arg) {
+    return Person(arg);
+}
+</code></pre>
+<h3 id="capisnewexceptionpattern">capIsNewExceptionPattern</h3>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>{ &quot;capIsNewExceptionPattern&quot;: &quot;^Person\..&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint new-cap: [&quot;error&quot;, { &quot;capIsNewExceptionPattern&quot;: &quot;^Person\..&quot; }]*/
+
+var friend = person.Acquaintance();
+var bestFriend = person.Friend();
+</code></pre>
+<h3 id="properties">properties</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>{ &quot;properties&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint new-cap: [&quot;error&quot;, { &quot;properties&quot;: true }]*/
+
+var friend = new person.acquaintance();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>{ &quot;properties&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint new-cap: [&quot;error&quot;, { &quot;properties&quot;: true }]*/
+
+var friend = new person.Acquaintance();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;properties&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint new-cap: [&quot;error&quot;, { &quot;properties&quot;: false }]*/
+
+var friend = new person.acquaintance();
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you have conventions that don&#39;t require an uppercase letter for constructors, or don&#39;t require capitalized functions be only used as constructors, turn this rule off.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

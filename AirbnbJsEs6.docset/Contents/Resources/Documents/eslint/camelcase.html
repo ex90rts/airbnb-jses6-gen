@@ -1,0 +1,72 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-camelcase-camelcase-">Require Camelcase (camelcase)</h1>
+<p>When it comes to naming variables, style guides generally fall into one of two camps: camelcase (<code>variableName</code>) and underscores (<code>variable_name</code>). This rule focuses on using the camelcase approach. If your style guide calls for camelcasing your variable names, then this rule is for you!</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule looks for any underscores (<code>_</code>) located within the source code. It ignores leading and trailing underscores and only checks those in the middle of a variable name. If ESLint decides that the variable is a constant (all uppercase), then no warning will be thrown. Otherwise, a warning will be thrown. This rule only flags definitions and assignments but not function calls. In case of ES6 <code>import</code> statements, this rule only targets the name of the variable that will be imported into the local module scope.</p>
+<h2 id="options">Options</h2>
+<p>This rule has an object option:</p>
+<ul>
+<li><code>&quot;properties&quot;: &quot;always&quot;</code> (default) enforces camelcase style for property names</li>
+<li><code>&quot;properties&quot;: &quot;never&quot;</code> does not check property names</li>
+</ul>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>{ &quot;properties&quot;: &quot;always&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint camelcase: &quot;error&quot;*/
+
+import { no_camelcased } from &quot;external-module&quot;
+
+var my_favorite_color = &quot;#112C85&quot;;
+
+function do_something() {
+    // ...
+}
+
+obj.do_something = function() {
+    // ...
+};
+
+var obj = {
+    my_pref: 1
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>{ &quot;properties&quot;: &quot;always&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint camelcase: &quot;error&quot;*/
+
+import { no_camelcased as camelCased } from &quot;external-module&quot;;
+
+var myFavoriteColor   = &quot;#112C85&quot;;
+var _myFavoriteColor  = &quot;#112C85&quot;;
+var myFavoriteColor_  = &quot;#112C85&quot;;
+var MY_FAVORITE_COLOR = &quot;#112C85&quot;;
+var foo = bar.baz_boom;
+var foo = { qux: bar.baz_boom };
+
+obj.do_something();
+do_something();
+new do_something();
+
+var { category_id: category } = query;
+</code></pre>
+<h3 id="never">never</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;properties&quot;: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint camelcase: [&quot;error&quot;, {properties: &quot;never&quot;}]*/
+
+var obj = {
+    my_pref: 1
+};
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you have established coding standards using a different naming convention (separating words with underscores), turn this rule off.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="suggest-using-arrow-functions-as-callbacks-prefer-arrow-callback-">Suggest using arrow functions as callbacks. (prefer-arrow-callback)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Arrow functions are suited to callbacks, because:</p>
+<ul>
+<li><code>this</code> keywords in arrow functions bind to the upper scope&#39;s.</li>
+<li>The notation of the arrow function is shorter than function expression&#39;s.</li>
+</ul>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed to flag usage of function expressions in an argument list.</p>
+<p>The following patterns are considered problems:</p>
+<pre><code class="lang-js">/*eslint prefer-arrow-callback: &quot;error&quot;*/
+
+foo(function(a) { return a; });
+foo(function() { return this.a; }.bind(this));
+</code></pre>
+<p>The following patterns are not considered problems:</p>
+<pre><code class="lang-js">/*eslint prefer-arrow-callback: &quot;error&quot;*/
+/*eslint-env es6*/
+
+foo(a =&gt; a);
+foo(function*() { yield; });
+
+// this is not a callback.
+var foo = function foo(a) { return a; };
+
+// using `this` without `.bind(this)`.
+foo(function() { return this.a; });
+
+// recursively.
+foo(function bar(n) { return n &amp;&amp; n + bar(n - 1); });
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule takes one optional argument, an object which is an options object.</p>
+<h3 id="allownamedfunctions">allowNamedFunctions</h3>
+<p>This is a <code>boolean</code> option and it is <code>false</code> by default. When set to <code>true</code>, the rule doesn&#39;t warn on named functions used as callbacks.</p>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;allowNamedFunctions&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-arrow-callback: [&quot;error&quot;, { &quot;allowNamedFunctions&quot;: true }]*/
+
+foo(function bar() {});
+</code></pre>
+<h3 id="allowunboundthis">allowUnboundThis</h3>
+<p>This is a <code>boolean</code> option and it is <code>true</code> by default. When set to <code>false</code>, this option allows the use of <code>this</code> without restriction and checks for dynamically assigned <code>this</code> values such as when using <code>Array.prototype.map</code> with a <code>context</code> argument. Normally, the rule will flag the use of <code>this</code> whenever a function does not use <code>bind()</code> to specify the value of <code>this</code> constantly.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{ &quot;allowUnboundThis&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-arrow-callback: [&quot;error&quot;, { &quot;allowUnboundThis&quot;: false }]*/
+/*eslint-env es6*/
+
+foo(function() { this.a; });
+
+foo(function() { (() =&gt; this); });
+
+someArray.map(function (itm) { return this.doSomething(itm); }, someObject);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>This rule should not be used in ES3/5 environments.</p>
+<p>In ES2015 (ES6) or later, if you don&#39;t want to be notified about function expressions in an argument list, you can safely disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-undeclared-variables-no-undef-">Disallow Undeclared Variables (no-undef)</h1>
+<p>This rule can help you locate potential ReferenceErrors resulting from misspellings of variable and parameter names, or accidental implicit globals (for example, from forgetting the <code>var</code> keyword in a <code>for</code> loop initializer).</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a <code>/*global ...*/</code> comment.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-undef: &quot;error&quot;*/
+
+var a = someFunction();
+b = 10;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with <code>global</code> declaration:</p>
+<pre><code class="lang-js">/*global someFunction b:true*/
+/*eslint no-undef: &quot;error&quot;*/
+
+var a = someFunction();
+b = 10;
+</code></pre>
+<p>The <code>b:true</code> syntax in <code>/*global */</code> indicates that assignment to <code>b</code> is correct.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with <code>global</code> declaration:</p>
+<pre><code class="lang-js">/*global b*/
+/*eslint no-undef: &quot;error&quot;*/
+
+b = 10;
+</code></pre>
+<p>By default, variables declared in <code>/*global */</code> are read-only, therefore assignment is incorrect.</p>
+<h2 id="options">Options</h2>
+<ul>
+<li><code>typeof</code> set to true will warn for variables used inside typeof check (Default false).</li>
+</ul>
+<h3 id="typeof">typeof</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for the default <code>{ &quot;typeof&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-undef: &quot;error&quot;*/
+
+if (typeof UndefinedIdentifier === &quot;undefined&quot;) {
+    // do something ...
+}
+</code></pre>
+<p>You can use this option if you want to prevent <code>typeof</code> check on a variable which has not been declared.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{ &quot;typeof&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-undef: [&quot;error&quot;, { &quot;typeof&quot;: true }] */
+
+if(typeof a === &quot;string&quot;){}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;typeof&quot;: true }</code> option with <code>global</code> declaration:</p>
+<pre><code class="lang-js">/*global a*/
+/*eslint no-undef: [&quot;error&quot;, { &quot;typeof&quot;: true }] */
+
+if(typeof a === &quot;string&quot;){}
+</code></pre>
+<h2 id="environments">Environments</h2>
+<p>For convenience, ESLint provides shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports these environments, as listed in <a href="http://eslint.org/docs/user-guide/configuring#specifying-environments">Specifying Environments</a>.  A few examples are given below.</p>
+<h3 id="browser">browser</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with <code>browser</code> environment:</p>
+<pre><code class="lang-js">/*eslint no-undef: &quot;error&quot;*/
+/*eslint-env browser*/
+
+setTimeout(function() {
+    alert(&quot;Hello&quot;);
+});
+</code></pre>
+<h3 id="node">node</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with <code>node</code> environment:</p>
+<pre><code class="lang-js">/*eslint no-undef: &quot;error&quot;*/
+/*eslint-env node*/
+
+var fs = require(&quot;fs&quot;);
+module.exports = function() {
+    console.log(fs);
+};
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If explicit declaration of global variables is not to your taste.</p>
+<h2 id="compatibility">Compatibility</h2>
+<p>This rule provides compatibility with treatment of global variables in <a href="http://www.jshint.com">JSHint</a> and <a href="http://www.jslint.com">JSLint</a>.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

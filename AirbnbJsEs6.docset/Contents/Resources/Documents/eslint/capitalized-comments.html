@@ -1,0 +1,192 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-or-disallow-capitalization-of-the-first-letter-of-a-comment-capitalized-comments-">enforce or disallow capitalization of the first letter of a comment (capitalized-comments)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Comments are useful for leaving information for future developers. In order for that information to be useful and not distracting, it is sometimes desirable for comments to follow a particular style. One element of comment formatting styles is whether the first word of a comment should be capitalized or lowercase.</p>
+<p>In general, no comment style is any more or less valid than any others, but many developers would agree that a consistent style can improve a project&#39;s maintainability.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to enforce a consistent style of comments across your codebase, specifically by either requiring or disallowing a capitalized letter as the first word character in a comment. This rule will not issue warnings when non-cased letters are used.</p>
+<p>By default, this rule will require a non-lowercase letter at the beginning of comments.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/* eslint capitalized-comments: [&quot;error&quot;] */
+
+// lowercase comment
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">
+// Capitalized comment
+
+// 1. Non-letter at beginning of comment
+
+// 丈 Non-Latin character at beginning of comment
+
+/* eslint semi:off */
+/* eslint-env node */
+/* eslint-disable */
+/* eslint-enable */
+/* istanbul ignore next */
+/* jscs:enable */
+/* jshint asi:true */
+/* global foo */
+/* globals foo */
+/* exported myVar */
+// eslint-disable-line
+// eslint-disable-next-line
+// https://github.com
+</code></pre>
+<h3 id="options">Options</h3>
+<p>This rule has two options: a string value <code>&quot;always&quot;</code> or <code>&quot;never&quot;</code> which determines whether capitalization of the first word of a comment should be required or forbidden, and optionally an object containing more configuration parameters for the rule.</p>
+<p>Here are the supported object options:</p>
+<ul>
+<li><code>ignorePattern</code>: A string representing a regular expression pattern of words that should be ignored by this rule. If the first word of a comment matches the pattern, this rule will not report that comment.<ul>
+<li>Note that the following words are always ignored by this rule: <code>[&quot;jscs&quot;, &quot;jshint&quot;, &quot;eslint&quot;, &quot;istanbul&quot;, &quot;global&quot;, &quot;globals&quot;, &quot;exported&quot;]</code>.</li>
+</ul>
+</li>
+<li><code>ignoreInlineComments</code>: If this is <code>true</code>, the rule will not report on comments in the middle of code. By default, this is <code>false</code>.</li>
+<li><code>ignoreConsecutiveComments</code>: If this is <code>true</code>, the rule will not report on a comment which violates the rule, as long as the comment immediately follows another comment. By default, this is <code>false</code>.</li>
+</ul>
+<p>Here is an example configuration:</p>
+<pre><code class="lang-json">{
+    &quot;capitalized-comments&quot;: [
+        &quot;error&quot;,
+        &quot;always&quot;,
+        {
+            &quot;ignorePattern&quot;: &quot;pragma|ignored&quot;,
+            &quot;ignoreInlineComments&quot;: true
+        }
+    ]
+}
+</code></pre>
+<h4 id="-always-"><code>&quot;always&quot;</code></h4>
+<p>Using the <code>&quot;always&quot;</code> option means that this rule will report any comments which start with a lowercase letter. This is the default configuration for this rule.</p>
+<p>Note that configuration comments and comments which start with URLs are never reported.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/* eslint capitalized-comments: [&quot;error&quot;, &quot;always&quot;] */
+
+// lowercase comment
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/* eslint capitalized-comments: [&quot;error&quot;, &quot;always&quot;] */
+
+// Capitalized comment
+
+// 1. Non-letter at beginning of comment
+
+// 丈 Non-Latin character at beginning of comment
+
+/* eslint semi:off */
+/* eslint-env node */
+/* eslint-disable */
+/* eslint-enable */
+/* istanbul ignore next */
+/* jscs:enable */
+/* jshint asi:true */
+/* global foo */
+/* globals foo */
+/* exported myVar */
+// eslint-disable-line
+// eslint-disable-next-line
+// https://github.com
+</code></pre>
+<h4 id="-never-"><code>&quot;never&quot;</code></h4>
+<p>Using the <code>&quot;never&quot;</code> option means that this rule will report any comments which start with an uppercase letter.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/* eslint capitalized-comments: [&quot;error&quot;, &quot;never&quot;] */
+
+// Capitalized comment
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/* eslint capitalized-comments: [&quot;error&quot;, &quot;never&quot;] */
+
+// lowercase comment
+
+// 1. Non-letter at beginning of comment
+
+// 丈 Non-Latin character at beginning of comment
+</code></pre>
+<h4 id="-ignorepattern-"><code>ignorePattern</code></h4>
+<p>The <code>ignorePattern</code> object takes a string value, which is used as a regular expression applied to the first word of a comment.</p>
+<p class="correct icon">Examples of <strong>correct</strong> code with the <code>&quot;ignorePattern&quot;</code> option set to <code>&quot;pragma&quot;</code>:</p>
+<pre><code class="lang-js">/* eslint capitalized-comments: [&quot;error&quot;, &quot;always&quot;, { &quot;ignorePattern&quot;: &quot;pragma&quot; }] */
+
+function foo() {
+    /* pragma wrap(true) */
+}
+</code></pre>
+<h4 id="-ignoreinlinecomments-"><code>ignoreInlineComments</code></h4>
+<p>Setting the <code>ignoreInlineComments</code> option to <code>true</code> means that comments in the middle of code (with a token on the same line as the beginning of the comment, and another token on the same line as the end of the comment) will not be reported by this rule.</p>
+<p class="correct icon">Examples of <strong>correct</strong> code with the <code>&quot;ignoreInlineComments&quot;</code> option set to <code>true</code>:</p>
+<pre><code class="lang-js">/* eslint capitalized-comments: [&quot;error&quot;, &quot;always&quot;, { &quot;ignoreInlineComments&quot;: true }] */
+
+function foo(/* ignored */ a) {
+}
+</code></pre>
+<h4 id="-ignoreconsecutivecomments-"><code>ignoreConsecutiveComments</code></h4>
+<p>If the <code>ignoreConsecutiveComments</code> option is set to <code>true</code>, then comments which otherwise violate the rule will not be reported as long as they immediately follow another comment. This can be applied more than once.</p>
+<p class="correct icon">Examples of <strong>correct</strong> code with <code>ignoreConsecutiveComments</code> set to <code>true</code>:</p>
+<pre><code class="lang-js">/* eslint capitalize-comments: [&quot;error&quot;, &quot;always&quot;, { &quot;ignoreConsecutiveComments&quot;: true }] */
+
+// This comment is valid since it has the correct capitalization.
+// this comment is ignored since it follows another comment,
+// and this one as well because it follows yet another comment.
+
+/* Here is a block comment which has the correct capitalization, */
+/* but this one is ignored due to being consecutive; */
+/*
+ * in fact, even if any of these are multi-line, that is fine too.
+ */
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code with <code>ignoreConsecutiveComments</code> set to <code>true</code>:</p>
+<pre><code class="lang-js">/* eslint capitalize-comments: [&quot;error&quot;, &quot;always&quot;, { &quot;ignoreConsecutiveComments&quot;: true }] */
+
+// this comment is invalid, but only on this line.
+// this comment does NOT get reported, since it is a consecutive comment.
+</code></pre>
+<h3 id="using-different-options-for-line-and-block-comments">Using Different Options for Line and Block Comments</h3>
+<p>If you wish to have a different configuration for line comments and block comments, you can do so by using two different object configurations (note that the capitalization option will be enforced consistently for line and block comments):</p>
+<pre><code class="lang-json">{
+    &quot;capitalized-comments&quot;: [
+        &quot;error&quot;,
+        &quot;always&quot;,
+        {
+            &quot;line&quot;: {
+                &quot;ignorePattern&quot;: &quot;pragma|ignored&quot;,
+            },
+            &quot;block&quot;: {
+                &quot;ignoreInlineComments&quot;: true,
+                &quot;ignorePattern&quot;: &quot;ignored&quot;
+            }
+        }
+    ]
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code with different line and block comment configuration:</p>
+<pre><code class="lang-js">/* eslint capitalized-comments: [&quot;error&quot;, &quot;always&quot;, { &quot;block&quot;: { &quot;ignorePattern&quot;: &quot;blockignore&quot; } }] */
+
+// capitalized line comment, this is incorrect, blockignore does not help here
+/* lowercased block comment, this is incorrect too */
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code with different line and block comment configuration:</p>
+<pre><code class="lang-js">/* eslint capitalized-comments: [&quot;error&quot;, &quot;always&quot;, { &quot;block&quot;: { &quot;ignorePattern&quot;: &quot;blockignore&quot; } }] */
+
+// Uppercase line comment, this is correct
+/* blockignore lowercase block comment, this is correct due to ignorePattern */
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>This rule can be disabled if you do not care about the grammatical style of comments in your codebase.</p>
+<h2 id="compatibility">Compatibility</h2>
+<ul>
+<li><strong>JSCS</strong>: <a href="http://jscs.info/rule/requireCapitalizedComments">requireCapitalizedComments</a> and <a href="http://jscs.info/rule/disallowCapitalizedComments">disallowCapitalizedComments</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

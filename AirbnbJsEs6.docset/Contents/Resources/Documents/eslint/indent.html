@@ -1,0 +1,424 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-consistent-indentation-indent-">enforce consistent indentation (indent)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>There are several common guidelines which require specific indentation of nested blocks and statements, like:</p>
+<pre><code class="lang-js">function hello(indentSize, type) {
+    if (indentSize === 4 &amp;&amp; type !== &#39;tab&#39;) {
+        console.log(&#39;Each next indentation will increase on 4 spaces&#39;);
+    }
+}
+</code></pre>
+<p>These are the most common scenarios recommended in different style guides:</p>
+<ul>
+<li>Two spaces, not longer and no tabs: Google, npm, Node.js, Idiomatic, Felix</li>
+<li>Tabs: jQuery</li>
+<li>Four spaces: Crockford</li>
+</ul>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces a consistent indentation style. The default style is <code>4 spaces</code>.</p>
+<h2 id="options">Options</h2>
+<p>This rule has a mixed option:</p>
+<p>For example, for 2-space indentation:</p>
+<pre><code class="lang-json">{
+    &quot;indent&quot;: [&quot;error&quot;, 2]
+}
+</code></pre>
+<p>Or for tabbed indentation:</p>
+<pre><code class="lang-json">{
+    &quot;indent&quot;: [&quot;error&quot;, &quot;tab&quot;]
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default options:</p>
+<pre><code class="lang-js">/*eslint indent: &quot;error&quot;*/
+
+if (a) {
+  b=c;
+  function foo(d) {
+    e=f;
+  }
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default options:</p>
+<pre><code class="lang-js">/*eslint indent: &quot;error&quot;*/
+
+if (a) {
+    b=c;
+    function foo(d) {
+        e=f;
+    }
+}
+</code></pre>
+<p>This rule has an object option:</p>
+<ul>
+<li><code>&quot;SwitchCase&quot;</code> (default: 0) enforces indentation level for <code>case</code> clauses in <code>switch</code> statements</li>
+<li><code>&quot;VariableDeclarator&quot;</code> (default: 1) enforces indentation level for <code>var</code> declarators; can also take an object to define separate rules for <code>var</code>, <code>let</code> and <code>const</code> declarations.</li>
+<li><code>&quot;outerIIFEBody&quot;</code> (default: 1) enforces indentation level for file-level IIFEs.</li>
+<li><code>&quot;MemberExpression&quot;</code> (off by default) enforces indentation level for multi-line property chains (except in variable declarations and assignments)</li>
+<li><code>&quot;FunctionDeclaration&quot;</code> takes an object to define rules for function declarations.<ul>
+<li><code>parameters</code> (off by default) enforces indentation level for parameters in a function declaration. This can either be a number indicating indentation level, or the string <code>&quot;first&quot;</code> indicating that all parameters of the declaration must be aligned with the first parameter.</li>
+<li><code>body</code> (default: 1) enforces indentation level for the body of a function declaration.</li>
+</ul>
+</li>
+<li><code>&quot;FunctionExpression&quot;</code> takes an object to define rules for function expressions.<ul>
+<li><code>parameters</code> (off by default) enforces indentation level for parameters in a function expression. This can either be a number indicating indentation level, or the string <code>&quot;first&quot;</code> indicating that all parameters of the expression must be aligned with the first parameter.</li>
+<li><code>body</code> (default: 1) enforces indentation level for the body of a function expression.</li>
+</ul>
+</li>
+<li><code>&quot;CallExpression&quot;</code> takes an object to define rules for function call expressions.<ul>
+<li><code>arguments</code> (off by default) enforces indentation level for arguments in a call expression. This can either be a number indicating indentation level, or the string <code>&quot;first&quot;</code> indicating that all arguments of the expression must be aligned with the first argument.</li>
+</ul>
+</li>
+<li><code>&quot;ArrayExpression&quot;</code> (default: 1) enforces indentation level for elements in arrays. It can also be set to the string <code>&quot;first&quot;</code>, indicating that all the elements in the array should be aligned with the first element.</li>
+<li><code>&quot;ObjectExpression&quot;</code> (default: 1) enforces indentation level for properties in objects. It can be set to the string <code>&quot;first&quot;</code>, indicating that all properties in the object should be aligned with the first property.</li>
+</ul>
+<p>Level of indentation denotes the multiple of the indent specified. Example:</p>
+<ul>
+<li>Indent of 4 spaces with <code>VariableDeclarator</code> set to <code>2</code> will indent the multi-line variable declarations with 8 spaces.</li>
+<li>Indent of 2 spaces with <code>VariableDeclarator</code> set to <code>2</code> will indent the multi-line variable declarations with 4 spaces.</li>
+<li>Indent of 2 spaces with <code>VariableDeclarator</code> set to <code>{&quot;var&quot;: 2, &quot;let&quot;: 2, &quot;const&quot;: 3}</code> will indent the multi-line variable declarations with 4 spaces for <code>var</code> and <code>let</code>, 6 spaces for <code>const</code> statements.</li>
+<li>Indent of tab with <code>VariableDeclarator</code> set to <code>2</code> will indent the multi-line variable declarations with 2 tabs.</li>
+<li>Indent of 2 spaces with <code>SwitchCase</code> set to <code>0</code> will not indent <code>case</code> clauses with respect to <code>switch</code> statements.</li>
+<li>Indent of 2 spaces with <code>SwitchCase</code> set to <code>1</code> will indent <code>case</code> clauses with 2 spaces with respect to <code>switch</code> statements.</li>
+<li>Indent of 2 spaces with <code>SwitchCase</code> set to <code>2</code> will indent <code>case</code> clauses with 4 spaces with respect to <code>switch</code> statements.</li>
+<li>Indent of tab with <code>SwitchCase</code> set to <code>2</code> will indent <code>case</code> clauses with 2 tabs with respect to <code>switch</code> statements.</li>
+<li>Indent of 2 spaces with <code>MemberExpression</code> set to <code>0</code> will indent the multi-line property chains with 0 spaces.</li>
+<li>Indent of 2 spaces with <code>MemberExpression</code> set to <code>1</code> will indent the multi-line property chains with 2 spaces.</li>
+<li>Indent of 2 spaces with <code>MemberExpression</code> set to <code>2</code> will indent the multi-line property chains with 4 spaces.</li>
+<li>Indent of 4 spaces with <code>MemberExpression</code> set to <code>0</code> will indent the multi-line property chains with 0 spaces.</li>
+<li>Indent of 4 spaces with <code>MemberExpression</code> set to <code>1</code> will indent the multi-line property chains with 4 spaces.</li>
+<li>Indent of 4 spaces with <code>MemberExpression</code> set to <code>2</code> will indent the multi-line property chains with 8 spaces.</li>
+</ul>
+<h3 id="tab">tab</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;tab&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, &quot;tab&quot;]*/
+
+if (a) {
+     b=c;
+function foo(d) {
+           e=f;
+ }
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;tab&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, &quot;tab&quot;]*/
+
+if (a) {
+/*tab*/b=c;
+/*tab*/function foo(d) {
+/*tab*//*tab*/e=f;
+/*tab*/}
+}
+</code></pre>
+<h3 id="switchcase">SwitchCase</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>2, { &quot;SwitchCase&quot;: 1 }</code> options:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;SwitchCase&quot;: 1 }]*/
+
+switch(a){
+case &quot;a&quot;:
+    break;
+case &quot;b&quot;:
+    break;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>2, { &quot;SwitchCase&quot;: 1 }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;SwitchCase&quot;: 1 }]*/
+
+switch(a){
+  case &quot;a&quot;:
+    break;
+  case &quot;b&quot;:
+    break;
+}
+</code></pre>
+<h3 id="variabledeclarator">VariableDeclarator</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>2, { &quot;VariableDeclarator&quot;: 1 }</code> options:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;VariableDeclarator&quot;: 1 }]*/
+/*eslint-env es6*/
+
+var a,
+    b,
+    c;
+let a,
+    b,
+    c;
+const a = 1,
+    b = 2,
+    c = 3;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>2, { &quot;VariableDeclarator&quot;: 1 }</code> options:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;VariableDeclarator&quot;: 1 }]*/
+/*eslint-env es6*/
+
+var a,
+  b,
+  c;
+let a,
+  b,
+  c;
+const a = 1,
+  b = 2,
+  c = 3;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>2, { &quot;VariableDeclarator&quot;: 2 }</code> options:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;VariableDeclarator&quot;: 2 }]*/
+/*eslint-env es6*/
+
+var a,
+    b,
+    c;
+let a,
+    b,
+    c;
+const a = 1,
+    b = 2,
+    c = 3;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>2, { &quot;VariableDeclarator&quot;: { &quot;var&quot;: 2, &quot;let&quot;: 2, &quot;const&quot;: 3 } }</code> options:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;VariableDeclarator&quot;: { &quot;var&quot;: 2, &quot;let&quot;: 2, &quot;const&quot;: 3 } }]*/
+/*eslint-env es6*/
+
+var a,
+    b,
+    c;
+let a,
+    b,
+    c;
+const a = 1,
+      b = 2,
+      c = 3;
+</code></pre>
+<h3 id="outeriifebody">outerIIFEBody</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the options <code>2, { &quot;outerIIFEBody&quot;: 0 }</code>:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;outerIIFEBody&quot;: 0 }]*/
+
+(function() {
+
+  function foo(x) {
+    return x + 1;
+  }
+
+})();
+
+
+if(y) {
+console.log(&#39;foo&#39;);
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the options <code>2, {&quot;outerIIFEBody&quot;: 0}</code>:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;outerIIFEBody&quot;: 0 }]*/
+
+(function() {
+
+function foo(x) {
+  return x + 1;
+}
+
+})();
+
+
+if(y) {
+   console.log(&#39;foo&#39;);
+}
+</code></pre>
+<h3 id="memberexpression">MemberExpression</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>2, { &quot;MemberExpression&quot;: 1 }</code> options:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;MemberExpression&quot;: 1 }]*/
+
+foo
+.bar
+.baz()
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>2, { &quot;MemberExpression&quot;: 1 }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;MemberExpression&quot;: 1 }]*/
+
+foo
+  .bar
+  .baz();
+
+// Any indentation is permitted in variable declarations and assignments.
+var bip = aardvark.badger
+                  .coyote;
+</code></pre>
+<h3 id="functiondeclaration">FunctionDeclaration</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>2, { &quot;FunctionDeclaration&quot;: {&quot;body&quot;: 1, &quot;parameters&quot;: 2} }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;FunctionDeclaration&quot;: {&quot;body&quot;: 1, &quot;parameters&quot;: 2} }]*/
+
+function foo(bar,
+  baz,
+  qux) {
+    qux();
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>2, { &quot;FunctionDeclaration&quot;: {&quot;body&quot;: 1, &quot;parameters&quot;: 2} }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;FunctionDeclaration&quot;: {&quot;body&quot;: 1, &quot;parameters&quot;: 2} }]*/
+
+function foo(bar,
+    baz,
+    qux) {
+  qux();
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>2, { &quot;FunctionDeclaration&quot;: {&quot;parameters&quot;: &quot;first&quot;} }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, {&quot;FunctionDeclaration&quot;: {&quot;parameters&quot;: &quot;first&quot;}}]*/
+
+function foo(bar, baz,
+  qux, boop) {
+  qux();
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>2, { &quot;FunctionDeclaration&quot;: {&quot;parameters&quot;: &quot;first&quot;} }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, {&quot;FunctionDeclaration&quot;: {&quot;parameters&quot;: &quot;first&quot;}}]*/
+
+function foo(bar, baz,
+             qux, boop) {
+  qux();
+}
+</code></pre>
+<h3 id="functionexpression">FunctionExpression</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>2, { &quot;FunctionExpression&quot;: {&quot;body&quot;: 1, &quot;parameters&quot;: 2} }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;FunctionExpression&quot;: {&quot;body&quot;: 1, &quot;parameters&quot;: 2} }]*/
+
+var foo = function(bar,
+  baz,
+  qux) {
+    qux();
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>2, { &quot;FunctionExpression&quot;: {&quot;body&quot;: 1, &quot;parameters&quot;: 2} }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;FunctionExpression&quot;: {&quot;body&quot;: 1, &quot;parameters&quot;: 2} }]*/
+
+var foo = function(bar,
+    baz,
+    qux) {
+  qux();
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>2, { &quot;FunctionExpression&quot;: {&quot;parameters&quot;: &quot;first&quot;} }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, {&quot;FunctionExpression&quot;: {&quot;parameters&quot;: &quot;first&quot;}}]*/
+
+var foo = function(bar, baz,
+  qux, boop) {
+  qux();
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>2, { &quot;FunctionExpression&quot;: {&quot;parameters&quot;: &quot;first&quot;} }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, {&quot;FunctionExpression&quot;: {&quot;parameters&quot;: &quot;first&quot;}}]*/
+
+var foo = function(bar, baz,
+                   qux, boop) {
+  qux();
+}
+</code></pre>
+<h3 id="callexpression">CallExpression</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>2, { &quot;CallExpression&quot;: {&quot;arguments&quot;: 1} }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;CallExpression&quot;: {&quot;arguments&quot;: 1} }]*/
+
+foo(bar,
+    baz,
+      qux
+);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>2, { &quot;CallExpression&quot;: {&quot;arguments&quot;: 1} }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;CallExpression&quot;: {&quot;arguments&quot;: 1} }]*/
+
+foo(bar,
+  baz,
+  qux
+);
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>2, { &quot;CallExpression&quot;: {&quot;arguments&quot;: &quot;first&quot;} }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, {&quot;CallExpression&quot;: {&quot;arguments&quot;: &quot;first&quot;}}]*/
+
+foo(bar, baz,
+  baz, boop, beep);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>2, { &quot;CallExpression&quot;: {&quot;arguments&quot;: &quot;first&quot;} }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, {&quot;CallExpression&quot;: {&quot;arguments&quot;: &quot;first&quot;}}]*/
+
+foo(bar, baz,
+    baz, boop, beep);
+</code></pre>
+<h3 id="arrayexpression">ArrayExpression</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>2, { &quot;ArrayExpression&quot;: 1 }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;ArrayExpression&quot;: 1 }]*/
+
+var foo = [
+    bar,
+baz,
+      qux
+];
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>2, { &quot;ArrayExpression&quot;: 1 }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;ArrayExpression&quot;: 1 }]*/
+
+var foo = [
+  bar,
+  baz,
+  qux
+];
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>2, { &quot;ArrayExpression&quot;: &quot;first&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, {&quot;ArrayExpression&quot;: &quot;first&quot;}]*/
+
+var foo = [bar,
+  baz,
+  qux
+];
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>2, { &quot;ArrayExpression&quot;: &quot;first&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, {&quot;ArrayExpression&quot;: &quot;first&quot;}]*/
+
+var foo = [bar,
+           baz,
+           qux
+];
+</code></pre>
+<h3 id="objectexpression">ObjectExpression</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>2, { &quot;ObjectExpression&quot;: 1 }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;ObjectExpression&quot;: 1 }]*/
+
+var foo = {
+    bar: 1,
+baz: 2,
+      qux: 3
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>2, { &quot;ObjectExpression&quot;: 1 }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, { &quot;ObjectExpression&quot;: 1 }]*/
+
+var foo = {
+  bar: 1,
+  baz: 2,
+  qux: 3
+};
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>2, { &quot;ObjectExpression&quot;: &quot;first&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, {&quot;ObjectExpression&quot;: &quot;first&quot;}]*/
+
+var foo = { bar: 1,
+  baz: 2 };
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>2, { &quot;ObjectExpression&quot;: &quot;first&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint indent: [&quot;error&quot;, 2, {&quot;ObjectExpression&quot;: &quot;first&quot;}]*/
+
+var foo = { bar: 1,
+            baz: 2 };
+</code></pre>
+<h2 id="compatibility">Compatibility</h2>
+<ul>
+<li><strong>JSHint</strong>: <code>indent</code></li>
+<li><strong>JSCS</strong>: <a href="http://jscs.info/rule/validateIndentation">validateIndentation</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

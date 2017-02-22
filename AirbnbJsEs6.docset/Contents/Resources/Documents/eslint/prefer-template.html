@@ -1,0 +1,51 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="suggest-using-template-literals-instead-of-string-concatenation-prefer-template-">Suggest using template literals instead of string concatenation. (prefer-template)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>In ES2015 (ES6), we can use template literals instead of string concatenation.</p>
+<pre><code class="lang-js">var str = &quot;Hello, &quot; + name + &quot;!&quot;;
+</code></pre>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+var str = `Hello, ${name}!`;
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed to flag usage of <code>+</code> operators with strings.</p>
+<h2 id="examples">Examples</h2>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint prefer-template: &quot;error&quot;*/
+
+var str = &quot;Hello, &quot; + name + &quot;!&quot;;
+var str = &quot;Time: &quot; + (12 * 60 * 60 * 1000);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint prefer-template: &quot;error&quot;*/
+/*eslint-env es6*/
+
+var str = &quot;Hello World!&quot;;
+var str = `Hello, ${name}!`;
+var str = `Time: ${12 * 60 * 60 * 1000}`;
+
+// This is reported by `no-useless-concat`.
+var str = &quot;Hello, &quot; + &quot;World!&quot;;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>This rule should not be used in ES3/5 environments.</p>
+<p>In ES2015 (ES6) or later, if you don&#39;t want to be notified about string concatenation, you can safely disable this rule.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-useless-concat.html">no-useless-concat</a></li>
+<li><a href="quotes.html">quotes</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

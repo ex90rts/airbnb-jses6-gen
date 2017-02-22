@@ -1,0 +1,100 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-the-type-conversion-with-shorter-notations-no-implicit-coercion-">Disallow the type conversion with shorter notations. (no-implicit-coercion)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>In JavaScript, there are a lot of different ways to convert value types.
+Some of them might be hard to read and understand.</p>
+<p>Such as:</p>
+<pre><code class="lang-js">var b = !!foo;
+var b = ~foo.indexOf(&quot;.&quot;);
+var n = +foo;
+var n = 1 * foo;
+var s = &quot;&quot; + foo;
+foo += ``;
+</code></pre>
+<p>Those can be replaced with the following code:</p>
+<pre><code class="lang-js">var b = Boolean(foo);
+var b = foo.indexOf(&quot;.&quot;) !== -1;
+var n = Number(foo);
+var n = Number(foo);
+var s = String(foo);
+foo = String(foo);
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed to flag shorter notations for the type conversion, then suggest a more self-explanatory notation.</p>
+<h2 id="options">Options</h2>
+<p>This rule has three main options and one override option to allow some coercions as required.</p>
+<ul>
+<li><code>&quot;boolean&quot;</code> (<code>true</code> by default) - When this is <code>true</code>, this rule warns shorter type conversions for <code>boolean</code> type.</li>
+<li><code>&quot;number&quot;</code> (<code>true</code> by default) - When this is <code>true</code>, this rule warns shorter type conversions for <code>number</code> type.</li>
+<li><code>&quot;string&quot;</code> (<code>true</code> by default) - When this is <code>true</code>, this rule warns shorter type conversions for <code>string</code> type.</li>
+<li><code>&quot;allow&quot;</code> (<code>empty</code> by default) - Each entry in this array can be one of <code>~</code>, <code>!!</code>, <code>+</code> or <code>*</code> that are to be allowed.</li>
+</ul>
+<p>Note that operator <code>+</code> in <code>allow</code> list would allow <code>+foo</code> (number coercion) as well as <code>&quot;&quot; + foo</code> (string coercion).</p>
+<h3 id="boolean">boolean</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the default <code>{ &quot;boolean&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-implicit-coercion: &quot;error&quot;*/
+
+var b = !!foo;
+var b = ~foo.indexOf(&quot;.&quot;);
+// bitwise not is incorrect only with `indexOf`/`lastIndexOf` method calling.
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the default <code>{ &quot;boolean&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-implicit-coercion: &quot;error&quot;*/
+
+var b = Boolean(foo);
+var b = foo.indexOf(&quot;.&quot;) !== -1;
+
+var n = ~foo; // This is a just bitwise not.
+</code></pre>
+<h3 id="number">number</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the default <code>{ &quot;number&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-implicit-coercion: &quot;error&quot;*/
+
+var n = +foo;
+var n = 1 * foo;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the default <code>{ &quot;number&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-implicit-coercion: &quot;error&quot;*/
+
+var n = Number(foo);
+var n = parseFloat(foo);
+var n = parseInt(foo, 10);
+</code></pre>
+<h3 id="string">string</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the default <code>{ &quot;string&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-implicit-coercion: &quot;error&quot;*/
+
+var s = &quot;&quot; + foo;
+var s = `` + foo;
+foo += &quot;&quot;;
+foo += ``;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the default <code>{ &quot;string&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-implicit-coercion: &quot;error&quot;*/
+
+var s = String(foo);
+foo = String(foo);
+</code></pre>
+<h3 id="allow">allow</h3>
+<p>Using <code>allow</code> list, we can override and allow specific operators.</p>
+<p class="correct icon">Examples of <strong>correct</strong> code for the sample <code>{ &quot;allow&quot;: [&quot;!!&quot;, &quot;~&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-implicit-coercion: [2, { &quot;allow&quot;: [&quot;!!&quot;, &quot;~&quot;] } ]*/
+
+var b = !!foo;
+var b = ~foo.indexOf(&quot;.&quot;);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about shorter notations for the type conversion, you can safely disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

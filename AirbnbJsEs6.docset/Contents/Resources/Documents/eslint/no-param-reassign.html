@@ -1,0 +1,76 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-reassignment-of-function-parameters-no-param-reassign-">Disallow Reassignment of Function Parameters (no-param-reassign)</h1>
+<p>Assignment to variables declared as function parameters can be misleading and lead to confusing behavior, as modifying function parameters will also mutate the <code>arguments</code> object. Often, assignment to function parameters is unintended and indicative of a mistake or programmer error.</p>
+<p>This rule can be also configured to fail when function parameters are modified. Side effects on parameters can cause counter-intuitive execution flow and make errors difficult to track down.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to prevent unintended behavior caused by modification or reassignment of function parameters.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-param-reassign: &quot;error&quot;*/
+
+function foo(bar) {
+    bar = 13;
+}
+
+function foo(bar) {
+    bar++;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-param-reassign: &quot;error&quot;*/
+
+function foo(bar) {
+    var baz = bar;
+}
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule takes one option, an object, with a boolean property <code>&quot;props&quot;</code>. It is <code>false</code> by default. If it is set to <code>true</code>, this rule warns against the modification of parameter properties.</p>
+<h3 id="props">props</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for the default <code>{ &quot;props&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-param-reassign: [&quot;error&quot;, { &quot;props&quot;: false }]*/
+
+function foo(bar) {
+    bar.prop = &quot;value&quot;;
+}
+
+function foo(bar) {
+    delete bar.aaa;
+}
+
+function foo(bar) {
+    bar.aaa++;
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{ &quot;props&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-param-reassign: [&quot;error&quot;, { &quot;props&quot;: true }]*/
+
+function foo(bar) {
+    bar.prop = &quot;value&quot;;
+}
+
+function foo(bar) {
+    delete bar.aaa;
+}
+
+function foo(bar) {
+    bar.aaa++;
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you want to allow assignment to function parameters, then you can safely disable this rule.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://spin.atomicobject.com/2011/04/10/javascript-don-t-reassign-your-function-arguments/">JavaScript: Don’t Reassign Your Function Arguments</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

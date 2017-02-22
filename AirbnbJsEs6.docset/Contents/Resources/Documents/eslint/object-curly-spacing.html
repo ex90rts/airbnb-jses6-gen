@@ -1,0 +1,132 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-consistent-spacing-inside-braces-object-curly-spacing-">enforce consistent spacing inside braces (object-curly-spacing)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>While formatting preferences are very personal, a number of style guides require
+or disallow spaces between curly braces in the following situations:</p>
+<pre><code class="lang-js">// simple object literals
+var obj = { foo: &quot;bar&quot; };
+
+// nested object literals
+var obj = { foo: { zoo: &quot;bar&quot; } };
+
+// destructuring assignment (EcmaScript 6)
+var { x, y } = y;
+
+// import/export declarations (EcmaScript 6)
+import { foo } from &quot;bar&quot;;
+export { foo };
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforce consistent spacing inside braces of object literals, destructuring assignments, and import/export specifiers.</p>
+<h2 id="options">Options</h2>
+<p>This rule has two options, a string option and an object option.</p>
+<p>String option:</p>
+<ul>
+<li><code>&quot;never&quot;</code> (default) disallows spacing inside of braces</li>
+<li><code>&quot;always&quot;</code> requires spacing inside of braces (except <code>{}</code>)</li>
+</ul>
+<p>Object option:</p>
+<ul>
+<li><code>&quot;arraysInObjects&quot;: true</code> requires spacing inside of braces of objects beginning and/or ending with an array element (applies when the first option is set to <code>never</code>)</li>
+<li><code>&quot;arraysInObjects&quot;: false</code> disallows spacing inside of braces of objects beginning and/or ending with an array element (applies when the first option is set to <code>always</code>)</li>
+<li><code>&quot;objectsInObjects&quot;: true</code> requires spacing inside of braces of objects beginning and/or ending with an object element (applies when the first option is set to <code>never</code>)</li>
+<li><code>&quot;objectsInObjects&quot;: false</code> disallows spacing inside of braces of objects beginning and/or ending with an object element (applies when the first option is set to <code>always</code>)</li>
+</ul>
+<h3 id="never">never</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint object-curly-spacing: [&quot;error&quot;, &quot;never&quot;]*/
+
+var obj = { &#39;foo&#39;: &#39;bar&#39; };
+var obj = {&#39;foo&#39;: &#39;bar&#39; };
+var obj = { baz: {&#39;foo&#39;: &#39;qux&#39;}, bar};
+var obj = {baz: { &#39;foo&#39;: &#39;qux&#39;}, bar};
+var {x } = y;
+import { foo } from &#39;bar&#39;;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint object-curly-spacing: [&quot;error&quot;, &quot;never&quot;]*/
+
+var obj = {&#39;foo&#39;: &#39;bar&#39;};
+var obj = {&#39;foo&#39;: {&#39;bar&#39;: &#39;baz&#39;}, &#39;qux&#39;: &#39;quxx&#39;};
+var obj = {
+  &#39;foo&#39;: &#39;bar&#39;
+};
+var obj = {&#39;foo&#39;: &#39;bar&#39;
+};
+var obj = {
+  &#39;foo&#39;:&#39;bar&#39;};
+var obj = {};
+var {x} = y;
+import {foo} from &#39;bar&#39;;
+</code></pre>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint object-curly-spacing: [&quot;error&quot;, &quot;always&quot;]*/
+
+var obj = {&#39;foo&#39;: &#39;bar&#39;};
+var obj = {&#39;foo&#39;: &#39;bar&#39; };
+var obj = { baz: {&#39;foo&#39;: &#39;qux&#39;}, bar};
+var obj = {baz: { &#39;foo&#39;: &#39;qux&#39; }, bar};
+var obj = {&#39;foo&#39;: &#39;bar&#39;
+};
+var obj = {
+  &#39;foo&#39;:&#39;bar&#39;};
+var {x} = y;
+import {foo } from &#39;bar&#39;;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint object-curly-spacing: [&quot;error&quot;, &quot;always&quot;]*/
+
+var obj = {};
+var obj = { &#39;foo&#39;: &#39;bar&#39; };
+var obj = { &#39;foo&#39;: { &#39;bar&#39;: &#39;baz&#39; }, &#39;qux&#39;: &#39;quxx&#39; };
+var obj = {
+  &#39;foo&#39;: &#39;bar&#39;
+};
+var { x } = y;
+import { foo } from &#39;bar&#39;;
+</code></pre>
+<h4 id="arraysinobjects">arraysInObjects</h4>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>&quot;never&quot;, { &quot;arraysInObjects&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint object-curly-spacing: [&quot;error&quot;, &quot;never&quot;, { &quot;arraysInObjects&quot;: true }]*/
+
+var obj = {&quot;foo&quot;: [ 1, 2 ] };
+var obj = {&quot;foo&quot;: [ &quot;baz&quot;, &quot;bar&quot; ] };
+</code></pre>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>&quot;always&quot;, { &quot;arraysInObjects&quot;: false }</code> options:</p>
+<pre><code class="lang-js">/*eslint object-curly-spacing: [&quot;error&quot;, &quot;always&quot;, { &quot;arraysInObjects&quot;: false }]*/
+
+var obj = { &quot;foo&quot;: [ 1, 2 ]};
+var obj = { &quot;foo&quot;: [ &quot;baz&quot;, &quot;bar&quot; ]};
+</code></pre>
+<h4 id="objectsinobjects">objectsInObjects</h4>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>&quot;never&quot;, { &quot;objectsInObjects&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint object-curly-spacing: [&quot;error&quot;, &quot;never&quot;, { &quot;objectsInObjects&quot;: true }]*/
+
+var obj = {&quot;foo&quot;: {&quot;baz&quot;: 1, &quot;bar&quot;: 2} };
+</code></pre>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>&quot;always&quot;, { &quot;objectsInObjects&quot;: false }</code> options:</p>
+<pre><code class="lang-js">/*eslint object-curly-spacing: [&quot;error&quot;, &quot;always&quot;, { &quot;objectsInObjects&quot;: false }]*/
+
+var obj = { &quot;foo&quot;: { &quot;baz&quot;: 1, &quot;bar&quot;: 2 }};
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You can turn this rule off if you are not concerned with the consistency of spacing between curly braces.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="comma-spacing.html">comma-spacing</a></li>
+<li><a href="space-in-parens.html">space-in-parens</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

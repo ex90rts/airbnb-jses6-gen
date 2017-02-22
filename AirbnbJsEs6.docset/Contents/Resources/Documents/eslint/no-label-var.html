@@ -1,0 +1,52 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-labels-that-are-variables-names-no-label-var-">Disallow Labels That Are Variables Names (no-label-var)</h1>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to create clearer code by disallowing the bad practice of creating a label that shares a name with a variable that is in scope.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-label-var: &quot;error&quot;*/
+
+var x = foo;
+function bar() {
+x:
+  for (;;) {
+    break x;
+  }
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-label-var: &quot;error&quot;*/
+
+// The variable that has the same name as the label is not in scope.
+
+function foo() {
+  var q = t;
+}
+
+function bar() {
+q:
+  for(;;) {
+    break q;
+  }
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about usage of labels, then it&#39;s safe to disable this rule.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="./no-extra-label.html">no-extra-label</a></li>
+<li><a href="./no-labels.html">no-labels</a></li>
+<li><a href="./no-unused-labels.html">no-unused-labels</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

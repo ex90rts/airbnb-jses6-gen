@@ -1,0 +1,157 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-case-statement-fallthrough-no-fallthrough-">Disallow Case Statement Fallthrough (no-fallthrough)</h1>
+<p>The <code>switch</code> statement in JavaScript is one of the more error-prone constructs of the language thanks in part to the ability to &quot;fall through&quot; from one <code>case</code> to the next. For example:</p>
+<pre><code class="lang-js">switch(foo) {
+    case 1:
+        doSomething();
+
+    case 2:
+        doSomethingElse();
+}
+</code></pre>
+<p>In this example, if <code>foo</code> is <code>1</code>, then execution will flow through both cases, as the first falls through to the second. You can prevent this by using <code>break</code>, as in this example:</p>
+<pre><code class="lang-js">switch(foo) {
+    case 1:
+        doSomething();
+        break;
+
+    case 2:
+        doSomethingElse();
+}
+</code></pre>
+<p>That works fine when you don&#39;t want a fallthrough, but what if the fallthrough is intentional, there is no way to indicate that in the language. It&#39;s considered a best practice to always indicate when a fallthrough is intentional using a comment which matches the <code>/falls?\s?through/i</code> regular expression:</p>
+<pre><code class="lang-js">switch(foo) {
+    case 1:
+        doSomething();
+        // falls through
+
+    case 2:
+        doSomethingElse();
+}
+
+switch(foo) {
+    case 1:
+        doSomething();
+        // fall through
+
+    case 2:
+        doSomethingElse();
+}
+
+switch(foo) {
+    case 1:
+        doSomething();
+        // fallsthrough
+
+    case 2:
+        doSomethingElse();
+}
+</code></pre>
+<p>In this example, there is no confusion as to the expected behavior. It is clear that the first case is meant to fall through to the second case.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at eliminating unintentional fallthrough of one case to the other. As such, it flags any fallthrough scenarios that are not marked by a comment.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-fallthrough: &quot;error&quot;*/
+
+switch(foo) {
+    case 1:
+        doSomething();
+
+    case 2:
+        doSomething();
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-fallthrough: &quot;error&quot;*/
+
+switch(foo) {
+    case 1:
+        doSomething();
+        break;
+
+    case 2:
+        doSomething();
+}
+
+function bar(foo) {
+    switch(foo) {
+        case 1:
+            doSomething();
+            return;
+
+        case 2:
+            doSomething();
+    }
+}
+
+switch(foo) {
+    case 1:
+        doSomething();
+        throw new Error(&quot;Boo!&quot;);
+
+    case 2:
+        doSomething();
+}
+
+switch(foo) {
+    case 1:
+    case 2:
+        doSomething();
+}
+
+switch(foo) {
+    case 1:
+        doSomething();
+        // falls through
+
+    case 2:
+        doSomething();
+}
+</code></pre>
+<p>Note that the last <code>case</code> statement in these examples does not cause a warning because there is nothing to fall through into.</p>
+<h2 id="options">Options</h2>
+<p>This rule accepts a single options argument:</p>
+<ul>
+<li>Set the <code>commentPattern</code> option to a regular expression string to change the test for intentional fallthrough comment</li>
+</ul>
+<h3 id="commentpattern">commentPattern</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;commentPattern&quot;: &quot;break[\\s\\w]*omitted&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-fallthrough: [&quot;error&quot;, { &quot;commentPattern&quot;: &quot;break[\\s\\w]*omitted&quot; }]*/
+
+switch(foo) {
+    case 1:
+        doSomething();
+        // break omitted
+
+    case 2:
+        doSomething();
+}
+
+switch(foo) {
+    case 1:
+        doSomething();
+        // caution: break is omitted intentionally
+
+    default:
+        doSomething();
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to enforce that each <code>case</code> statement should end with a <code>throw</code>, <code>return</code>, <code>break</code>, or comment, then you can safely turn this rule off.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="default-case.html">default-case</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

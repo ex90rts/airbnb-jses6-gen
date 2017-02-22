@@ -1,0 +1,65 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-deprecated">no-deprecated</h1>
+<p><strong>Stage: 0</strong></p>
+<p><strong>NOTE</strong>: this rule is currently a work in progress. There may be &quot;breaking&quot; changes: most likely, additional cases that are flagged.</p>
+<p>Reports use of a deprecated name, as indicated by a JSDoc block with a <code>@deprecated</code>
+tag or TomDoc <code>Deprecated:</code> comment.</p>
+<p>using a JSDoc <code>@deprecated</code> tag:</p>
+<pre><code class="lang-js">// @file: ./answer.js
+
+/**
+ * this is what you get when you trust a mouse talk show
+ * @deprecated need to restart the experiment
+ * @returns {Number} nonsense
+ */
+export function multiply(six, nine) {
+  return 42
+}
+</code></pre>
+<p>will report as such:</p>
+<pre><code class="lang-js">import { multiply } from &#39;./answer&#39; // Deprecated: need to restart the experiment
+
+function whatever(y, z) {
+  return multiply(y, z) // Deprecated: need to restart the experiment
+}
+</code></pre>
+<p>or using the TomDoc equivalent:</p>
+<pre><code class="lang-js">// Deprecated: This is what you get when you trust a mouse talk show, need to
+// restart the experiment.
+//
+// Returns a Number nonsense
+export function multiply(six, nine) {
+  return 42
+}
+</code></pre>
+<p>Only JSDoc is enabled by default. Other documentation styles can be enabled with
+the <code>import/docstyle</code> setting.</p>
+<pre><code class="lang-yaml"># .eslintrc.yml
+settings:
+  import/docstyle: [&#39;jsdoc&#39;, &#39;tomdoc&#39;]
+</code></pre>
+<h3 id="worklist">Worklist</h3>
+<ul>
+<li>[x] report explicit imports on the import node</li>
+<li>[x] support namespaces<ul>
+<li>[x] should bubble up through deep namespaces (#157)</li>
+</ul>
+</li>
+<li>[x] report explicit imports at reference time (at the identifier) similar to namespace</li>
+<li>[x] mark module deprecated if file JSDoc has a @deprecated tag?</li>
+<li>[ ] don&#39;t flag redeclaration of imported, deprecated names</li>
+<li>[ ] flag destructuring</li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

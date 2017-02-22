@@ -1,0 +1,69 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-specific-imports-no-restricted-imports-">Disallow specific imports (no-restricted-imports)</h1>
+<p>Imports are an ES6/ES2015 standard for making the functionality of other modules available in your current module. In CommonJS this is implemented through the require() call which makes this ESLint rule roughly equivalent to its CommonJS counterpart <code>no-restricted-modules</code>.</p>
+<p>Why would you want to restrict imports?</p>
+<ul>
+<li><p>Some imports might not make sense in a particular environment. For example, Node.js&#39; <code>fs</code> module would not make sense in an environment that didn&#39;t have a file system.</p>
+</li>
+<li><p>Some modules provide similar or identical functionality, think <code>lodash</code> and <code>underscore</code>. Your project may have standardized on a module. You want to make sure that the other alternatives are not being used as this would unnecessarily bloat the project and provide a higher maintenance cost of two dependencies when one would suffice.</p>
+</li>
+</ul>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule allows you to specify imports that you don&#39;t want to use in your application.</p>
+<h2 id="options">Options</h2>
+<p>The syntax to specify restricted imports looks like this:</p>
+<pre><code class="lang-json">&quot;no-restricted-imports&quot;: [&quot;error&quot;, &quot;import1&quot;, &quot;import2&quot;]
+</code></pre>
+<p>or like this:</p>
+<pre><code class="lang-json">&quot;no-restricted-imports&quot;: [&quot;error&quot;, { &quot;paths&quot;: [&quot;import1&quot;, &quot;import2&quot;] }]
+</code></pre>
+<p>When using the object form, you can also specify an array of gitignore-style patterns:</p>
+<pre><code class="lang-json">&quot;no-restricted-imports&quot;: [&quot;error&quot;, {
+    &quot;paths&quot;: [&quot;import1&quot;, &quot;import2&quot;],
+    &quot;patterns&quot;: [&quot;import1/private/*&quot;, &quot;import2/*&quot;, &quot;!import2/good&quot;]
+}]
+</code></pre>
+<p>To restrict the use of all Node.js core imports (via <a href="https://github.com/nodejs/node/tree/master/lib">https://github.com/nodejs/node/tree/master/lib</a>):</p>
+<pre><code class="lang-json">    &quot;no-restricted-imports&quot;: [&quot;error&quot;,
+         &quot;assert&quot;,&quot;buffer&quot;,&quot;child_process&quot;,&quot;cluster&quot;,&quot;crypto&quot;,&quot;dgram&quot;,&quot;dns&quot;,&quot;domain&quot;,&quot;events&quot;,&quot;freelist&quot;,&quot;fs&quot;,&quot;http&quot;,&quot;https&quot;,&quot;module&quot;,&quot;net&quot;,&quot;os&quot;,&quot;path&quot;,&quot;punycode&quot;,&quot;querystring&quot;,&quot;readline&quot;,&quot;repl&quot;,&quot;smalloc&quot;,&quot;stream&quot;,&quot;string_decoder&quot;,&quot;sys&quot;,&quot;timers&quot;,&quot;tls&quot;,&quot;tracing&quot;,&quot;tty&quot;,&quot;url&quot;,&quot;util&quot;,&quot;vm&quot;,&quot;zlib&quot;
+    ],
+</code></pre>
+<h2 id="examples">Examples</h2>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-restricted-imports: [&quot;error&quot;, &quot;fs&quot;]*/
+
+import fs from &#39;fs&#39;;
+</code></pre>
+<pre><code class="lang-js">/*eslint no-restricted-imports: [&quot;error&quot;, { &quot;paths&quot;: [&quot;cluster&quot;] }]*/
+
+import cluster from &#39;cluster&#39;;
+</code></pre>
+<pre><code class="lang-js">/*eslint no-restricted-imports: [&quot;error&quot;, { &quot;patterns&quot;: [&quot;lodash/*&quot;] }]*/
+
+import pick from &#39;lodash/pick&#39;;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-restricted-imports: [&quot;error&quot;, &quot;fs&quot;]*/
+
+import crypto from &#39;crypto&#39;;
+</code></pre>
+<pre><code class="lang-js">/*eslint no-restricted-imports: [&quot;error&quot;, { &quot;paths&quot;: [&quot;fs&quot;], &quot;patterns&quot;: [&quot;eslint/*&quot;] }]*/
+
+import crypto from &#39;crypto&#39;;
+import eslint from &#39;eslint&#39;;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>Don&#39;t use this rule or don&#39;t include a module in the list for this rule if you want to be able to import a module in your project without an ESLint error or warning.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

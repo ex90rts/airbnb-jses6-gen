@@ -1,0 +1,61 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-invalid-regular-expression-strings-in-regexp-constructors-no-invalid-regexp-">disallow invalid regular expression strings in <code>RegExp</code> constructors (no-invalid-regexp)</h1>
+<p>An invalid pattern in a regular expression literal is a <code>SyntaxError</code> when the code is parsed, but an invalid string in <code>RegExp</code> constructors throws a <code>SyntaxError</code> only when the code is executed.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows invalid regular expression strings in <code>RegExp</code> constructors.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-invalid-regexp: &quot;error&quot;*/
+
+RegExp(&#39;[&#39;)
+
+RegExp(&#39;.&#39;, &#39;z&#39;)
+
+new RegExp(&#39;\\&#39;)
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-invalid-regexp: &quot;error&quot;*/
+
+RegExp(&#39;.&#39;)
+
+new RegExp
+
+this.RegExp(&#39;[&#39;)
+</code></pre>
+<h2 id="environments">Environments</h2>
+<p>ECMAScript 6 adds the following flag arguments to the <code>RegExp</code> constructor:</p>
+<ul>
+<li><code>&quot;u&quot;</code> (<a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-regexp.prototype.unicode">unicode</a>)</li>
+<li><code>&quot;y&quot;</code> (<a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-regexp.prototype.sticky">sticky</a>)</li>
+</ul>
+<p>You can enable these to be recognized as valid by setting the ECMAScript version to 6 in your <a href="../user-guide/configuring">ESLint configuration</a>.</p>
+<p>If you want to allow additional constructor flags for any reason, you can specify them using an <code>allowConstructorFlags</code> option in <code>.eslintrc</code>. These flags will then be ignored by the rule regardless of the <code>ecmaVersion</code> setting.</p>
+<h2 id="options">Options</h2>
+<p>This rule has an object option for exceptions:</p>
+<ul>
+<li><code>&quot;allowConstructorFlags&quot;</code> is an array of flags</li>
+</ul>
+<h3 id="allowconstructorflags">allowConstructorFlags</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;allowConstructorFlags&quot;: [&quot;u&quot;, &quot;y&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-invalid-regexp: [&quot;error&quot;, { &quot;allowConstructorFlags&quot;: [&quot;u&quot;, &quot;y&quot;] }]*/
+
+new RegExp(&#39;.&#39;, &#39;y&#39;)
+
+new RegExp(&#39;.&#39;, &#39;yu&#39;)
+</code></pre>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://es5.github.io/#x7.8.5">Annotated ES5 §7.8.5 - Regular Expression Literals</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

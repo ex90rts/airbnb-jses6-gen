@@ -1,0 +1,46 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-named-as-default">no-named-as-default</h1>
+<p>Reports use of an exported name as the locally imported name of a default export.</p>
+<p>Rationale: using an exported name as the name of the default export is likely...</p>
+<ul>
+<li><em>misleading</em>: others familiar with <code>foo.js</code> probably expect the name to be <code>foo</code></li>
+<li><em>a mistake</em>: only needed to import <code>bar</code> and forgot the brackets (the case that is prompting this)</li>
+</ul>
+<h2 id="rule-details">Rule Details</h2>
+<p>Given:</p>
+<pre><code class="lang-js">// foo.js
+export default &#39;foo&#39;;
+export const bar = &#39;baz&#39;;
+</code></pre>
+<p>...this would be valid:</p>
+<pre><code class="lang-js">import foo from &#39;./foo.js&#39;;
+</code></pre>
+<p>...and this would be reported:</p>
+<pre><code class="lang-js">// message: Using exported name &#39;bar&#39; as identifier for default export.
+import bar from &#39;./foo.js&#39;;
+</code></pre>
+<p>For post-ES2015 <code>export</code> extensions, this also prevents exporting the default from a referenced module as a name within that module, for the same reasons:</p>
+<pre><code class="lang-js">// valid:
+export foo from &#39;./foo.js&#39;
+
+// message: Using exported name &#39;bar&#39; as identifier for default export.
+export bar from &#39;./foo.js&#39;;
+</code></pre>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li>ECMAScript Proposal: <a href="https://github.com/leebyron/ecmascript-export-ns-from">export ns from</a></li>
+<li>ECMAScript Proposal: <a href="https://github.com/leebyron/ecmascript-export-default-from">export default from</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

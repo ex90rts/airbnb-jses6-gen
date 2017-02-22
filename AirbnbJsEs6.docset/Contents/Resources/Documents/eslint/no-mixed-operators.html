@@ -1,0 +1,118 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-mixes-of-different-operators-no-mixed-operators-">Disallow mixes of different operators (no-mixed-operators)</h1>
+<p>Enclosing complex expressions by parentheses clarifies the developer&#39;s intention, which makes the code more readable.
+This rule warns when different operators are used consecutively without parentheses in an expression.</p>
+<pre><code class="lang-js">var foo = a &amp;&amp; b || c || d;    /*BAD: Unexpected mix of &#39;&amp;&amp;&#39; and &#39;||&#39;.*/
+var foo = (a &amp;&amp; b) || c || d;  /*GOOD*/
+var foo = a &amp;&amp; (b || c || d);  /*GOOD*/
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule checks <code>BinaryExpression</code> and <code>LogicalExpression</code>.</p>
+<p>This rule may conflict with <a href="no-extra-parens.html">no-extra-parens</a> rule.
+If you use both this and <a href="no-extra-parens.html">no-extra-parens</a> rule together, you need to use the <code>nestedBinaryExpressions</code> option of <a href="no-extra-parens.html">no-extra-parens</a> rule.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-mixed-operators: &quot;error&quot;*/
+
+var foo = a &amp;&amp; b &lt; 0 || c &gt; 0 || d + 1 === 0;
+var foo = a + b * c;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-mixed-operators: &quot;error&quot;*/
+
+var foo = a || b || c;
+var foo = a &amp;&amp; b &amp;&amp; c;
+var foo = (a &amp;&amp; b &lt; 0) || c &gt; 0 || d + 1 === 0;
+var foo = a &amp;&amp; (b &lt; 0 || c &gt; 0 || d + 1 === 0);
+var foo = a + (b * c);
+var foo = (a + b) * c;
+</code></pre>
+<h2 id="options">Options</h2>
+<pre><code class="lang-json">{
+    &quot;no-mixed-operators&quot;: [
+        &quot;error&quot;,
+        {
+            &quot;groups&quot;: [
+                [&quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;/&quot;, &quot;%&quot;, &quot;**&quot;],
+                [&quot;&amp;&quot;, &quot;|&quot;, &quot;^&quot;, &quot;~&quot;, &quot;&lt;&lt;&quot;, &quot;&gt;&gt;&quot;, &quot;&gt;&gt;&gt;&quot;],
+                [&quot;==&quot;, &quot;!=&quot;, &quot;===&quot;, &quot;!==&quot;, &quot;&gt;&quot;, &quot;&gt;=&quot;, &quot;&lt;&quot;, &quot;&lt;=&quot;],
+                [&quot;&amp;&amp;&quot;, &quot;||&quot;],
+                [&quot;in&quot;, &quot;instanceof&quot;]
+            ],
+            &quot;allowSamePrecedence&quot;: true
+        }
+    ]
+}
+</code></pre>
+<p>This rule has 2 options.</p>
+<ul>
+<li><code>groups</code> (<code>string[][]</code>) - specifies groups to compare operators.
+When this rule compares two operators, if both operators are included in a same group, this rule checks it. Otherwise, this rule ignores it.
+This value is a list of groups. The group is a list of binary operators.
+Default is the groups for each kind of operators.</li>
+<li><code>allowSamePrecedence</code> (<code>boolean</code>) - specifies to allow mix of 2 operators if those have the same precedence. Default is <code>true</code>.</li>
+</ul>
+<h3 id="groups">groups</h3>
+<p>The following operators can be used in <code>groups</code> option:</p>
+<ul>
+<li>Arithmetic Operators: <code>&quot;+&quot;</code>, <code>&quot;-&quot;</code>, <code>&quot;*&quot;</code>, <code>&quot;/&quot;</code>, <code>&quot;%&quot;</code>, <code>&quot;**&quot;</code></li>
+<li>Bitwise Operators: <code>&quot;&amp;&quot;</code>, <code>&quot;|&quot;</code>, <code>&quot;^&quot;</code>, <code>&quot;~&quot;</code>, <code>&quot;&lt;&lt;&quot;</code>, <code>&quot;&gt;&gt;&quot;</code>, <code>&quot;&gt;&gt;&gt;&quot;</code></li>
+<li>Comparison Operators: <code>&quot;==&quot;</code>, <code>&quot;!=&quot;</code>, <code>&quot;===&quot;</code>, <code>&quot;!==&quot;</code>, <code>&quot;&gt;&quot;</code>, <code>&quot;&gt;=&quot;</code>, <code>&quot;&lt;&quot;</code>, <code>&quot;&lt;=&quot;</code></li>
+<li>Logical Operators: <code>&quot;&amp;&amp;&quot;</code>, <code>&quot;||&quot;</code></li>
+<li>Relational Operators: <code>&quot;in&quot;</code>, <code>&quot;instanceof&quot;</code></li>
+</ul>
+<p>Now, considers about <code>{&quot;groups&quot;: [[&quot;&amp;&quot;, &quot;|&quot;, &quot;^&quot;, &quot;~&quot;, &quot;&lt;&lt;&quot;, &quot;&gt;&gt;&quot;, &quot;&gt;&gt;&gt;&quot;], [&quot;&amp;&amp;&quot;, &quot;||&quot;]]}</code> configure.
+This configure has 2 groups: bitwise operators and logical operators.
+This rule checks only if both operators are included in a same group.
+So, in this case, this rule comes to check between bitwise operators and between logical operators.
+This rule ignores other operators.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with <code>{&quot;groups&quot;: [[&quot;&amp;&quot;, &quot;|&quot;, &quot;^&quot;, &quot;~&quot;, &quot;&lt;&lt;&quot;, &quot;&gt;&gt;&quot;, &quot;&gt;&gt;&gt;&quot;], [&quot;&amp;&amp;&quot;, &quot;||&quot;]]}</code> option:</p>
+<pre><code class="lang-js">/*eslint no-mixed-operators: [&quot;error&quot;, {&quot;groups&quot;: [[&quot;&amp;&quot;, &quot;|&quot;, &quot;^&quot;, &quot;~&quot;, &quot;&lt;&lt;&quot;, &quot;&gt;&gt;&quot;, &quot;&gt;&gt;&gt;&quot;], [&quot;&amp;&amp;&quot;, &quot;||&quot;]]}]*/
+
+var foo = a &amp;&amp; b &lt; 0 || c &gt; 0 || d + 1 === 0;
+var foo = a &amp; b | c;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with <code>{&quot;groups&quot;: [[&quot;&amp;&quot;, &quot;|&quot;, &quot;^&quot;, &quot;~&quot;, &quot;&lt;&lt;&quot;, &quot;&gt;&gt;&quot;, &quot;&gt;&gt;&gt;&quot;], [&quot;&amp;&amp;&quot;, &quot;||&quot;]]}</code> option:</p>
+<pre><code class="lang-js">/*eslint no-mixed-operators: [&quot;error&quot;, {&quot;groups&quot;: [[&quot;&amp;&quot;, &quot;|&quot;, &quot;^&quot;, &quot;~&quot;, &quot;&lt;&lt;&quot;, &quot;&gt;&gt;&quot;, &quot;&gt;&gt;&gt;&quot;], [&quot;&amp;&amp;&quot;, &quot;||&quot;]]}]*/
+
+var foo = a || b &gt; 0 || c + 1 === 0;
+var foo = a &amp;&amp; b &gt; 0 &amp;&amp; c + 1 === 0;
+var foo = (a &amp;&amp; b &lt; 0) || c &gt; 0 || d + 1 === 0;
+var foo = a &amp;&amp; (b &lt; 0 ||  c &gt; 0 || d + 1 === 0);
+var foo = (a &amp; b) | c;
+var foo = a &amp; (b | c);
+var foo = a + b * c;
+var foo = a + (b * c);
+var foo = (a + b) * c;
+</code></pre>
+<h3 id="allowsameprecedence">allowSamePrecedence</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with <code>{&quot;allowSamePrecedence&quot;: true}</code> option:</p>
+<pre><code class="lang-js">/*eslint no-mixed-operators: [&quot;error&quot;, {&quot;allowSamePrecedence&quot;: true}]*/
+
+// + and - have the same precedence.
+var foo = a + b - c;
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with <code>{&quot;allowSamePrecedence&quot;: false}</code> option:</p>
+<pre><code class="lang-js">/*eslint no-mixed-operators: [&quot;error&quot;, {&quot;allowSamePrecedence&quot;: false}]*/
+
+// + and - have the same precedence.
+var foo = a + b - c;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about mixed operators, then it&#39;s safe to disable this rule.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-extra-parens.html">no-extra-parens</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

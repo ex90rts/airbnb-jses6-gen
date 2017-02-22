@@ -1,0 +1,83 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-space-before-after-arrow-function-s-arrow-arrow-spacing-">Require space before/after arrow function&#39;s arrow (arrow-spacing)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>This rule normalize style of spacing before/after an arrow function&#39;s arrow(<code>=&gt;</code>).</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+// { &quot;before&quot;: true, &quot;after&quot;: true }
+(a) =&gt; {}
+
+// { &quot;before&quot;: false, &quot;after&quot;: false }
+(a)=&gt;{}
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule takes an object argument with <code>before</code> and <code>after</code> properties, each with a Boolean value.</p>
+<p>The default configuration is <code>{ &quot;before&quot;: true, &quot;after&quot;: true }</code>.</p>
+<p><code>true</code> means there should be <strong>one or more spaces</strong> and <code>false</code> means <strong>no spaces</strong>.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>{ &quot;before&quot;: true, &quot;after&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint arrow-spacing: &quot;error&quot;*/
+/*eslint-env es6*/
+
+()=&gt; {};
+() =&gt;{};
+(a)=&gt; {};
+(a) =&gt;{};
+a =&gt;a;
+a=&gt; a;
+()=&gt; {&#39;\n&#39;};
+() =&gt;{&#39;\n&#39;};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>{ &quot;before&quot;: true, &quot;after&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint arrow-spacing: &quot;error&quot;*/
+/*eslint-env es6*/
+
+() =&gt; {};
+(a) =&gt; {};
+a =&gt; a;
+() =&gt; {&#39;\n&#39;};
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;before&quot;: false, &quot;after&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint arrow-spacing: [&quot;error&quot;, { &quot;before&quot;: false, &quot;after&quot;: false }]*/
+/*eslint-env es6*/
+
+() =&gt;{};
+(a) =&gt; {};
+()=&gt; {&#39;\n&#39;};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;before&quot;: false, &quot;after&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint arrow-spacing: [&quot;error&quot;, { &quot;before&quot;: false, &quot;after&quot;: false }]*/
+/*eslint-env es6*/
+
+()=&gt;{};
+(a)=&gt;{};
+()=&gt;{&#39;\n&#39;};
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;before&quot;: false, &quot;after&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint arrow-spacing: [&quot;error&quot;, { &quot;before&quot;: false, &quot;after&quot;: true }]*/
+/*eslint-env es6*/
+
+() =&gt;{};
+(a) =&gt; {};
+()=&gt;{&#39;\n&#39;};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;before&quot;: false, &quot;after&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint arrow-spacing: [&quot;error&quot;, { &quot;before&quot;: false, &quot;after&quot;: true }]*/
+/*eslint-env es6*/
+
+()=&gt; {};
+(a)=&gt; {};
+()=&gt; {&#39;\n&#39;};
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

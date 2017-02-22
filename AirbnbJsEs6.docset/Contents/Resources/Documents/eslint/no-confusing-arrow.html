@@ -1,0 +1,64 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-arrow-functions-where-they-could-be-confused-with-comparisons-no-confusing-arrow-">Disallow arrow functions where they could be confused with comparisons (no-confusing-arrow)</h1>
+<p>Arrow functions (<code>=&gt;</code>) are similar in syntax to some comparison operators (<code>&gt;</code>, <code>&lt;</code>, <code>&lt;=</code>, and <code>&gt;=</code>). This rule warns against using the arrow function syntax in places where it could be confused with a comparison operator. Even if the arguments of the arrow function are wrapped with parens, this rule still warns about it unless <code>allowParens</code> is set to <code>true</code>.</p>
+<p>Here&#39;s an example where the usage of <code>=&gt;</code> could be confusing:</p>
+<pre><code class="lang-js">// The intent is not clear
+var x = a =&gt; 1 ? 2 : 3;
+// Did the author mean this
+var x = function (a) { return 1 ? 2 : 3 };
+// Or this
+var x = a &lt;= 1 ? 2 : 3;
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-confusing-arrow: &quot;error&quot;*/
+/*eslint-env es6*/
+
+var x = a =&gt; 1 ? 2 : 3;
+var x = (a) =&gt; 1 ? 2 : 3;
+var x = (a) =&gt; (1 ? 2 : 3);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-confusing-arrow: &quot;error&quot;*/
+/*eslint-env es6*/
+
+var x = a =&gt; { return 1 ? 2 : 3; };
+var x = (a) =&gt; { return 1 ? 2 : 3; };
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule accepts a single options argument with the following defaults:</p>
+<pre><code class="lang-json">{
+    &quot;rules&quot;: {
+        &quot;no-confusing-arrow&quot;: [&quot;error&quot;, {&quot;allowParens&quot;: false}]
+    }
+}
+</code></pre>
+<p><code>allowParens</code> is a boolean setting that can be <code>true</code> or <code>false</code>:</p>
+<ol>
+<li><code>true</code> relaxes the rule and accepts parenthesis as a valid &quot;confusion-preventing&quot; syntax.</li>
+<li><code>false</code> warns even if the expression is wrapped in parenthesis</li>
+</ol>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{&quot;allowParens&quot;: true}</code> option:</p>
+<pre><code class="lang-js">/*eslint no-confusing-arrow: [&quot;error&quot;, {&quot;allowParens&quot;: true}]*/
+/*eslint-env es6*/
+var x = a =&gt; (1 ? 2 : 3);
+var x = (a) =&gt; (1 ? 2 : 3);
+</code></pre>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-constant-condition.html">no-constant-condition</a></li>
+<li><a href="arrow-parens.html">arrow-parens</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-iifes-to-be-wrapped-wrap-iife-">Require IIFEs to be Wrapped (wrap-iife)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>You can immediately invoke function expressions, but not function declarations. A common technique to create an immediately-invoked function expression (IIFE) is to wrap a function declaration in parentheses. The opening parentheses causes the contained function to be parsed as an expression, rather than a declaration.</p>
+<pre><code class="lang-js">// function expression could be unwrapped
+var x = function () { return { y: 1 };}();
+
+// function declaration must be wrapped
+function () { /* side effects */ }(); // SyntaxError
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule requires all immediately-invoked function expressions to be wrapped in parentheses.</p>
+<h2 id="options">Options</h2>
+<p>This rule has two options, a string option and an object option.</p>
+<p>String option:</p>
+<ul>
+<li><code>&quot;outside&quot;</code> enforces always wrapping the <em>call</em> expression. The default is <code>&quot;outside&quot;</code>.</li>
+<li><code>&quot;inside&quot;</code> enforces always wrapping the <em>function</em> expression.</li>
+<li><code>&quot;any&quot;</code> enforces always wrapping, but allows either style.</li>
+</ul>
+<p>Object option:</p>
+<ul>
+<li><code>&quot;functionPrototypeMethods&quot;: true</code> additionally enforces wrapping function expressions invoked using <code>.call</code> and <code>.apply</code>. The default is <code>false</code>.</li>
+</ul>
+<h3 id="outside">outside</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the default <code>&quot;outside&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint wrap-iife: [&quot;error&quot;, &quot;outside&quot;]*/
+
+var x = function () { return { y: 1 };}(); // unwrapped
+var x = (function () { return { y: 1 };})(); // wrapped function expression
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the default <code>&quot;outside&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint wrap-iife: [&quot;error&quot;, &quot;outside&quot;]*/
+
+var x = (function () { return { y: 1 };}()); // wrapped call expression
+</code></pre>
+<h3 id="inside">inside</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>&quot;inside&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint wrap-iife: [&quot;error&quot;, &quot;inside&quot;]*/
+
+var x = function () { return { y: 1 };}(); // unwrapped
+var x = (function () { return { y: 1 };}()); // wrapped call expression
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>&quot;inside&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint wrap-iife: [&quot;error&quot;, &quot;inside&quot;]*/
+
+var x = (function () { return { y: 1 };})(); // wrapped function expression
+</code></pre>
+<h3 id="any">any</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>&quot;any&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint wrap-iife: [&quot;error&quot;, &quot;any&quot;]*/
+
+var x = function () { return { y: 1 };}(); // unwrapped
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>&quot;any&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint wrap-iife: [&quot;error&quot;, &quot;any&quot;]*/
+
+var x = (function () { return { y: 1 };}()); // wrapped call expression
+var x = (function () { return { y: 1 };})(); // wrapped function expression
+</code></pre>
+<h3 id="functionprototypemethods">functionPrototypeMethods</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;inside&quot;, { &quot;functionPrototypeMethods&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/* eslint wrap-iife: [2, &quot;inside&quot;, { functionPrototypeMethods: true }] */
+
+var x = function(){ foo(); }()
+var x = (function(){ foo(); }())
+var x = function(){ foo(); }.call(bar)
+var x = (function(){ foo(); }.call(bar))
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;inside&quot;, { &quot;functionPrototypeMethods&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/* eslint wrap-iife: [2, &quot;inside&quot;, { functionPrototypeMethods: true }] */
+
+var x = (function(){ foo(); })()
+var x = (function(){ foo(); }).call(bar)
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

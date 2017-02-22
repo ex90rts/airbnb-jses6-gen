@@ -1,0 +1,79 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="validate-props-indentation-in-jsx-jsx-indent-props-">Validate props indentation in JSX (jsx-indent-props)</h1>
+<p>This option validates a specific indentation style for props.</p>
+<p class="fixable icon"><strong>Fixable:</strong> This rule is automatically fixable using the <code>--fix</code> flag on the command line.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed to enforce consistent indentation style. The default style is <code>4 spaces</code>.</p>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">// 2 spaces indentation
+&lt;Hello
+  firstName=&quot;John&quot;
+/&gt;
+
+// no indentation
+&lt;Hello
+firstName=&quot;John&quot;
+/&gt;
+
+// 1 tab indentation
+&lt;Hello
+  firstName=&quot;John&quot;
+/&gt;
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<p>It takes an option as the second parameter which can be <code>&quot;tab&quot;</code> for tab-based indentation or a positive number for space indentations.</p>
+<pre><code class="lang-js">...
+&quot;jsx-indent-props&quot;: [&lt;enabled&gt;, &#39;tab&#39;|&lt;number&gt;]
+...
+</code></pre>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">// 2 spaces indentation
+// [2, 2]
+&lt;Hello
+    firstName=&quot;John&quot;
+/&gt;
+
+// tab indentation
+// [2, &#39;tab&#39;]
+&lt;Hello
+  firstName=&quot;John&quot;
+/&gt;
+</code></pre>
+<p>The following patterns are not warnings:</p>
+<pre><code class="lang-jsx">
+// 2 spaces indentation
+// [2, 2]
+&lt;Hello
+  firstName=&quot;John&quot;
+/&gt;
+
+&lt;Hello
+  firstName=&quot;John&quot; /&gt;
+
+// tab indentation
+// [2, &#39;tab&#39;]
+&lt;Hello
+  firstName=&quot;John&quot;
+/&gt;
+
+// no indentation
+// [2, 0]
+&lt;Hello
+firstName=&quot;John&quot;
+/&gt;
+</code></pre>
+<h2 id="when-not-to-use">When not to use</h2>
+<p>If you are not using JSX then you can disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

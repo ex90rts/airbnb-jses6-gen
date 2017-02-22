@@ -1,0 +1,30 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="html-has-lang">html-has-lang</h1>
+<p><html> elements must have the lang prop.</p>
+<h4 id="references">References</h4>
+<ol>
+<li><a href="https://dequeuniversity.com/rules/axe/1.1/html-lang">Deque University</a></li>
+</ol>
+<h2 id="rule-details">Rule details</h2>
+<p>This rule takes no arguments.</p>
+<h3 id="succeed">Succeed</h3>
+<pre><code class="lang-jsx">&lt;html lang=&quot;en&quot;&gt;
+&lt;html lang=&quot;en-US&quot;&gt;
+&lt;html lang={language}&gt;
+</code></pre>
+<h3 id="fail">Fail</h3>
+<pre><code class="lang-jsx">&lt;html&gt;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

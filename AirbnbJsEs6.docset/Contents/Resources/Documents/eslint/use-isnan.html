@@ -1,0 +1,46 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-calls-to-isnan-when-checking-for-nan-use-isnan-">require calls to <code>isNaN()</code> when checking for <code>NaN</code> (use-isnan)</h1>
+<p>In JavaScript, <code>NaN</code> is a special value of the <code>Number</code> type. It&#39;s used to represent any of the &quot;not-a-number&quot; values represented by the double-precision 64-bit format as specified by the IEEE Standard for Binary Floating-Point Arithmetic.</p>
+<p>Because <code>NaN</code> is unique in JavaScript by not being equal to anything, including itself, the results of comparisons to <code>NaN</code> are confusing:</p>
+<ul>
+<li><code>NaN === NaN</code> or <code>NaN == NaN</code> evaluate to false</li>
+<li><code>NaN !== NaN</code> or <code>NaN != NaN</code> evaluate to true</li>
+</ul>
+<p>Therefore, use <code>Number.isNaN()</code> or global <code>isNaN()</code> functions to test whether a value is <code>NaN</code>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows comparisons to &#39;NaN&#39;.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint use-isnan: &quot;error&quot;*/
+
+if (foo == NaN) {
+    // ...
+}
+
+if (foo != NaN) {
+    // ...
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint use-isnan: &quot;error&quot;*/
+
+if (isNaN(foo)) {
+    // ...
+}
+
+if (!isNaN(foo)) {
+    // ...
+}
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

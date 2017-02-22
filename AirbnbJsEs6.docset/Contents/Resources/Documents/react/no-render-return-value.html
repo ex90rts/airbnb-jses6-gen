@@ -1,0 +1,30 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-usage-of-the-return-value-of-react-render-no-render-return-value-">Prevent usage of the return value of React.render (no-render-return-value)</h1>
+<blockquote>
+<p><code>ReactDOM.render()</code> currently returns a reference to the root <code>ReactComponent</code> instance. However, using this return value is legacy and should be avoided because future versions of React may render components asynchronously in some cases. If you need a reference to the root <code>ReactComponent</code> instance, the preferred solution is to attach a <a href="http://facebook.github.io/react/docs/more-about-refs.html#the-ref-callback-attribute">callback ref</a> to the root element.</p>
+</blockquote>
+<p>Source: <a href="http://facebook.github.io/react/docs/top-level-api.html#reactdom.render">React Top-Level API documentation</a></p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule will warn you if you try to use the <code>ReactDOM.render()</code> return value.</p>
+<p>The following pattern is considered a warning:</p>
+<pre><code class="lang-jsx">const inst = ReactDOM.render(&lt;App /&gt;, document.body);
+doSomethingWithInst(inst);
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">ReactDOM.render(&lt;App ref={doSomethingWithInst} /&gt;, document.body);
+
+ReactDOM.render(&lt;App /&gt;, document.body, doSomethingWithInst);
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

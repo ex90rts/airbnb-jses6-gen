@@ -1,0 +1,116 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-default-case-in-switch-statements-default-case-">Require Default Case in Switch Statements (default-case)</h1>
+<p>Some code conventions require that all <code>switch</code> statements have a <code>default</code> case, even if the default case is empty, such as:</p>
+<pre><code class="lang-js">switch (foo) {
+    case 1:
+        doSomething();
+        break;
+
+    case 2:
+        doSomething();
+        break;
+
+    default:
+        // do nothing
+}
+</code></pre>
+<p>The thinking is that it&#39;s better to always explicitly state what the default behavior should be so that it&#39;s clear whether or not the developer forgot to include the default behavior by mistake.</p>
+<p>Other code conventions allow you to skip the <code>default</code> case so long as there is a comment indicating the omission is intentional, such as:</p>
+<pre><code class="lang-js">switch (foo) {
+    case 1:
+        doSomething();
+        break;
+
+    case 2:
+        doSomething();
+        break;
+
+    // no default
+}
+</code></pre>
+<p>Once again, the intent here is to show that the developer intended for there to be no default behavior.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to require <code>default</code> case in <code>switch</code> statements. You may optionally include a <code>// no default</code> after the last <code>case</code> if there is no <code>default</code> case. The comment may be in any desired case, such as <code>// No Default</code>.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint default-case: &quot;error&quot;*/
+
+switch (a) {
+    case 1:
+        /* code */
+        break;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint default-case: &quot;error&quot;*/
+
+switch (a) {
+    case 1:
+        /* code */
+        break;
+
+    default:
+        /* code */
+        break;
+}
+
+
+switch (a) {
+    case 1:
+        /* code */
+        break;
+
+    // no default
+}
+
+switch (a) {
+    case 1:
+        /* code */
+        break;
+
+    // No Default
+}
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule accepts a single options argument:</p>
+<ul>
+<li>Set the <code>commentPattern</code> option to a regular expression string to change the default <code>/^no default$/i</code> comment test pattern</li>
+</ul>
+<h3 id="commentpattern">commentPattern</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;commentPattern&quot;: &quot;^skip\\sdefault&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint default-case: [&quot;error&quot;, { &quot;commentPattern&quot;: &quot;^skip\\sdefault&quot; }]*/
+
+switch(a) {
+    case 1:
+        /* code */
+        break;
+
+    // skip default
+}
+
+switch(a) {
+    case 1:
+        /* code */
+        break;
+
+    // skip default case
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to enforce a <code>default</code> case for <code>switch</code> statements, you can safely disable this rule.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-fallthrough.html">no-fallthrough</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

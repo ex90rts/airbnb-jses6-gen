@@ -1,0 +1,63 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-unnecessary-call-and-apply-no-useless-call-">Disallow unnecessary <code>.call()</code> and <code>.apply()</code>. (no-useless-call)</h1>
+<p>The function invocation can be written by <code>Function.prototype.call()</code> and <code>Function.prototype.apply()</code>.
+But <code>Function.prototype.call()</code> and <code>Function.prototype.apply()</code> are slower than the normal function invocation.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed to flag usage of <code>Function.prototype.call()</code> and <code>Function.prototype.apply()</code> that can be replaced with the normal function invocation.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-useless-call: &quot;error&quot;*/
+
+// These are same as `foo(1, 2, 3);`
+foo.call(undefined, 1, 2, 3);
+foo.apply(undefined, [1, 2, 3]);
+foo.call(null, 1, 2, 3);
+foo.apply(null, [1, 2, 3]);
+
+// These are same as `obj.foo(1, 2, 3);`
+obj.foo.call(obj, 1, 2, 3);
+obj.foo.apply(obj, [1, 2, 3]);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-useless-call: &quot;error&quot;*/
+
+// The `this` binding is different.
+foo.call(obj, 1, 2, 3);
+foo.apply(obj, [1, 2, 3]);
+obj.foo.call(null, 1, 2, 3);
+obj.foo.apply(null, [1, 2, 3]);
+obj.foo.call(otherObj, 1, 2, 3);
+obj.foo.apply(otherObj, [1, 2, 3]);
+
+// The argument list is variadic.
+foo.apply(undefined, args);
+foo.apply(null, args);
+obj.foo.apply(obj, args);
+</code></pre>
+<h2 id="known-limitations">Known Limitations</h2>
+<p>This rule compares code statically to check whether or not <code>thisArg</code> is changed.
+So if the code about <code>thisArg</code> is a dynamic expression, this rule cannot judge correctly.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-useless-call: &quot;error&quot;*/
+
+a[i++].foo.call(a[i++], 1, 2, 3);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-useless-call: &quot;error&quot;*/
+
+a[++i].foo.call(a[i], 1, 2, 3);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about unnecessary <code>.call()</code> and <code>.apply()</code>, you can safely disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

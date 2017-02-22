@@ -1,0 +1,43 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-missing-react-when-using-jsx-react-in-jsx-scope-">Prevent missing React when using JSX (react-in-jsx-scope)</h1>
+<p>When using JSX, <code>&lt;a /&gt;</code> expands to <code>React.createElement(&quot;a&quot;)</code>. Therefore the
+<code>React</code> variable must be in scope.</p>
+<p>If you are using the @jsx pragma this rule will check the designated variable and not the <code>React</code> one.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+</code></pre>
+<pre><code class="lang-jsx">/** @jsx Foo.bar */
+var React = require(&#39;react&#39;);
+
+var Hello = &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">import React from &#39;react&#39;;
+
+var Hello = &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+</code></pre>
+<pre><code class="lang-jsx">var React = require(&#39;react&#39;);
+
+var Hello = &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+</code></pre>
+<pre><code class="lang-jsx">/** @jsx Foo.bar */
+var Foo = require(&#39;foo&#39;);
+
+var Hello = &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you are setting <code>React</code> as a global variable you can disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

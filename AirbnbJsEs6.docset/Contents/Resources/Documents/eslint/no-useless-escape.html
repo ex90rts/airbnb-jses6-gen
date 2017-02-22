@@ -1,0 +1,53 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-unnecessary-escape-usage-no-useless-escape-">Disallow unnecessary escape usage (no-useless-escape)</h1>
+<p>Escaping non-special characters in strings, template literals, and regular expressions doesn&#39;t have any effect, as demonstrated in the following example:</p>
+<pre><code class="lang-js">let foo = &quot;hol\a&quot;; // &gt; foo = &quot;hola&quot;
+let bar = `${foo}\!`; // &gt; bar = &quot;hola!&quot;
+let baz = /\:/ // same functionality with /:/
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule flags escapes that can be safely removed without changing behavior.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-useless-escape: &quot;error&quot;*/
+
+&quot;\&#39;&quot;;
+&#39;\&quot;&#39;;
+&quot;\#&quot;;
+&quot;\e&quot;;
+`\&quot;`;
+`\&quot;${foo}\&quot;`;
+`\#{foo}`;
+/\!/;
+/\@/;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-useless-escape: &quot;error&quot;*/
+
+&quot;\&quot;&quot;;
+&#39;\&#39;&#39;;
+&quot;\x12&quot;;
+&quot;\u00a9&quot;;
+&quot;\371&quot;;
+&quot;xs\u2111&quot;;
+`\``;
+`\${${foo}\}`;
+`$\{${foo}\}`;
+/\\/g;
+/\t/g;
+/\w\$\*\^\./;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about unnecessary escapes, you can safely disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="forbid-the-use-of-extraneous-packages">Forbid the use of extraneous packages</h1>
+<p>Forbid the import of external modules that are not declared in the <code>package.json</code>&#39;s <code>dependencies</code>, <code>devDependencies</code>, <code>optionalDependencies</code> or <code>peerDependencies</code>.
+The closest parent <code>package.json</code> will be used. If no <code>package.json</code> is found, the rule will not lint anything.</p>
+<h3 id="options">Options</h3>
+<p>This rule supports the following options:</p>
+<p><code>devDependencies</code>: If set to <code>false</code>, then the rule will show an error when <code>devDependencies</code> are imported. Defaults to <code>true</code>.</p>
+<p><code>optionalDependencies</code>: If set to <code>false</code>, then the rule will show an error when <code>optionalDependencies</code> are imported. Defaults to <code>true</code>.</p>
+<p><code>peerDependencies</code>: If set to <code>false</code>, then the rule will show an error when <code>peerDependencies</code> are imported. Defaults to <code>false</code>.</p>
+<p>You can set the options like this:</p>
+<pre><code class="lang-js">&quot;import/no-extraneous-dependencies&quot;: [&quot;error&quot;, {&quot;devDependencies&quot;: false, &quot;optionalDependencies&quot;: false, &quot;peerDependencies&quot;: false}]
+</code></pre>
+<p>You can also use an array of globs instead of literal booleans:</p>
+<pre><code class="lang-js">&quot;import/no-extraneous-dependencies&quot;: [&quot;error&quot;, {&quot;devDependencies&quot;: [&quot;**/*.test.js&quot;, &quot;**/*.spec.js&quot;]}]
+</code></pre>
+<p>When using an array of globs, the setting will be activated if the name of the file being linted matches a single glob in the array.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>Given the following <code>package.json</code>:</p>
+<pre><code class="lang-json">{
+  &quot;name&quot;: &quot;my-project&quot;,
+  &quot;...&quot;: &quot;...&quot;,
+  &quot;dependencies&quot;: {
+    &quot;builtin-modules&quot;: &quot;^1.1.1&quot;,
+    &quot;lodash.cond&quot;: &quot;^4.2.0&quot;,
+    &quot;lodash.find&quot;: &quot;^4.2.0&quot;,
+    &quot;pkg-up&quot;: &quot;^1.0.0&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;ava&quot;: &quot;^0.13.0&quot;,
+    &quot;eslint&quot;: &quot;^2.4.0&quot;,
+    &quot;eslint-plugin-ava&quot;: &quot;^1.3.0&quot;,
+    &quot;xo&quot;: &quot;^0.13.0&quot;
+  },
+  &quot;optionalDependencies&quot;: {
+    &quot;lodash.isarray&quot;: &quot;^4.0.0&quot;
+  },
+  &quot;peerDependencies&quot;: {
+    &quot;react&quot;: &quot;&gt;=15.0.0 &lt;16.0.0&quot;
+  }
+}
+</code></pre>
+<h2 id="fail">Fail</h2>
+<pre><code class="lang-js">var _ = require(&#39;lodash&#39;);
+import _ from &#39;lodash&#39;;
+
+import react from &#39;react&#39;;
+
+/* eslint import/no-extraneous-dependencies: [&quot;error&quot;, {&quot;devDependencies&quot;: false}] */
+import test from &#39;ava&#39;;
+var test = require(&#39;ava&#39;);
+
+/* eslint import/no-extraneous-dependencies: [&quot;error&quot;, {&quot;optionalDependencies&quot;: false}] */
+import isArray from &#39;lodash.isarray&#39;;
+var isArray = require(&#39;lodash.isarray&#39;);
+</code></pre>
+<h2 id="pass">Pass</h2>
+<pre><code class="lang-js">// Builtin and internal modules are fine
+var path = require(&#39;path&#39;);
+var foo = require(&#39;./foo&#39;);
+
+import test from &#39;ava&#39;;
+import find from &#39;lodash.find&#39;;
+import find from &#39;lodash.isarray&#39;;
+
+/* eslint import/no-extraneous-dependencies: [&quot;error&quot;, {&quot;peerDependencies&quot;: true}] */
+import react from &#39;react&#39;;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you do not have a <code>package.json</code> file in your project.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

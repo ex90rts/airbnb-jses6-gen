@@ -1,0 +1,272 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-or-disallow-trailing-commas-comma-dangle-">require or disallow trailing commas (comma-dangle)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Trailing commas in object literals are valid according to the ECMAScript 5 (and ECMAScript 3!) spec. However, IE8 (when not in IE8 document mode) and below will throw an error when it encounters trailing commas in JavaScript.</p>
+<pre><code class="lang-js">var foo = {
+    bar: &quot;baz&quot;,
+    qux: &quot;quux&quot;,
+};
+</code></pre>
+<p>Trailing commas simplify adding and removing items to objects and arrays, since only the lines you are modifying must be touched.
+Another argument in favor of trailing commas is that it improves the clarity of diffs when an item is added or removed from an object or array:</p>
+<p>Less clear:</p>
+<pre><code class="lang-diff"> var foo = {
+-    bar: &quot;baz&quot;,
+-    qux: &quot;quux&quot;
++    bar: &quot;baz&quot;
+ };
+</code></pre>
+<p>More clear:</p>
+<pre><code class="lang-diff"> var foo = {
+     bar: &quot;baz&quot;,
+-    qux: &quot;quux&quot;,
+ };
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces consistent use of trailing commas in object and array literals.</p>
+<h2 id="options">Options</h2>
+<p>This rule has a string option or an object option:</p>
+<pre><code class="lang-json">{
+    &quot;comma-dangle&quot;: [&quot;error&quot;, &quot;never&quot;],
+    // or
+    &quot;comma-dangle&quot;: [&quot;error&quot;, {
+        &quot;arrays&quot;: &quot;never&quot;,
+        &quot;objects&quot;: &quot;never&quot;,
+        &quot;imports&quot;: &quot;never&quot;,
+        &quot;exports&quot;: &quot;never&quot;,
+        &quot;functions&quot;: &quot;ignore&quot;,
+    }]
+}
+</code></pre>
+<ul>
+<li><code>&quot;never&quot;</code> (default) disallows trailing commas</li>
+<li><code>&quot;always&quot;</code> requires trailing commas</li>
+<li><code>&quot;always-multiline&quot;</code> requires trailing commas when the last element or property is in a <em>different</em> line than the closing <code>]</code> or <code>}</code> and disallows trailing commas when the last element or property is on the <em>same</em> line as the closing <code>]</code> or <code>}</code></li>
+<li><code>&quot;only-multiline&quot;</code> allows (but does not require) trailing commas when the last element or property is in a <em>different</em> line than the closing <code>]</code> or <code>}</code> and disallows trailing commas when the last element or property is on the <em>same</em> line as the closing <code>]</code> or <code>}</code></li>
+</ul>
+<p>Trailing commas in function declarations and function calls are valid syntax since ECMAScript 2017; however, the string option does not check these situations for backwards compatibility.</p>
+<p>You can also use an object option to configure this rule for each type of syntax.
+Each of the following options can be set to <code>&quot;never&quot;</code>, <code>&quot;always&quot;</code>, <code>&quot;always-multiline&quot;</code>, <code>&quot;only-multiline&quot;</code>, or <code>&quot;ignore&quot;</code>.
+The default for each option is <code>&quot;never&quot;</code> unless otherwise specified.</p>
+<ul>
+<li><code>arrays</code> is for array literals and array patterns of destructuring. (e.g. <code>let [a,] = [1,];</code>)</li>
+<li><code>objects</code> is for object literals and object patterns of destructuring. (e.g. <code>let {a,} = {a: 1};</code>)</li>
+<li><code>imports</code> is for import declarations of ES Modules. (e.g. <code>import {a,} from &quot;foo&quot;;</code>)</li>
+<li><code>exports</code> is for export declarations of ES Modules. (e.g. <code>export {a,};</code>)</li>
+<li><code>functions</code> is for function declarations and function calls. (e.g. <code>(function(a,){ })(b,);</code>)<br>
+<code>functions</code> is set to <code>&quot;ignore&quot;</code> by default for consistency with the string option.</li>
+</ul>
+<h3 id="never">never</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint comma-dangle: [&quot;error&quot;, &quot;never&quot;]*/
+
+var foo = {
+    bar: &quot;baz&quot;,
+    qux: &quot;quux&quot;,
+};
+
+var arr = [1,2,];
+
+foo({
+  bar: &quot;baz&quot;,
+  qux: &quot;quux&quot;,
+});
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint comma-dangle: [&quot;error&quot;, &quot;never&quot;]*/
+
+var foo = {
+    bar: &quot;baz&quot;,
+    qux: &quot;quux&quot;
+};
+
+var arr = [1,2];
+
+foo({
+  bar: &quot;baz&quot;,
+  qux: &quot;quux&quot;
+});
+</code></pre>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint comma-dangle: [&quot;error&quot;, &quot;always&quot;]*/
+
+var foo = {
+    bar: &quot;baz&quot;,
+    qux: &quot;quux&quot;
+};
+
+var arr = [1,2];
+
+foo({
+  bar: &quot;baz&quot;,
+  qux: &quot;quux&quot;
+});
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint comma-dangle: [&quot;error&quot;, &quot;always&quot;]*/
+
+var foo = {
+    bar: &quot;baz&quot;,
+    qux: &quot;quux&quot;,
+};
+
+var arr = [1,2,];
+
+foo({
+  bar: &quot;baz&quot;,
+  qux: &quot;quux&quot;,
+});
+</code></pre>
+<h3 id="always-multiline">always-multiline</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always-multiline&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint comma-dangle: [&quot;error&quot;, &quot;always-multiline&quot;]*/
+
+var foo = {
+    bar: &quot;baz&quot;,
+    qux: &quot;quux&quot;
+};
+
+var foo = { bar: &quot;baz&quot;, qux: &quot;quux&quot;, };
+
+var arr = [1,2,];
+
+var arr = [1,
+    2,];
+
+var arr = [
+    1,
+    2
+];
+
+foo({
+  bar: &quot;baz&quot;,
+  qux: &quot;quux&quot;
+});
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always-multiline&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint comma-dangle: [&quot;error&quot;, &quot;always-multiline&quot;]*/
+
+var foo = {
+    bar: &quot;baz&quot;,
+    qux: &quot;quux&quot;,
+};
+
+var foo = {bar: &quot;baz&quot;, qux: &quot;quux&quot;};
+var arr = [1,2];
+
+var arr = [1,
+    2];
+
+var arr = [
+    1,
+    2,
+];
+
+foo({
+  bar: &quot;baz&quot;,
+  qux: &quot;quux&quot;,
+});
+</code></pre>
+<h3 id="only-multiline">only-multiline</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;only-multiline&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint comma-dangle: [&quot;error&quot;, &quot;only-multiline&quot;]*/
+
+var foo = { bar: &quot;baz&quot;, qux: &quot;quux&quot;, };
+
+var arr = [1,2,];
+
+var arr = [1,
+    2,];
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;only-multiline&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint comma-dangle: [&quot;error&quot;, &quot;only-multiline&quot;]*/
+
+var foo = {
+    bar: &quot;baz&quot;,
+    qux: &quot;quux&quot;,
+};
+
+var foo = {
+    bar: &quot;baz&quot;,
+    qux: &quot;quux&quot;
+};
+
+var foo = {bar: &quot;baz&quot;, qux: &quot;quux&quot;};
+var arr = [1,2];
+
+var arr = [1,
+    2];
+
+var arr = [
+    1,
+    2,
+];
+
+var arr = [
+    1,
+    2
+];
+
+foo({
+  bar: &quot;baz&quot;,
+  qux: &quot;quux&quot;,
+});
+
+foo({
+  bar: &quot;baz&quot;,
+  qux: &quot;quux&quot;
+});
+</code></pre>
+<h3 id="functions">functions</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{&quot;functions&quot;: &quot;never&quot;}</code> option:</p>
+<pre><code class="lang-js">/*eslint comma-dangle: [&quot;error&quot;, {&quot;functions&quot;: &quot;never&quot;}]*/
+
+function foo(a, b,) {
+}
+
+foo(a, b,);
+new foo(a, b,);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{&quot;functions&quot;: &quot;never&quot;}</code> option:</p>
+<pre><code class="lang-js">/*eslint comma-dangle: [&quot;error&quot;, {&quot;functions&quot;: &quot;never&quot;}]*/
+
+function foo(a, b) {
+}
+
+foo(a, b);
+new foo(a, b);
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{&quot;functions&quot;: &quot;always&quot;}</code> option:</p>
+<pre><code class="lang-js">/*eslint comma-dangle: [&quot;error&quot;, {&quot;functions&quot;: &quot;always&quot;}]*/
+
+function foo(a, b) {
+}
+
+foo(a, b);
+new foo(a, b);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{&quot;functions&quot;: &quot;always&quot;}</code> option:</p>
+<pre><code class="lang-js">/*eslint comma-dangle: [&quot;error&quot;, {&quot;functions&quot;: &quot;always&quot;}]*/
+
+function foo(a, b,) {
+}
+
+foo(a, b,);
+new foo(a, b,);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You can turn this rule off if you are not concerned with dangling commas.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

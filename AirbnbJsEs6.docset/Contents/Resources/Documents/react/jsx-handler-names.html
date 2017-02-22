@@ -1,0 +1,41 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-event-handler-naming-conventions-in-jsx-jsx-handler-names-">Enforce event handler naming conventions in JSX (jsx-handler-names)</h1>
+<p>Ensures that any component or prop methods used to handle events are correctly prefixed.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">&lt;MyComponent handleChange={this.handleChange} /&gt;
+</code></pre>
+<pre><code class="lang-jsx">&lt;MyComponent onChange={this.componentChanged} /&gt;
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">&lt;MyComponent onChange={this.handleChange} /&gt;
+</code></pre>
+<pre><code class="lang-jsx">&lt;MyComponent onChange={this.props.onFoo} /&gt;
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<pre><code class="lang-js">...
+&quot;jsx-handler-names&quot;: [&lt;enabled&gt;, {
+  &quot;eventHandlerPrefix&quot;: &lt;eventHandlerPrefix&gt;,
+  &quot;eventHandlerPropPrefix&quot;: &lt;eventHandlerPropPrefix&gt;
+}]
+...
+</code></pre>
+<ul>
+<li><code>eventHandlerPrefix</code>: Prefix for component methods used as event handlers. Defaults to <code>handle</code></li>
+<li><code>eventHandlerPropPrefix</code>: Prefix for props that are used as event handlers. Defaults to <code>on</code></li>
+</ul>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you are not using JSX, or if you don&#39;t want to enforce specific naming conventions for event handlers.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

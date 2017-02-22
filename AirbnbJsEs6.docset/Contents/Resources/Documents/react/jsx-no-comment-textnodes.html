@@ -1,0 +1,70 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-comments-from-being-inserted-as-text-nodes-jsx-no-comment-textnodes-">Prevent comments from being inserted as text nodes (jsx-no-comment-textnodes)</h1>
+<p>This rule prevents comment strings (e.g. beginning with <code>//</code> or <code>/*</code>) from being accidentally
+injected as a text node in JSX statements.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  render: function() {
+    return (
+      &lt;div&gt;// empty div&lt;/div&gt;
+    );
+  }
+});
+
+var Hello = React.createClass({
+  render: function() {
+    return (
+      &lt;div&gt;
+        /* empty div */
+      &lt;/div&gt;
+    );
+  }
+});
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  displayName: &#39;Hello&#39;,
+  render: function() {
+    return &lt;div&gt;{/* empty div */}&lt;/div&gt;;
+  }
+});
+
+var Hello = React.createClass({
+  displayName: &#39;Hello&#39;,
+  render: function() {
+    return &lt;div /* empty div */&gt;&lt;/div&gt;;
+  }
+});
+
+var Hello = React.createClass({
+  displayName: &#39;Hello&#39;,
+  render: function() {
+    return &lt;div className={&#39;foo&#39; /* temp class */}&lt;/div&gt;;
+  }
+});
+</code></pre>
+<h2 id="legitimate-uses">Legitimate uses</h2>
+<p>It&#39;s possible you may want to legitimately output comment start characters (<code>//</code> or <code>/*</code>)
+in a JSX text node. In which case, you can do the following:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  render: function() {
+    return (
+      &lt;div&gt;{&#39;/* This will be output as a text node */&#39;}&lt;/div&gt;
+    );
+  }
+});
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

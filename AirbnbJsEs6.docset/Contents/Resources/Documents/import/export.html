@@ -1,0 +1,37 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="export">export</h1>
+<p>Reports funny business with exports, like repeated exports of names or defaults.</p>
+<h2 id="rule-details">Rule Details</h2>
+<pre><code class="lang-js">export default class MyClass { /*...*/ } // Multiple default exports.
+
+function makeClass() { return new MyClass(...arguments) }
+
+export default makeClass // Multiple default exports.
+</code></pre>
+<p>or</p>
+<pre><code class="lang-js">export const foo = function () { /*...*/ } // Multiple exports of name &#39;foo&#39;.
+
+function bar() { /*...*/ }
+export { bar as foo } // Multiple exports of name &#39;foo&#39;.
+</code></pre>
+<p>In the case of named/default re-export, all <code>n</code> re-exports will be reported,
+as at least <code>n-1</code> of them are clearly mistakes, but it is not clear which one
+(if any) is intended. Could be the result of copy/paste, code duplication with
+intent to rename, etc.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li>Lee Byron&#39;s <a href="https://github.com/leebyron/ecmascript-more-export-from">ES7</a> export proposal</li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

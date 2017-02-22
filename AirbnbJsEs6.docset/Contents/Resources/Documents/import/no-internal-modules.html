@@ -1,0 +1,61 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-internal-modules">no-internal-modules</h1>
+<p>Use this rule to prevent importing the submodules of other modules.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule has one option, <code>allow</code> which is an array of <a href="https://github.com/isaacs/node-glob#glob-primer">minimatch/glob patterns</a> patterns that whitelist paths and import statements that can be imported with reaching.</p>
+<h3 id="examples">Examples</h3>
+<p>Given the following folder structure:</p>
+<pre><code>my-project
+├── actions
+│   └── getUser.js
+│   └── updateUser.js
+├── reducer
+│   └── index.js
+│   └── user.js
+├── redux
+│   └── index.js
+│   └── configureStore.js
+└── app
+│   └── index.js
+│   └── settings.js
+└── entry.js
+</code></pre><p>And the .eslintrc file:</p>
+<pre><code>{
+  ...
+  &quot;rules&quot;: {
+    &quot;import/no-internal-modules&quot;: [ &quot;error&quot;, {
+      &quot;allow&quot;: [ &quot;**/actions/*&quot;, &quot;source-map-support/*&quot; ]
+    } ]
+  }
+}
+</code></pre><p>The following patterns are considered problems:</p>
+<pre><code class="lang-js">/**
+ *  in my-project/entry.js
+ */
+
+import { settings } from &#39;./app/index&#39;; // Reaching to &quot;./app/index&quot; is not allowed
+import userReducer from &#39;./reducer/user&#39;; // Reaching to &quot;./reducer/user&quot; is not allowed
+import configureStore from &#39;./redux/configureStore&#39;; // Reaching to &quot;./redux/configureStore&quot; is not allowed
+</code></pre>
+<p>The following patterns are NOT considered problems:</p>
+<pre><code class="lang-js">/**
+ *  in my-project/entry.js
+ */
+
+import &#39;source-map-support/register&#39;;
+import { settings } from &#39;../app&#39;;
+import getUser from &#39;../actions/getUser&#39;;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-radix-parameter-radix-">Require Radix Parameter (radix)</h1>
+<p>When using the <code>parseInt()</code> function it is common to omit the second argument, the radix, and let the function try to determine from the first argument what type of number it is. By default, <code>parseInt()</code> will autodetect decimal and hexadecimal (via <code>0x</code> prefix). Prior to ECMAScript 5, <code>parseInt()</code> also autodetected octal literals, which caused problems because many developers assumed a leading <code>0</code> would be ignored.</p>
+<p>This confusion led to the suggestion that you always use the radix parameter to <code>parseInt()</code> to eliminate unintended consequences. So instead of doing this:</p>
+<pre><code class="lang-js">var num = parseInt(&quot;071&quot;);      // 57
+</code></pre>
+<p>Do this:</p>
+<pre><code class="lang-js">var num = parseInt(&quot;071&quot;, 10);  // 71
+</code></pre>
+<p>ECMAScript 5 changed the behavior of <code>parseInt()</code> so that it no longer autodetects octal literals and instead treats them as decimal literals. However, the differences between hexadecimal and decimal interpretation of the first parameter causes many developers to continue using the radix parameter to ensure the string is interpreted in the intended way.</p>
+<p>On the other hand, if the code is targeting only ES5-compliant environments passing the radix <code>10</code> may be redundant. In such a case you might want to disallow using such a radix.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at preventing the unintended conversion of a string to a number of a different base than intended or at preventing the redundant <code>10</code> radix if targeting modern environments only.</p>
+<h2 id="options">Options</h2>
+<p>There are two options for this rule:</p>
+<ul>
+<li><code>&quot;always&quot;</code> enforces providing a radix (default)</li>
+<li><code>&quot;as-needed&quot;</code> disallows providing the <code>10</code> radix</li>
+</ul>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint radix: &quot;error&quot;*/
+
+var num = parseInt(&quot;071&quot;);
+
+var num = parseInt(someValue);
+
+var num = parseInt(&quot;071&quot;, &quot;abc&quot;);
+
+var num = parseInt();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint radix: &quot;error&quot;*/
+
+var num = parseInt(&quot;071&quot;, 10);
+
+var num = parseInt(&quot;071&quot;, 8);
+
+var num = parseFloat(someValue);
+</code></pre>
+<h3 id="as-needed">as-needed</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>&quot;as-needed&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint radix: [&quot;error&quot;, &quot;as-needed&quot;]*/
+
+var num = parseInt(&quot;071&quot;, 10);
+
+var num = parseInt(&quot;071&quot;, &quot;abc&quot;);
+
+var num = parseInt();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>&quot;as-needed&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint radix: [&quot;error&quot;, &quot;as-needed&quot;]*/
+
+var num = parseInt(&quot;071&quot;);
+
+var num = parseInt(&quot;071&quot;, 8);
+
+var num = parseFloat(someValue);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to enforce either presence or omission of the <code>10</code> radix value you can turn this rule off.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://davidwalsh.name/parseint-radix">parseInt and radix</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

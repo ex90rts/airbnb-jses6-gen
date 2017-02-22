@@ -1,0 +1,67 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-extending-of-native-objects-no-extend-native-">Disallow Extending of Native Objects (no-extend-native)</h1>
+<p>In JavaScript, you can extend any object, including builtin or &quot;native&quot; objects. Sometimes people change the behavior of these native objects in ways that break the assumptions made about them in other parts of the code.</p>
+<p>For example here we are overriding a builtin method that will then affect all Objects, even other builtins.</p>
+<pre><code class="lang-js">// seems harmless
+Object.prototype.extra = 55;
+
+// loop through some userIds
+var users = {
+    &quot;123&quot;: &quot;Stan&quot;,
+    &quot;456&quot;: &quot;David&quot;
+};
+
+// not what you&#39;d expect
+for (var id in users) {
+    console.log(id); // &quot;123&quot;, &quot;456&quot;, &quot;extra&quot;
+}
+</code></pre>
+<p>A common suggestion to avoid this problem would be to wrap the inside of the <code>for</code> loop with <code>users.hasOwnProperty(id)</code>. However, if this rule is strictly enforced throughout your codebase you won&#39;t need to take that step.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>Disallows directly modifying the prototype of builtin objects.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-extend-native: &quot;error&quot;*/
+
+Object.prototype.a = &quot;a&quot;;
+Object.defineProperty(Array.prototype, &quot;times&quot;, { value: 999 });
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule accepts an <code>exceptions</code> option, which can be used to specify a list of builtins for which extensions will be allowed.</p>
+<h3 id="exceptions">exceptions</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for the sample <code>{ &quot;exceptions&quot;: [&quot;Object&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-extend-native: [&quot;error&quot;, { &quot;exceptions&quot;: [&quot;Object&quot;] }]*/
+
+Object.prototype.a = &quot;a&quot;;
+</code></pre>
+<h2 id="known-limitations">Known Limitations</h2>
+<p>This rule <em>does not</em> report any of the following less obvious approaches to modify the prototype of builtin objects:</p>
+<pre><code class="lang-js">var x = Object;
+x.prototype.thing = a;
+
+eval(&quot;Array.prototype.forEach = &#39;muhahaha&#39;&quot;);
+
+with(Array) {
+    prototype.thing = &#39;thing&#39;;
+};
+
+window.Function.prototype.bind = &#39;tight&#39;;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You may want to disable this rule when working with polyfills that try to patch older versions of JavaScript with the latest spec, such as those that might <code>Function.prototype.bind</code> or <code>Array.prototype.forEach</code> in a future-friendly way.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-global-assign.html">no-global-assign</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

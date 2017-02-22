@@ -1,0 +1,127 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-eval-no-eval-">Disallow eval() (no-eval)</h1>
+<p>JavaScript&#39;s <code>eval()</code> function is potentially dangerous and is often misused. Using <code>eval()</code> on untrusted code can open a program up to several different injection attacks. The use of <code>eval()</code> in most contexts can be substituted for a better, alternative approach to a problem.</p>
+<pre><code class="lang-js">var obj = { x: &quot;foo&quot; },
+    key = &quot;x&quot;,
+    value = eval(&quot;obj.&quot; + key);
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at preventing potentially dangerous, unnecessary, and slow code by disallowing the use of the <code>eval()</code> function. As such, it will warn whenever the <code>eval()</code> function is used.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-eval: &quot;error&quot;*/
+
+var obj = { x: &quot;foo&quot; },
+    key = &quot;x&quot;,
+    value = eval(&quot;obj.&quot; + key);
+
+(0, eval)(&quot;var a = 0&quot;);
+
+var foo = eval;
+foo(&quot;var a = 0&quot;);
+
+// This `this` is the global object.
+this.eval(&quot;var a = 0&quot;);
+</code></pre>
+<p class="incorrect icon">Example of additional <strong>incorrect</strong> code for this rule when <code>browser</code> environment is set to <code>true</code>:</p>
+<pre><code class="lang-js">/*eslint no-eval: &quot;error&quot;*/
+/*eslint-env browser*/
+
+window.eval(&quot;var a = 0&quot;);
+</code></pre>
+<p class="incorrect icon">Example of additional <strong>incorrect</strong> code for this rule when <code>node</code> environment is set to <code>true</code>:</p>
+<pre><code class="lang-js">/*eslint no-eval: &quot;error&quot;*/
+/*eslint-env node*/
+
+global.eval(&quot;var a = 0&quot;);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-eval: &quot;error&quot;*/
+/*eslint-env es6*/
+
+var obj = { x: &quot;foo&quot; },
+    key = &quot;x&quot;,
+    value = obj[key];
+
+class A {
+    foo() {
+        // This is a user-defined method.
+        this.eval(&quot;var a = 0&quot;);
+    }
+
+    eval() {
+    }
+}
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule has an option to allow indirect calls to <code>eval</code>.
+Indirect calls to <code>eval</code> are less dangerous than direct calls to <code>eval</code> because they cannot dynamically change the scope. Because of this, they also will not negatively impact performance to the degree of direct <code>eval</code>.</p>
+<pre><code class="lang-js">{
+    &quot;no-eval&quot;: [&quot;error&quot;, {&quot;allowIndirect&quot;: true}] // default is false
+}
+</code></pre>
+<p class="incorrect icon">Example of <strong>incorrect</strong> code for this rule with the <code>{&quot;allowIndirect&quot;: true}</code> option:</p>
+<pre><code class="lang-js">/*eslint no-eval: &quot;error&quot;*/
+
+var obj = { x: &quot;foo&quot; },
+    key = &quot;x&quot;,
+    value = eval(&quot;obj.&quot; + key);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{&quot;allowIndirect&quot;: true}</code> option:</p>
+<pre><code class="lang-js">/*eslint no-eval: &quot;error&quot;*/
+
+(0, eval)(&quot;var a = 0&quot;);
+
+var foo = eval;
+foo(&quot;var a = 0&quot;);
+
+this.eval(&quot;var a = 0&quot;);
+</code></pre>
+<pre><code class="lang-js">/*eslint no-eval: &quot;error&quot;*/
+/*eslint-env browser*/
+
+window.eval(&quot;var a = 0&quot;);
+</code></pre>
+<pre><code class="lang-js">/*eslint no-eval: &quot;error&quot;*/
+/*eslint-env node*/
+
+global.eval(&quot;var a = 0&quot;);
+</code></pre>
+<h2 id="known-limitations">Known Limitations</h2>
+<ul>
+<li><p>This rule is warning every <code>eval()</code> even if the <code>eval</code> is not global&#39;s.
+This behavior is in order to detect calls of direct <code>eval</code>. Such as:</p>
+<pre><code class="lang-js">module.exports = function(eval) {
+    // If the value of this `eval` is built-in `eval` function, this is a
+    // call of direct `eval`.
+    eval(&quot;var a = 0&quot;);
+};
+</code></pre>
+</li>
+<li><p>This rule cannot catch renaming the global object. Such as:</p>
+<pre><code class="lang-js">var foo = window;
+foo.eval(&quot;var a = 0&quot;);
+</code></pre>
+</li>
+</ul>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://blogs.msdn.com/b/ericlippert/archive/2003/11/01/53329.aspx">Eval is Evil, Part One</a></li>
+<li><a href="http://javascriptweblog.wordpress.com/2010/04/19/how-evil-is-eval/">How evil is eval</a></li>
+</ul>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-implied-eval.html">no-implied-eval</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

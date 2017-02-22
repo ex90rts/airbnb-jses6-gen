@@ -1,0 +1,77 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-identifiers-to-match-a-specified-regular-expression-id-match-">require identifiers to match a specified regular expression (id-match)</h1>
+<blockquote>
+<p>&quot;There are only two hard things in Computer Science: cache invalidation and naming things.&quot; — Phil Karlton</p>
+</blockquote>
+<p>Naming things consistently in a project is an often underestimated aspect of code creation.
+When done correctly, it can save your team hours of unnecessary head scratching and misdirections.
+This rule allows you to precisely define and enforce the variables and function names on your team should use.
+No more limiting yourself to camelCase, snake_case, PascalCase or oHungarianNotation. Id-match has all your needs covered!</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule requires identifiers in assignments and <code>function</code> definitions to match a specified regular expression.</p>
+<h2 id="options">Options</h2>
+<p>This rule has a string option for the specified regular expression.</p>
+<p>For example, to enforce a camelcase naming convention:</p>
+<pre><code class="lang-json">{
+    &quot;id-match&quot;: [&quot;error&quot;, &quot;^[a-z]+([A-Z][a-z]+)*$&quot;]
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;^[a-z]+([A-Z][a-z]+)*$&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint id-match: [&quot;error&quot;, &quot;^[a-z]+([A-Z][a-z]+)*$&quot;]*/
+
+var myFavoriteColor   = &quot;#112C85&quot;;
+var foo = bar.baz_boom;
+var foo = { qux: bar.baz_boom };
+do_something();
+var obj = {
+    my_pref: 1
+};
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;^[a-z]+([A-Z][a-z]+)*$&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint id-match: [&quot;error&quot;, &quot;^[a-z]+([A-Z][a-z]+)*$&quot;]*/
+
+var my_favorite_color = &quot;#112C85&quot;;
+var _myFavoriteColor  = &quot;#112C85&quot;;
+var myFavoriteColor_  = &quot;#112C85&quot;;
+var MY_FAVORITE_COLOR = &quot;#112C85&quot;;
+function do_something() {
+    // ...
+}
+obj.do_something = function() {
+    // ...
+};
+</code></pre>
+<p>This rule has an object option:</p>
+<ul>
+<li><code>&quot;properties&quot;: true</code> requires object properties to match the specified regular expression</li>
+<li><code>&quot;onlyDeclarations&quot;: true</code> requires only <code>var</code>, <code>function</code>, and <code>class</code> declarations to match the specified regular expression</li>
+</ul>
+<h3 id="properties">properties</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;^[a-z]+([A-Z][a-z]+)*$&quot;, { &quot;properties&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint id-match: [&quot;error&quot;, &quot;^[a-z]+([A-Z][a-z]+)*$&quot;, { &quot;properties&quot;: true }]*/
+
+var obj = {
+    my_pref: 1
+};
+</code></pre>
+<h3 id="onlydeclarations">onlyDeclarations</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;^[a-z]+([A-Z][a-z]+)*$&quot;, { &quot;onlyDeclarations&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint id-match: [2, &quot;^[a-z]+([A-Z][a-z]+)*$&quot;, { &quot;onlyDeclarations&quot;: true }]*/
+
+do_something(__dirname);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If your rules are too complex, it is possible that you encounter performance issues due to the nature of the job.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-variable-redeclaration-no-redeclare-">disallow variable redeclaration (no-redeclare)</h1>
+<p>In JavaScript, it&#39;s possible to redeclare the same variable name using <code>var</code>. This can lead to confusion as to where the variable is actually declared and initialized.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at eliminating variables that have multiple declarations in the same scope.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-redeclare: &quot;error&quot;*/
+
+var a = 3;
+var a = 10;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-redeclare: &quot;error&quot;*/
+
+var a = 3;
+// ...
+a = 10;
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule takes one optional argument, an object with a boolean property <code>&quot;builtinGlobals&quot;</code>. It defaults to <code>false</code>.
+If set to <code>true</code>, this rule also checks redeclaration of built-in globals, such as <code>Object</code>, <code>Array</code>, <code>Number</code>...</p>
+<h3 id="builtinglobals">builtinGlobals</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{ &quot;builtinGlobals&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-redeclare: [&quot;error&quot;, { &quot;builtinGlobals&quot;: true }]*/
+
+var Object = 0;
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{ &quot;builtinGlobals&quot;: true }</code> option and the <code>browser</code> environment:</p>
+<pre><code class="lang-js">/*eslint no-redeclare: [&quot;error&quot;, { &quot;builtinGlobals&quot;: true }]*/
+/*eslint-env browser*/
+
+var top = 0;
+</code></pre>
+<p>The <code>browser</code> environment has many built-in global variables (for example, <code>top</code>). Some of built-in global variables cannot be redeclared.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

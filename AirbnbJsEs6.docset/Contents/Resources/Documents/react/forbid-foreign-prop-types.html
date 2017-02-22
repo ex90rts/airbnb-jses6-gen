@@ -1,0 +1,32 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="forbid-foreign-proptypes-forbid-foreign-prop-types-">Forbid foreign propTypes (forbid-foreign-prop-types)</h1>
+<p>This rule forbids using another component&#39;s prop types unless they are explicitly imported/exported. This allows people who want to use <a href="https://github.com/oliviertassinari/babel-plugin-transform-react-remove-prop-types">babel-plugin-transform-react-remove-prop-types</a> to remove propTypes from their components in production builds, to do so safely.</p>
+<p>In order to ensure that imports are explicitly exported it is recommended to use the <a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/named.html">&quot;named&quot; rule in eslint-plugin-import</a> in conjunction with this rule.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule checks all objects and ensures that the <code>propTypes</code> property is not used.</p>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-js">import SomeComponent from &#39;./SomeComponent&#39;;
+SomeComponent.propTypes;
+
+var { propTypes } = SomeComponent;
+
+SomeComponent[&#39;propTypes&#39;];
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-js">import SomeComponent, {propTypes as someComponentPropTypes} from &#39;./SomeComponent&#39;;
+</code></pre>
+<h2 id="when-not-to-use">When not to use</h2>
+<p>This rule aims to make a certain production optimization, removing prop types, less prone to error. This rule may not be relevant to you if you do not wish to make use of this optimization.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

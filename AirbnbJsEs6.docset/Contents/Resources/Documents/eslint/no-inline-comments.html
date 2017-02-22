@@ -1,0 +1,42 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-inline-comments-after-code-no-inline-comments-">disallow inline comments after code (no-inline-comments)</h1>
+<p>Some style guides disallow comments on the same line as code. Code can become difficult to read if comments immediately follow the code on the same line.
+On the other hand, it is sometimes faster and more obvious to put comments immediately following code.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows comments on the same line as code.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-inline-comments: &quot;error&quot;*/
+
+var a = 1; // declaring a to 1
+
+function getRandomNumber(){
+    return 4; // chosen by fair dice roll.
+              // guaranteed to be random.
+}
+
+/* A block comment before code */ var b = 2;
+
+var c = 3; /* A block comment after code */
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-inline-comments: &quot;error&quot;*/
+
+// This is a comment above a line of code
+var foo = 5;
+
+var bar = 5;
+//This is a comment below a line of code
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

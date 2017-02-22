@@ -1,0 +1,58 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-node-js-modules-no-restricted-modules-">Disallow Node.js modules (no-restricted-modules)</h1>
+<p>Disallowing usage of specific Node.js modules can be useful if you want to control the available methods, a developer can
+use, to implement a feature.</p>
+<p>This way you can block usage of the <code>fs</code> module if you want to disallow file system access.
+Blocking the <code>os</code> module can be useful if you don&#39;t want to allow any operating system specific code.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule allows you to specify modules that you don&#39;t want to use in your application.</p>
+<h2 id="options">Options</h2>
+<p>The rule takes one or more strings as options: the names of restricted modules.</p>
+<p>It can also take an object with lists of &quot;paths&quot; and gitignore-style &quot;patterns&quot; strings.</p>
+<p>For example, to restrict the use of all Node.js core modules (via <a href="https://github.com/nodejs/node/tree/master/lib">https://github.com/nodejs/node/tree/master/lib</a>):</p>
+<pre><code class="lang-json">{
+    &quot;no-restricted-modules&quot;: [&quot;error&quot;,
+        &quot;assert&quot;,&quot;buffer&quot;,&quot;child_process&quot;,&quot;cluster&quot;,&quot;crypto&quot;,&quot;dgram&quot;,&quot;dns&quot;,&quot;domain&quot;,&quot;events&quot;,&quot;freelist&quot;,&quot;fs&quot;,&quot;http&quot;,&quot;https&quot;,&quot;module&quot;,&quot;net&quot;,&quot;os&quot;,&quot;path&quot;,&quot;punycode&quot;,&quot;querystring&quot;,&quot;readline&quot;,&quot;repl&quot;,&quot;smalloc&quot;,&quot;stream&quot;,&quot;string_decoder&quot;,&quot;sys&quot;,&quot;timers&quot;,&quot;tls&quot;,&quot;tracing&quot;,&quot;tty&quot;,&quot;url&quot;,&quot;util&quot;,&quot;vm&quot;,&quot;zlib&quot;
+    ]
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with sample <code>&quot;fs&quot;, &quot;cluster&quot;</code> restricted modules:</p>
+<pre><code class="lang-js">/*eslint no-restricted-modules: [&quot;error&quot;, &quot;fs&quot;, &quot;cluster&quot;]*/
+
+var fs = require(&#39;fs&#39;);
+var cluster = require(&#39;cluster&#39;);
+</code></pre>
+<pre><code class="lang-js">/*eslint no-restricted-modules: [&quot;error&quot;, { &quot;paths&quot;: [&quot;cluster&quot;] }]*/
+
+var cluster = require(&#39;cluster&#39;);
+</code></pre>
+<pre><code class="lang-js">/*eslint no-restricted-modules: [&quot;error&quot;, { &quot;patterns&quot;: [&quot;lodash/*&quot;] }]*/
+
+var cluster = require(&#39;lodash/pick&#39;);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with sample <code>&quot;fs&quot;, &quot;cluster&quot;</code> restricted modules:</p>
+<pre><code class="lang-js">/*eslint no-restricted-modules: [&quot;error&quot;, &quot;fs&quot;, &quot;cluster&quot;]*/
+
+var crypto = require(&#39;crypto&#39;);
+</code></pre>
+<pre><code class="lang-js">/*eslint no-restricted-modules: [&quot;error&quot;, {
+    &quot;paths&quot;: [&quot;fs&quot;, &quot;cluster&quot;],
+    &quot;patterns&quot;: [&quot;lodash/*&quot;, &quot;!lodash/pick&quot;]
+}]*/
+
+var crypto = require(&#39;crypto&#39;);
+var eslint = require(&#39;lodash/pick&#39;);
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-or-disallow-named-function-expressions-func-names-">Require or disallow named <code>function</code> expressions (func-names)</h1>
+<p>A pattern that&#39;s becoming more common is to give function expressions names to aid in debugging. For example:</p>
+<pre><code class="lang-js">Foo.prototype.bar = function bar() {};
+</code></pre>
+<p>Adding the second <code>bar</code> in the above example is optional.  If you leave off the function name then when the function throws an exception you are likely to get something similar to <code>anonymous function</code> in the stack trace.  If you provide the optional name for a function expression then you will get the name of the function expression in the stack trace.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule can enforce or disallow the use of named function expressions.</p>
+<h2 id="options">Options</h2>
+<p>This rule has a string option:</p>
+<ul>
+<li><code>&quot;always&quot;</code> (default) requires function expressions to have a name</li>
+<li><code>&quot;as-needed&quot;</code> requires function expressions to have a name, if the name cannot be assigned automatically in an ES6 environment</li>
+<li><code>&quot;never&quot;</code> disallows named function expressions, except in recursive functions, where a name is needed</li>
+</ul>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint func-names: [&quot;error&quot;, &quot;always&quot;]*/
+
+Foo.prototype.bar = function() {};
+
+(function() {
+    // ...
+}())
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint func-names: [&quot;error&quot;, &quot;always&quot;]*/
+
+Foo.prototype.bar = function bar() {};
+
+(function bar() {
+    // ...
+}())
+</code></pre>
+<h3 id="as-needed">as-needed</h3>
+<p>ECMAScript 6 introduced a <code>name</code> property on all functions. The value of <code>name</code> is determined by evaluating the code around the function to see if a name can be inferred. For example, a function assigned to a variable will automatically have a <code>name</code> property equal to the name of the variable. The value of <code>name</code> is then used in stack traces for easier debugging.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;as-needed&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint func-names: [&quot;error&quot;, &quot;as-needed&quot;]*/
+
+Foo.prototype.bar = function() {};
+
+(function() {
+    // ...
+}())
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;as-needed&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint func-names: [&quot;error&quot;, &quot;as-needed&quot;]*/
+
+var bar = function() {};
+
+(function bar() {
+    // ...
+}())
+</code></pre>
+<h3 id="never">never</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint func-names: [&quot;error&quot;, &quot;never&quot;]*/
+
+Foo.prototype.bar = function bar() {};
+
+(function bar() {
+    // ...
+}())
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint func-names: [&quot;error&quot;, &quot;never&quot;]*/
+
+Foo.prototype.bar = function() {};
+
+(function() {
+    // ...
+}())
+</code></pre>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://markdaggett.com/blog/2013/02/15/functions-explained/">Functions Explained</a></li>
+<li><a href="http://www.2ality.com/2015/09/function-names-es6.html">Function Names in ES6</a></li>
+</ul>
+<h2 id="compatibility">Compatibility</h2>
+<ul>
+<li><strong>JSCS</strong>: <a href="http://jscs.info/rule/requireAnonymousFunctions">requireAnonymousFunctions</a></li>
+<li><strong>JSCS</strong>: <a href="http://jscs.info/rule/disallowAnonymousFunctions">disallowAnonymousFunctions</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

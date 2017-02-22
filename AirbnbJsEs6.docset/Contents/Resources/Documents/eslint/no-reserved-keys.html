@@ -1,0 +1,51 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-reserved-keys-disallow-unquoted-reserved-words-as-property-names-in-object-literals">no-reserved-keys: disallow unquoted reserved words as property names in object literals</h1>
+<p class="removed icon">(removed) This rule was <strong>removed</strong> in ESLint v1.0 and <strong>replaced</strong> by the <a href="quote-props.html">quote-props</a> rule.</p>
+<p>ECMAScript 3 described as series of keywords and reserved words, such as <code>if</code> and <code>public</code>, that are used or intended to be used for a core language feature. The specification also indicated that these keywords and reserved words could not be used as object property names without being enclosed in strings. An error occurs in an ECMAScript 3 environment when you use a keyword or reserved word in an object literal. For example:</p>
+<pre><code class="lang-js">var values = {
+    enum: [&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;]  // throws an error in ECMAScript 3
+}
+</code></pre>
+<p>In this code, <code>enum</code> is used as an object key and will throw an error in an ECMAScript 3 environment (such as Internet Explorer 8).</p>
+<p>ECMAScript 5 loosened the restriction such that keywords and reserved words can be used as object keys without causing an error. However, any code that needs to run in ECMAScript 3 still needs to avoid using keywords and reserved words as keys.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at eliminating the use of ECMAScript 3 keywords and reserved words as object literal keys. As such, it warns whenever an object key would throw an error in an ECMAScript 3 environment.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">var superman = {
+    class: &quot;Superhero&quot;,
+    private: &quot;Clark Kent&quot;
+};
+
+var values = {
+    enum: [&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;]
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">var superman = {
+    &quot;class&quot;: &quot;Superhero&quot;,
+    &quot;private&quot;: &quot;Clark Kent&quot;
+};
+
+var values = {
+    &quot;enum&quot;: [&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;]
+};
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If your code is only going to be executed in an ECMAScript 5 or higher environment, then you can safely leave this rule off.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names">Reserved words as property names</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

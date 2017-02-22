@@ -1,0 +1,51 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-parseint-in-favor-of-binary-octal-and-hexadecimal-literals-prefer-numeric-literals-">disallow <code>parseInt()</code> in favor of binary, octal, and hexadecimal literals (prefer-numeric-literals)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>The <code>parseInt()</code> function can be used to turn binary, octal, and hexadecimal strings into integers. As binary, octal, and hexadecimal literals are supported in ES6, this rule encourages use of those numeric literals instead of <code>parseInt()</code>.</p>
+<pre><code class="lang-js">0b111110111 === 503;
+0o767 === 503;
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows <code>parseInt()</code> if it is called with two arguments: a string and a radix option of 2 (binary), 8 (octal), or 16 (hexadecimal).</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint prefer-numeric-literals: &quot;error&quot;*/
+
+parseInt(&quot;111110111&quot;, 2) === 503;
+parseInt(&quot;767&quot;, 8) === 503;
+parseInt(&quot;1F7&quot;, 16) === 255;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint prefer-numeric-literals: &quot;error&quot;*/
+/*eslint-env es6*/
+
+parseInt(1);
+parseInt(1, 3);
+
+0b111110111 === 503;
+0o767 === 503;
+0x1F7 === 503;
+
+a[parseInt](1,2);
+
+parseInt(foo);
+parseInt(foo, 2);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you want to allow use of <code>parseInt()</code> for binary, octal, or hexadecimal integers. If you are not using ES6 (because binary and octal literals are not supported in ES5 and below).</p>
+<h2 id="compatibility">Compatibility</h2>
+<ul>
+<li><strong>JSCS</strong>: <a href="http://jscs.info/rule/requireNumericLiterals">requireNumericLiterals</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

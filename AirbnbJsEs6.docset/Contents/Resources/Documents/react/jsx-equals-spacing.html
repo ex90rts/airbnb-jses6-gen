@@ -1,0 +1,52 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-or-disallow-spaces-around-equal-signs-in-jsx-attributes-jsx-equals-spacing-">Enforce or disallow spaces around equal signs in JSX attributes. (jsx-equals-spacing)</h1>
+<p>Some style guides require or disallow spaces around equal signs.</p>
+<p class="fixable icon"><strong>Fixable:</strong> This rule is automatically fixable using the <code>--fix</code> flag on the command line.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule will enforce consistency of spacing around equal signs in JSX attributes, by requiring or disallowing one or more spaces before and after <code>=</code>.</p>
+<h3 id="options">Options</h3>
+<p>There are two options for the rule:</p>
+<ul>
+<li><code>&quot;always&quot;</code> enforces spaces around the equal sign</li>
+<li><code>&quot;never&quot;</code> disallows spaces around the equal sign (default)</li>
+</ul>
+<p>Depending on your coding conventions, you can choose either option by specifying it in your configuration:</p>
+<pre><code class="lang-json">&quot;jsx-equals-spacing&quot;: [2, &quot;always&quot;]
+</code></pre>
+<h4 id="never">never</h4>
+<p>When <code>&quot;never&quot;</code> is set, the following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">&lt;Hello name = {firstname} /&gt;;
+&lt;Hello name ={firstname} /&gt;;
+&lt;Hello name= {firstname} /&gt;;
+</code></pre>
+<p>The following patterns are not warnings:</p>
+<pre><code class="lang-jsx">&lt;Hello name={firstname} /&gt;;
+&lt;Hello name /&gt;;
+&lt;Hello {...props} /&gt;;
+</code></pre>
+<h4 id="always">always</h4>
+<p>When <code>&quot;always&quot;</code> is used, the following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">&lt;Hello name={firstname} /&gt;;
+&lt;Hello name ={firstname} /&gt;;
+&lt;Hello name= {firstname} /&gt;;
+</code></pre>
+<p>The following patterns are not warnings:</p>
+<pre><code class="lang-jsx">&lt;Hello name = {firstname} /&gt;;
+&lt;Hello name /&gt;;
+&lt;Hello {...props} /&gt;;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You can turn this rule off if you are not concerned with the consistency of spacing around equal signs in JSX attributes.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

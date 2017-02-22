@@ -1,0 +1,52 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-comma-dangle-disallow-trailing-commas-in-object-and-array-literals">no-comma-dangle: disallow trailing commas in object and array literals</h1>
+<p class="removed icon">(removed) This rule was <strong>removed</strong> in ESLint v1.0 and <strong>replaced</strong> by the <a href="comma-dangle.html">comma-dangle</a> rule.</p>
+<p>Trailing commas in object literals are valid according to the ECMAScript 5 (and ECMAScript 3!) spec, however IE8 (when not in IE8 document mode) and below will throw an error when it encounters trailing commas in JavaScript.</p>
+<pre><code class="lang-js">var foo = {
+    bar: &quot;baz&quot;,
+    qux: &quot;quux&quot;,
+};
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at detecting trailing commas in object literals. As such, it will warn whenever it encounters a trailing comma in an object literal.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">var foo = {
+    bar: &quot;baz&quot;,
+    qux: &quot;quux&quot;,
+};
+
+var arr = [1,2,];
+
+foo({
+  bar: &quot;baz&quot;,
+  qux: &quot;quux&quot;,
+});
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">var foo = {
+    bar: &quot;baz&quot;,
+    qux: &quot;quux&quot;
+};
+
+var arr = [1,2];
+
+foo({
+  bar: &quot;baz&quot;,
+  qux: &quot;quux&quot;
+});
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If your code will not be run in IE8 or below (a Node.js application, for example) and you&#39;d prefer to allow trailing commas, turn this rule off.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

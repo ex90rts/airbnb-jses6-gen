@@ -1,0 +1,42 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-string-concatenation-when-using-__dirname-and-__filename-no-path-concat-">Disallow string concatenation when using <code>__dirname</code> and <code>__filename</code> (no-path-concat)</h1>
+<p>In Node.js, the <code>__dirname</code> and <code>__filename</code> global variables contain the directory path and the file path of the currently executing script file, respectively. Sometimes, developers try to use these variables to create paths to other files, such as:</p>
+<pre><code class="lang-js">var fullPath = __dirname + &quot;/foo.js&quot;;
+</code></pre>
+<p>However, there are a few problems with this. First, you can&#39;t be sure what type of system the script is running on. Node.js can be run on any computer, including Windows, which uses a different path separator. It&#39;s very easy, therefore, to create an invalid path using string concatenation and assuming Unix-style separators. There&#39;s also the possibility of having double separators, or otherwise ending up with an invalid path.</p>
+<p>In order to avoid any confusion as to how to create the correct path, Node.js provides the <code>path</code> module. This module uses system-specific information to always return the correct value. So you can rewrite the previous example as:</p>
+<pre><code class="lang-js">var fullPath = path.join(__dirname, &quot;foo.js&quot;);
+</code></pre>
+<p>This example doesn&#39;t need to include separators as <code>path.join()</code> will do it in the most appropriate manner. Alternately, you can use <code>path.resolve()</code> to retrieve the fully-qualified path:</p>
+<pre><code class="lang-js">var fullPath = path.resolve(__dirname, &quot;foo.js&quot;);
+</code></pre>
+<p>Both <code>path.join()</code> and <code>path.resolve()</code> are suitable replacements for string concatenation wherever file or directory paths are being created.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to prevent string concatenation of directory paths in Node.js</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-path-concat: &quot;error&quot;*/
+
+var fullPath = __dirname + &quot;/foo.js&quot;;
+
+var fullPath = __filename + &quot;/foo.js&quot;;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-path-concat: &quot;error&quot;*/
+
+var fullPath = dirname + &quot;/foo.js&quot;;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you want to allow string concatenation of path names.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

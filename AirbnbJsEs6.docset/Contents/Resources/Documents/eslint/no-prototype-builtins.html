@@ -1,0 +1,38 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-use-of-object-prototypes-builtins-directly-no-prototype-builtins-">Disallow use of Object.prototypes builtins directly (no-prototype-builtins)</h1>
+<p>In ECMAScript 5.1, <code>Object.create</code> was added, which enables the creation of objects with a specified <code>[[Prototype]]</code>. <code>Object.create(null)</code> is a common pattern used to create objects that will be used as a Map. This can lead to errors when it is assumed that objects will have properties from <code>Object.prototype</code>. This rule prevents calling <code>Object.prototype</code> methods directly from an object.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows calling some <code>Object.prototype</code> methods directly on object instances.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-prototype-builtins: &quot;error&quot;*/
+
+var hasBarProperty = foo.hasOwnProperty(&quot;bar&quot;);
+
+var isPrototypeOfBar = foo.isPrototypeOf(bar);
+
+var barIsEnumerable = foo.propertyIsEnumerable(&quot;bar&quot;);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-prototype-builtins: &quot;error&quot;*/
+
+var hasBarProperty = Object.prototype.hasOwnProperty.call(foo, &quot;bar&quot;);
+
+var isPrototypeOfBar = Object.prototype.isPrototypeOf.call(foo, bar);
+
+var barIsEnumerable = {}.propertyIsEnumerable.call(foo, &quot;bar&quot;);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You may want to turn this rule off if you will never use an object that shadows an <code>Object.prototype</code> method or which does not inherit from <code>Object.prototype</code>.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

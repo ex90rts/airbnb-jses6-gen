@@ -1,0 +1,80 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforces-return-statements-in-callbacks-of-array-s-methods-array-callback-return-">Enforces return statements in callbacks of array&#39;s methods (array-callback-return)</h1>
+<p><code>Array</code> has several methods for filtering, mapping, and folding.
+If we forget to write <code>return</code> statement in a callback of those, it&#39;s probably a mistake.</p>
+<pre><code class="lang-js">// example: convert [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;] --&gt; {a: 0, b: 1, c: 2}
+var indexMap = myArray.reduce(function(memo, item, index) {
+  memo[item] = index;
+}, {}); // Error: cannot set property &#39;b&#39; of undefined
+</code></pre>
+<p>This rule enforces usage of <code>return</code> statement in callbacks of array&#39;s methods.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule finds callback functions of the following methods, then checks usage of <code>return</code> statement.</p>
+<ul>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-array.from"><code>Array.from</code></a></li>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.every"><code>Array.prototype.every</code></a></li>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.filter"><code>Array.prototype.filter</code></a></li>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.find"><code>Array.prototype.find</code></a></li>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.findIndex"><code>Array.prototype.findIndex</code></a></li>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.map"><code>Array.prototype.map</code></a></li>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.reduce"><code>Array.prototype.reduce</code></a></li>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.reduceRight"><code>Array.prototype.reduceRight</code></a></li>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.some"><code>Array.prototype.some</code></a></li>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.sort"><code>Array.prototype.sort</code></a></li>
+<li>And above of typed arrays.</li>
+</ul>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint array-callback-return: &quot;error&quot;*/
+
+var indexMap = myArray.reduce(function(memo, item, index) {
+    memo[item] = index;
+}, {});
+
+var foo = Array.from(nodes, function(node) {
+    if (node.tagName === &quot;DIV&quot;) {
+        return true;
+    }
+});
+
+var bar = foo.filter(function(x) {
+    if (x) {
+        return true;
+    } else {
+        return;
+    }
+});
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint array-callback-return: &quot;error&quot;*/
+
+var indexMap = myArray.reduce(function(memo, item, index) {
+    memo[item] = index;
+    return memo;
+}, {});
+
+var foo = Array.from(nodes, function(node) {
+    if (node.tagName === &quot;DIV&quot;) {
+        return true;
+    }
+    return false;
+});
+
+var bar = foo.map(node =&gt; node.getAttribute(&quot;id&quot;));
+</code></pre>
+<h2 id="known-limitations">Known Limitations</h2>
+<p>This rule checks callback functions of methods with the given names, <em>even if</em> the object which has the method is <em>not</em> an array.</p>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to warn about usage of <code>return</code> statement in callbacks of array&#39;s methods, then it&#39;s safe to disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

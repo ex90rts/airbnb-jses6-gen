@@ -1,0 +1,61 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-invalid-characters-from-appearing-in-markup-no-unescaped-entities-">Prevent invalid characters from appearing in markup (no-unescaped-entities)</h1>
+<p>This rule prevents characters that you may have meant as JSX escape characters 
+from being accidentally injected as a text node in JSX statements.</p>
+<p>For example, if one were to misplace their closing <code>&gt;</code> in a tag:</p>
+<pre><code class="lang-jsx">&lt;MyComponent
+  name=&quot;name&quot;
+  type=&quot;string&quot;
+  foo=&quot;bar&quot;&gt;  {/* oops! */}
+  x=&quot;y&quot;&gt;
+  Body Text
+&lt;/MyComponent&gt;
+</code></pre>
+<p>The body text of this would render as <code>x=&quot;y&quot;&gt; Body Text</code>, which is probably not
+what was intended. This rule requires that these special characters are
+escaped if they appear in the body of a tag.</p>
+<p>Another example is when one accidentally includes an extra closing brace.</p>
+<pre><code class="lang-jsx">&lt;MyComponent&gt;{&#39;Text&#39;}}&lt;/MyComponent&gt;
+</code></pre>
+<p>The extra brace will be rendered, and the body text will be <code>Text}</code>.</p>
+<p>This rule will also check for <code>&quot;</code> and <code>&#39;</code>, which might be accidentally included 
+when the closing <code>&gt;</code> is in the wrong place.</p>
+<pre><code class="lang-jsx">&lt;MyComponent
+  a=&quot;b&quot;&gt;  {/* oops! */}
+  c=&quot;d&quot;
+  Intended body text
+&lt;/MyComponent&gt;
+</code></pre>
+<p>The preferred way to include one of these characters is to use the HTML escape code.</p>
+<ul>
+<li><code>&gt;</code> can be replaced with <code>&amp;gt;</code></li>
+<li><code>&quot;</code> can be replaced with <code>&amp;quot;</code>, <code>&amp;ldquo;</code> or <code>&amp;rdquo;</code></li>
+<li><code>&#39;</code> can be replaced with <code>&amp;apos;</code>, <code>&amp;lsquo;</code> or <code>&amp;rsquo;</code></li>
+<li><code>}</code> can be replaced with <code>&amp;#125;</code></li>
+</ul>
+<p>Alternatively, you can include the literal character inside a subexpression
+(such as <code>&lt;div&gt;{&#39;&gt;&#39;}&lt;/div&gt;</code>.</p>
+<p>The characters <code>&lt;</code> and <code>{</code> should also be escaped, but they are not checked by this
+rule because it is a syntax error to include those tokens inside of a tag.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">&lt;div&gt; &gt; &lt;/div&gt;
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">&lt;div&gt; &amp;gt; &lt;/div&gt;
+</code></pre>
+<pre><code class="lang-jsx">&lt;div&gt; {&#39;&gt;&#39;} &lt;/div&gt;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

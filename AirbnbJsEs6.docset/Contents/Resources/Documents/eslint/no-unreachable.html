@@ -1,0 +1,78 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-unreachable-code-after-return-throw-continue-and-break-statements-no-unreachable-">disallow unreachable code after <code>return</code>, <code>throw</code>, <code>continue</code>, and <code>break</code> statements (no-unreachable)</h1>
+<p>Because the <code>return</code>, <code>throw</code>, <code>break</code>, and <code>continue</code> statements unconditionally exit a block of code, any statements after them cannot be executed. Unreachable statements are usually a mistake.</p>
+<pre><code class="lang-js">function fn() {
+    x = 1;
+    return x;
+    x = 3; // this will never execute
+}
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows unreachable code after <code>return</code>, <code>throw</code>, <code>continue</code>, and <code>break</code> statements.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-unreachable: &quot;error&quot;*/
+
+function foo() {
+    return true;
+    console.log(&quot;done&quot;);
+}
+
+function bar() {
+    throw new Error(&quot;Oops!&quot;);
+    console.log(&quot;done&quot;);
+}
+
+while(value) {
+    break;
+    console.log(&quot;done&quot;);
+}
+
+throw new Error(&quot;Oops!&quot;);
+console.log(&quot;done&quot;);
+
+function baz() {
+    if (Math.random() &lt; 0.5) {
+        return;
+    } else {
+        throw new Error();
+    }
+    console.log(&quot;done&quot;);
+}
+
+for (;;) {}
+console.log(&quot;done&quot;);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule, because of JavaScript function and variable hoisting:</p>
+<pre><code class="lang-js">/*eslint no-unreachable: &quot;error&quot;*/
+
+function foo() {
+    return bar();
+    function bar() {
+        return 1;
+    }
+}
+
+function bar() {
+    return x;
+    var x;
+}
+
+switch (foo) {
+    case 1:
+        break;
+        var x;
+}
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

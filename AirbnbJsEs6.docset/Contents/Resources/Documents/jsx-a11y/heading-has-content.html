@@ -1,0 +1,60 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="heading-has-content">heading-has-content</h1>
+<p>Enforce that heading elements (<code>h1</code>, <code>h2</code>, etc.) have content and that the content is accessible to screen readers. Accessible means that it is not hidden using the <code>aria-hidden</code> prop. Refer to the references to learn about why this is important.</p>
+<h4 id="references">References</h4>
+<ol>
+<li><a href="https://dequeuniversity.com/rules/axe/1.1/empty-heading">Deque University</a></li>
+</ol>
+<h2 id="rule-details">Rule details</h2>
+<p>This rule takes one optional object argument of type object:</p>
+<pre><code class="lang-json">{
+    &quot;rules&quot;: {
+        &quot;jsx-a11y/heading-has-content&quot;: [ 2, {
+            &quot;components&quot;: [ &quot;MyHeading&quot; ],
+          }],
+    }
+}
+</code></pre>
+<p>For the <code>components</code> option, these strings determine which JSX elements (<strong>always including</strong> <code>&lt;h1&gt;</code> thru <code>&lt;h6&gt;</code>) should be checked for having content. This is a good use case when you have a wrapper component that simply renders an <code>h1</code> element (like in React):</p>
+<pre><code class="lang-js">// Header.js
+const Header = props =&gt; {
+  return (
+    &lt;h1 {...props}&gt;{ props.children }&lt;/h1&gt;
+  );
+}
+
+...
+
+// CreateAccount.js (for example)
+...
+return (
+  &lt;Header&gt;Create Account&lt;/Header&gt;
+);
+</code></pre>
+<h4 id="bad">Bad</h4>
+<pre><code class="lang-jsx">function Foo(props) {
+  return &lt;label {...props} /&gt;
+}
+</code></pre>
+<h3 id="succeed">Succeed</h3>
+<pre><code class="lang-jsx">&lt;h1&gt;Heading Content!&lt;/h1&gt;
+&lt;h1&gt;&lt;TextWrapper /&gt;&lt;h1&gt;
+&lt;h1 dangerouslySetInnerHTML={{ __html: &#39;foo&#39; }} /&gt;
+</code></pre>
+<h3 id="fail">Fail</h3>
+<pre><code class="lang-jsx">&lt;h1 /&gt;
+&lt;h1&gt;&lt;TextWrapper aria-hidden /&gt;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

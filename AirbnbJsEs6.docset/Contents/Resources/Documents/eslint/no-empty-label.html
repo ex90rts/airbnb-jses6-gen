@@ -1,0 +1,41 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-empty-label-disallow-labels-for-anything-other-than-loops-and-switches">no-empty-label: disallow labels for anything other than loops and switches</h1>
+<p class="removed icon">(removed) This rule was <strong>removed</strong> in ESLint v2.0 and <strong>replaced</strong> by the <a href="no-labels.html">no-labels</a> rule.</p>
+<p>Labeled statements are only used in conjunction with labeled break and continue statements. ECMAScript has no goto statement.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This error occurs when a label is used to mark a statement that is not an iteration or switch</p>
+<p class="incorrect icon">Example of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-empty-label: &quot;error&quot;*/
+
+labeled:
+var x = 10;
+</code></pre>
+<p class="correct icon">Example of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-empty-label: &quot;error&quot;*/
+
+labeled:
+for (var i=10; i; i--) {
+    // ...
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about usage of labels, then it&#39;s safe to disable this rule.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="./no-labels.html">no-labels</a></li>
+<li><a href="./no-label-var.html">no-label-var</a></li>
+<li><a href="./no-unused-labels.html">no-unused-labels</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

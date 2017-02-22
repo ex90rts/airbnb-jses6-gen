@@ -1,0 +1,110 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-and-eqeqeq-">Require === and !== (eqeqeq)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>It is considered good practice to use the type-safe equality operators <code>===</code> and <code>!==</code> instead of their regular counterparts <code>==</code> and <code>!=</code>.</p>
+<p>The reason for this is that <code>==</code> and <code>!=</code> do type coercion which follows the rather obscure <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.3">Abstract Equality Comparison Algorithm</a>.
+For instance, the following statements are all considered <code>true</code>:</p>
+<ul>
+<li><code>[] == false</code></li>
+<li><code>[] == ![]</code></li>
+<li><code>3 == &quot;03&quot;</code></li>
+</ul>
+<p>If one of those occurs in an innocent-looking statement such as <code>a == b</code> the actual problem is very difficult to spot.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at eliminating the type-unsafe equality operators.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint eqeqeq: &quot;error&quot;*/
+
+if (x == 42) { }
+
+if (&quot;&quot; == text) { }
+
+if (obj.getStuff() != undefined) { }
+</code></pre>
+<p class="fixable icon">The <code>--fix</code> option on the command line automatically fixes some problems reported by this rule. A problem is only fixed if one of the operands is a <code>typeof</code> expression, or if both operands are literals with the same type.</p>
+<h2 id="options">Options</h2>
+<h3 id="always">always</h3>
+<p>The <code>&quot;always&quot;</code> option (default) enforces the use of <code>===</code> and <code>!==</code> in every situation (except when you opt-in to more specific handling of <code>null</code> [see below]).</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint eqeqeq: [&quot;error&quot;, &quot;always&quot;]*/
+
+a == b
+foo == true
+bananas != 1
+value == undefined
+typeof foo == &#39;undefined&#39;
+&#39;hello&#39; != &#39;world&#39;
+0 == 0
+true == true
+foo == null
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint eqeqeq: [&quot;error&quot;, &quot;always&quot;]*/
+
+a === b
+foo === true
+bananas !== 1
+value === undefined
+typeof foo === &#39;undefined&#39;
+&#39;hello&#39; !== &#39;world&#39;
+0 === 0
+true === true
+foo === null
+</code></pre>
+<p>This rule optionally takes a second argument, which should be an object with the following supported properties:</p>
+<ul>
+<li><code>&quot;null&quot;</code>: Customize how this rule treats <code>null</code> literals. Possible values:<ul>
+<li><code>always</code> (default) - Always use === or !==.</li>
+<li><code>never</code> - Never use === or !== with <code>null</code>.</li>
+<li><code>ignore</code> - Do not apply this rule to <code>null</code>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="smart">smart</h3>
+<p>The <code>&quot;smart&quot;</code> option enforces the use of <code>===</code> and <code>!==</code> except for these cases:</p>
+<ul>
+<li>Comparing two literal values</li>
+<li>Evaluating the value of <code>typeof</code></li>
+<li>Comparing against <code>null</code></li>
+</ul>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>&quot;smart&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint eqeqeq: [&quot;error&quot;, &quot;smart&quot;]*/
+
+// comparing two variables requires ===
+a == b
+
+// only one side is a literal
+foo == true
+bananas != 1
+
+// comparing to undefined requires ===
+value == undefined
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>&quot;smart&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint eqeqeq: [&quot;error&quot;, &quot;smart&quot;]*/
+
+typeof foo == &#39;undefined&#39;
+&#39;hello&#39; != &#39;world&#39;
+0 == 0
+true == true
+foo == null
+</code></pre>
+<h3 id="allow-null">allow-null</h3>
+<p><strong>Deprecated:</strong> Instead of using this option use &quot;always&quot; and pass a &quot;null&quot; option property with value &quot;ignore&quot;. This will tell eslint to always enforce strict equality except when comparing with the <code>null</code> literal.</p>
+<pre><code class="lang-js">[&quot;error&quot;, &quot;always&quot;, {&quot;null&quot;: &quot;ignore&quot;}]
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to enforce a style for using equality operators, then it&#39;s safe to disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

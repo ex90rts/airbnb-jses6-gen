@@ -1,0 +1,57 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-negating-the-left-operand-of-relational-operators-no-unsafe-negation-">disallow negating the left operand of relational operators (no-unsafe-negation)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Just as developers might type <code>-a + b</code> when they mean <code>-(a + b)</code> for the negative of a sum, they might type <code>!key in object</code> by mistake when they almost certainly mean <code>!(key in object)</code> to test that a key is not in an object. <code>!obj instanceof Ctor</code> is similar.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows negating the left operand of <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Expressions_and_Operators#Relational_operators">Relational Operators</a>.</p>
+<p>Relational Operators are:</p>
+<ul>
+<li><code>in</code> operator.</li>
+<li><code>instanceof</code> operator.</li>
+</ul>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-unsafe-negation: &quot;error&quot;*/
+
+if (!key in object) {
+    // operator precedence makes it equivalent to (!key) in object
+    // and type conversion makes it equivalent to (key ? &quot;false&quot; : &quot;true&quot;) in object
+}
+
+if (!obj instanceof Ctor) {
+    // operator precedence makes it equivalent to (!obj) instanceof Ctor
+    // and it equivalent to always false since boolean values are not objects.
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-unsafe-negation: &quot;error&quot;*/
+
+if (!(key in object)) {
+    // key is not in object
+}
+
+if (!(obj instanceof Ctor)) {
+    // obj is not an instance of Ctor
+}
+
+if((&quot;&quot; + !key) in object) {
+    // make operator precedence and type conversion explicit
+    // in a rare situation when that is the intended meaning
+}
+</code></pre>
+<h2 id="options">Options</h2>
+<p>Nothing.</p>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to notify unsafe logical negations, then it&#39;s safe to disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

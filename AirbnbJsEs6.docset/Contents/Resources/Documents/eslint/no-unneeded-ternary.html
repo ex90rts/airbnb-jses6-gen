@@ -1,0 +1,80 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-ternary-operators-when-simpler-alternatives-exist-no-unneeded-ternary-">disallow ternary operators when simpler alternatives exist (no-unneeded-ternary)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>It&#39;s a common mistake in JavaScript to use a conditional expression to select between two Boolean values instead of using ! to convert the test to a Boolean.
+Here are some examples:</p>
+<pre><code class="lang-js">// Bad
+var isYes = answer === 1 ? true : false;
+
+// Good
+var isYes = answer === 1;
+
+
+// Bad
+var isNo = answer === 1 ? false : true;
+
+// Good
+var isNo = answer !== 1;
+</code></pre>
+<p>Another common mistake is using a single variable as both the conditional test and the consequent. In such cases, the logical <code>OR</code> can be used to provide the same functionality.
+Here is an example:</p>
+<pre><code class="lang-js">// Bad
+var foo = bar ? bar : 1;
+
+// Good
+var foo = bar || 1;
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallow ternary operators when simpler alternatives exist.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-unneeded-ternary: &quot;error&quot;*/
+
+var a = x === 2 ? true : false;
+
+var a = x ? true : false;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-unneeded-ternary: &quot;error&quot;*/
+
+var a = x === 2 ? &quot;Yes&quot; : &quot;No&quot;;
+
+var a = x !== false;
+
+var a = x ? &quot;Yes&quot; : &quot;No&quot;;
+
+var a = x ? y : x;
+
+var a = x ? x : 1;
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule has an object option:</p>
+<ul>
+<li><code>&quot;defaultAssignment&quot;: true</code> (default) allows the conditional expression as a default assignment pattern</li>
+<li><code>&quot;defaultAssignment&quot;: false</code> disallows the conditional expression as a default assignment pattern</li>
+</ul>
+<h3 id="defaultassignment">defaultAssignment</h3>
+<p class="incorrect icon">Examples of additional <strong>incorrect</strong> code for this rule with the <code>{ &quot;defaultAssignment&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-unneeded-ternary: [&quot;error&quot;, { &quot;defaultAssignment&quot;: false }]*/
+
+var a = x ? x : 1;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You can turn this rule off if you are not concerned with unnecessary complexity in conditional expressions.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-ternary.html">no-ternary</a></li>
+<li><a href="no-nested-ternary.html">no-nested-ternary</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

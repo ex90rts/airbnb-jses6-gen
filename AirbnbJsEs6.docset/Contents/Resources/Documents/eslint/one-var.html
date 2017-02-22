@@ -1,0 +1,285 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-variables-to-be-declared-either-together-or-separately-in-functions-one-var-">enforce variables to be declared either together or separately in functions (one-var)</h1>
+<p>Variables can be declared at any point in JavaScript code using <code>var</code>, <code>let</code>, or <code>const</code>. There are many styles and preferences related to the declaration of variables, and one of those is deciding on how many variable declarations should be allowed in a single function.</p>
+<p>There are two schools of thought in this regard:</p>
+<ol>
+<li>There should be just one variable declaration for all variables in the function. That declaration typically appears at the top of the function.</li>
+<li>You should use one variable declaration for each variable you want to define.</li>
+</ol>
+<p>For instance:</p>
+<pre><code class="lang-js">// one variable declaration per function
+function foo() {
+    var bar, baz;
+}
+
+// multiple variable declarations per function
+function foo() {
+    var bar;
+    var baz;
+}
+</code></pre>
+<p>The single-declaration school of thought is based in pre-ECMAScript 6 behaviors, where there was no such thing as block scope, only function scope. Since all <code>var</code> statements are hoisted to the top of the function anyway, some believe that declaring all variables in a single declaration at the top of the function removes confusion around scoping rules.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces variables to be declared either together or separately per function ( for <code>var</code>) or block (for <code>let</code> and <code>const</code>) scope.</p>
+<h2 id="options">Options</h2>
+<p>This rule has one option, which can be a string option or an object option.</p>
+<p>String option:</p>
+<ul>
+<li><code>&quot;always&quot;</code> (default) requires one variable declaration per scope</li>
+<li><code>&quot;never&quot;</code> requires multiple variable declarations per scope</li>
+</ul>
+<p>Object option:</p>
+<ul>
+<li><code>&quot;var&quot;: &quot;always&quot;</code> requires one <code>var</code> declaration per function</li>
+<li><code>&quot;var&quot;: &quot;never&quot;</code> requires multiple <code>var</code> declarations per function</li>
+<li><code>&quot;let&quot;: &quot;always&quot;</code> requires one <code>let</code> declaration per block</li>
+<li><code>&quot;let&quot;: &quot;never&quot;</code> requires multiple <code>let</code> declarations per block</li>
+<li><code>&quot;const&quot;: &quot;always&quot;</code> requires one <code>const</code> declaration per block</li>
+<li><code>&quot;const&quot;: &quot;never&quot;</code> requires multiple <code>const</code> declarations per block</li>
+</ul>
+<p>Alternate object option:</p>
+<ul>
+<li><code>&quot;initialized&quot;: &quot;always&quot;</code> requires one variable declaration for initialized variables per scope</li>
+<li><code>&quot;initialized&quot;: &quot;never&quot;</code> requires multiple variable declarations for initialized variables per scope</li>
+<li><code>&quot;uninitialized&quot;: &quot;always&quot;</code> requires one variable declaration for uninitialized variables per scope</li>
+<li><code>&quot;uninitialized&quot;: &quot;never&quot;</code> requires multiple variable declarations for uninitialized variables per scope</li>
+</ul>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var: [&quot;error&quot;, &quot;always&quot;]*/
+/*eslint-env es6*/
+
+function foo() {
+    var bar;
+    var baz;
+    let qux;
+    let norf;
+}
+
+function foo(){
+    const bar = false;
+    const baz = true;
+    let qux;
+    let norf;
+}
+
+function foo() {
+    var bar;
+
+    if (baz) {
+        var qux = true;
+    }
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var: [&quot;error&quot;, &quot;always&quot;]*/
+/*eslint-env es6*/
+
+function foo() {
+    var bar,
+        baz;
+    let qux,
+        norf;
+}
+
+function foo(){
+    const bar = true,
+        baz = false;
+    let qux,
+        norf;
+}
+
+function foo() {
+    var bar,
+        qux;
+
+    if (baz) {
+        qux = true;
+    }
+}
+
+function foo(){
+    let bar;
+
+    if (baz) {
+        let qux;
+    }
+}
+</code></pre>
+<h3 id="never">never</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var: [&quot;error&quot;, &quot;never&quot;]*/
+/*eslint-env es6*/
+
+function foo() {
+    var bar,
+        baz;
+    const bar = true,
+        baz = false;
+}
+
+function foo() {
+    var bar,
+        qux;
+
+    if (baz) {
+        qux = true;
+    }
+}
+
+function foo(){
+    let bar = true,
+        baz = false;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var: [&quot;error&quot;, &quot;never&quot;]*/
+/*eslint-env es6*/
+
+function foo() {
+    var bar;
+    var baz;
+}
+
+function foo() {
+    var bar;
+
+    if (baz) {
+        var qux = true;
+    }
+}
+
+function foo() {
+    let bar;
+
+    if (baz) {
+        let qux = true;
+    }
+}
+</code></pre>
+<h3 id="var-let-and-const">var, let, and const</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ var: &quot;always&quot;, let: &quot;never&quot;, const: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var: [&quot;error&quot;, { var: &quot;always&quot;, let: &quot;never&quot;, const: &quot;never&quot; }]*/
+/*eslint-env es6*/
+
+function foo() {
+    var bar;
+    var baz;
+    let qux,
+        norf;
+}
+
+function foo() {
+    const bar = 1,
+          baz = 2;
+    let qux,
+        norf;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ var: &quot;always&quot;, let: &quot;never&quot;, const: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var: [&quot;error&quot;, { var: &quot;always&quot;, let: &quot;never&quot;, const: &quot;never&quot; }]*/
+/*eslint-env es6*/
+
+function foo() {
+    var bar,
+        baz;
+    let qux;
+    let norf;
+}
+
+function foo() {
+    const bar = 1;
+    const baz = 2;
+    let qux;
+    let norf;
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ var: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var: [&quot;error&quot;, { var: &quot;never&quot; }]*/
+/*eslint-env es6*/
+
+function foo() {
+    var bar,
+        baz;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ var: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var: [&quot;error&quot;, { var: &quot;never&quot; }]*/
+/*eslint-env es6*/
+
+function foo() {
+    var bar,
+        baz;
+    const bar = 1; // `const` and `let` declarations are ignored if they are not specified
+    const baz = 2;
+    let qux;
+    let norf;
+}
+</code></pre>
+<h3 id="initialized-and-uninitialized">initialized and uninitialized</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;initialized&quot;: &quot;always&quot;, &quot;uninitialized&quot;: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var: [&quot;error&quot;, { &quot;initialized&quot;: &quot;always&quot;, &quot;uninitialized&quot;: &quot;never&quot; }]*/
+/*eslint-env es6*/
+
+function foo() {
+    var a, b, c;
+    var foo = true;
+    var bar = false;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;initialized&quot;: &quot;always&quot;, &quot;uninitialized&quot;: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var: [&quot;error&quot;, { &quot;initialized&quot;: &quot;always&quot;, &quot;uninitialized&quot;: &quot;never&quot; }]*/
+
+function foo() {
+    var a;
+    var b;
+    var c;
+    var foo = true,
+        bar = false;
+}
+
+for (let z of foo) {
+    doSomething(z);
+}
+
+let z;
+for (z of foo) {
+    doSomething(z);
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;initialized&quot;: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var: [&quot;error&quot;, { &quot;initialized&quot;: &quot;never&quot; }]*/
+/*eslint-env es6*/
+
+function foo() {
+    var foo = true,
+        bar = false;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;initialized&quot;: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint one-var: [&quot;error&quot;, { initialized: &quot;never&quot; }]*/
+
+function foo() {
+    var foo = true;
+    var bar = false;
+    var a, b, c; // Uninitialized variables are ignored
+}
+</code></pre>
+<h2 id="compatibility">Compatibility</h2>
+<ul>
+<li><strong>JSHint</strong>: This rule maps to the <code>onevar</code> JSHint rule, but allows <code>let</code> and <code>const</code> to be configured separately.</li>
+<li><strong>JSCS</strong>: This rule roughly maps to <a href="http://jscs.info/rule/disallowMultipleVarDecl">disallowMultipleVarDecl</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

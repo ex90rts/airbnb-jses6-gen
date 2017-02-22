@@ -1,0 +1,121 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-braces-in-arrow-function-body-arrow-body-style-">Require braces in arrow function body (arrow-body-style)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Arrow functions have two syntactic forms for their function bodies.  They may be defined with a <em>block</em> body (denoted by curly braces) <code>() =&gt; { ... }</code> or with a single expression <code>() =&gt; ...</code>, whose value is implicitly returned.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule can enforce or disallow the use of braces around arrow function body.</p>
+<h2 id="options">Options</h2>
+<p>The rule takes one or two options. The first is a string, which can be:</p>
+<ul>
+<li><code>&quot;always&quot;</code> enforces braces around the function body</li>
+<li><code>&quot;as-needed&quot;</code> enforces no braces where they can be omitted (default)</li>
+<li><code>&quot;never&quot;</code> enforces no braces around the function body (constrains arrow functions to the role of returning an expression)</li>
+</ul>
+<p>The second one is an object for more fine-grained configuration when the first option is <code>&quot;as-needed&quot;</code>. Currently, the only available option is <code>requireReturnForObjectLiteral</code>, a boolean property. It&#39;s <code>false</code> by default. If set to <code>true</code>, it requires braces and an explicit return for object literals.</p>
+<pre><code class="lang-json">&quot;arrow-body-style&quot;: [&quot;error&quot;, &quot;always&quot;]
+</code></pre>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint arrow-body-style: [&quot;error&quot;, &quot;always&quot;]*/
+/*eslint-env es6*/
+let foo = () =&gt; 0;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">let foo = () =&gt; {
+    return 0;
+};
+let foo = (retv, name) =&gt; {
+    retv[name] = true;
+    return retv;
+};
+</code></pre>
+<h3 id="as-needed">as-needed</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;as-needed&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint arrow-body-style: [&quot;error&quot;, &quot;as-needed&quot;]*/
+/*eslint-env es6*/
+
+let foo = () =&gt; {
+    return 0;
+};
+let foo = () =&gt; {
+    return {
+       bar: {
+            foo: 1,
+            bar: 2,
+        }
+    };
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;as-needed&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint arrow-body-style: [&quot;error&quot;, &quot;as-needed&quot;]*/
+/*eslint-env es6*/
+
+let foo = () =&gt; 0;
+let foo = (retv, name) =&gt; {
+    retv[name] = true;
+    return retv;
+};
+let foo = () =&gt; ({
+    bar: {
+        foo: 1,
+        bar: 2,
+    }
+});
+let foo = () =&gt; { bar(); };
+let foo = () =&gt; {};
+let foo = () =&gt; { /* do nothing */ };
+let foo = () =&gt; {
+    // do nothing.
+};
+let foo = () =&gt; ({ bar: 0 });
+</code></pre>
+<h4 id="requirereturnforobjectliteral">requireReturnForObjectLiteral</h4>
+<blockquote>
+<p>This option is only applicable when used in conjunction with the <code>&quot;as-needed&quot;</code> option.</p>
+</blockquote>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;requireReturnForObjectLiteral&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint arrow-body-style: [&quot;error&quot;, &quot;as-needed&quot;, { &quot;requireReturnForObjectLiteral&quot;: true }]*/
+/*eslint-env es6*/
+let foo = () =&gt; ({});
+let foo = () =&gt; ({ bar: 0 });
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;requireReturnForObjectLiteral&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint arrow-body-style: [&quot;error&quot;, &quot;as-needed&quot;, { &quot;requireReturnForObjectLiteral&quot;: true }]*/
+/*eslint-env es6*/
+
+let foo = () =&gt; {};
+let foo = () =&gt; { return { bar: 0 }; };
+</code></pre>
+<h3 id="never">never</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint arrow-body-style: [&quot;error&quot;, &quot;never&quot;]*/
+/*eslint-env es6*/
+
+let foo = () =&gt; {
+    return 0;
+};
+let foo = (retv, name) =&gt; {
+    retv[name] = true;
+    return retv;
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint arrow-body-style: [&quot;error&quot;, &quot;never&quot;]*/
+/*eslint-env es6*/
+
+let foo = () =&gt; 0;
+let foo = () =&gt; ({ foo: 0 });
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

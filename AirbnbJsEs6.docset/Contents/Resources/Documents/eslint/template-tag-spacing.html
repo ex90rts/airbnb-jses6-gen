@@ -1,0 +1,64 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-or-disallow-spacing-between-template-tags-and-their-literals-template-tag-spacing-">Require or disallow spacing between template tags and their literals (template-tag-spacing)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>With ES6, it&#39;s possible to create functions called <a href="#further-reading">tagged template literals</a> where the function parameters consist of a template literal&#39;s strings and expressions.</p>
+<p>When using tagged template literals, it&#39;s possible to insert whitespace between the tag function and the template literal. Since this whitespace is optional, the following lines are equivalent:</p>
+<pre><code class="lang-js">let hello = func`Hello world`;
+let hello = func `Hello world`;
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to maintain consistency around the spacing between template tag functions and their template literals.</p>
+<h2 id="options">Options</h2>
+<pre><code class="lang-json">{
+    &quot;template-tag-spacing&quot;: [&quot;error&quot;, &quot;never&quot;]
+}
+</code></pre>
+<p>This rule has one option whose value can be set to &quot;never&quot; or &quot;always&quot;</p>
+<ul>
+<li><code>&quot;never&quot;</code> (default) - Disallows spaces between a tag function and its template literal.</li>
+<li><code>&quot;always&quot;</code> - Requires one or more spaces between a tag function and its template literal.</li>
+</ul>
+<h2 id="examples">Examples</h2>
+<h3 id="never">never</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint template-tag-spacing: &quot;error&quot;*/
+
+func `Hello world`;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint template-tag-spacing: &quot;error&quot;*/
+
+func`Hello world`;
+</code></pre>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint template-tag-spacing: [&quot;error&quot;, &quot;always&quot;]*/
+
+func`Hello world`;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint template-tag-spacing: [&quot;error&quot;, &quot;always&quot;]*/
+
+func `Hello world`;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about usage of spacing between tag functions and their template literals, then it&#39;s safe to disable this rule.</p>
+<h2 id="further-reading">Further Reading</h2>
+<p>If you want to learn more about tagged template literals, check out the links below:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_template_literals">Template literals (MDN)</a></li>
+<li><a href="http://exploringjs.com/es6/ch_template-literals.html#_examples-of-using-tagged-template-literals">Examples of using tagged template literals (Exploring ES6)</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

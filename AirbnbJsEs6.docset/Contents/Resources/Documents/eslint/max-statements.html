@@ -1,0 +1,139 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-a-maximum-number-of-statements-allowed-in-function-blocks-max-statements-">enforce a maximum number of statements allowed in function blocks (max-statements)</h1>
+<p>The <code>max-statements</code> rule allows you to specify the maximum number of statements allowed in a function.</p>
+<pre><code class="lang-js">function foo() {
+  var bar = 1; // one statement
+  var baz = 2; // two statements
+  var qux = 3; // three statements
+}
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces a maximum number of statements allowed in function blocks.</p>
+<h2 id="options">Options</h2>
+<p>This rule has a number or object option:</p>
+<ul>
+<li><code>&quot;max&quot;</code> (default <code>10</code>) enforces a maximum number of statements allows in function blocks</li>
+</ul>
+<p><strong>Deprecated:</strong> The object property <code>maximum</code> is deprecated; please use the object property <code>max</code> instead.</p>
+<p>This rule has an object option:</p>
+<ul>
+<li><code>&quot;ignoreTopLevelFunctions&quot;: true</code> ignores top-level functions</li>
+</ul>
+<h3 id="max">max</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>{ &quot;max&quot;: 10 }</code> option:</p>
+<pre><code class="lang-js">/*eslint max-statements: [&quot;error&quot;, 10]*/
+/*eslint-env es6*/
+
+function foo() {
+  var foo1 = 1;
+  var foo2 = 2;
+  var foo3 = 3;
+  var foo4 = 4;
+  var foo5 = 5;
+  var foo6 = 6;
+  var foo7 = 7;
+  var foo8 = 8;
+  var foo9 = 9;
+  var foo10 = 10;
+
+  var foo11 = 11; // Too many.
+}
+
+let foo = () =&gt; {
+  var foo1 = 1;
+  var foo2 = 2;
+  var foo3 = 3;
+  var foo4 = 4;
+  var foo5 = 5;
+  var foo6 = 6;
+  var foo7 = 7;
+  var foo8 = 8;
+  var foo9 = 9;
+  var foo10 = 10;
+
+  var foo11 = 11; // Too many.
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>{ &quot;max&quot;: 10 }</code> option:</p>
+<pre><code class="lang-js">/*eslint max-statements: [&quot;error&quot;, 10]*/
+/*eslint-env es6*/
+
+function foo() {
+  var foo1 = 1;
+  var foo2 = 2;
+  var foo3 = 3;
+  var foo4 = 4;
+  var foo5 = 5;
+  var foo6 = 6;
+  var foo7 = 7;
+  var foo8 = 8;
+  var foo9 = 9;
+  var foo10 = 10;
+  return function () {
+
+    // The number of statements in the inner function does not count toward the
+    // statement maximum.
+
+    return 42;
+  };
+}
+
+let foo = () =&gt; {
+  var foo1 = 1;
+  var foo2 = 2;
+  var foo3 = 3;
+  var foo4 = 4;
+  var foo5 = 5;
+  var foo6 = 6;
+  var foo7 = 7;
+  var foo8 = 8;
+  var foo9 = 9;
+  var foo10 = 10;
+  return function () {
+
+    // The number of statements in the inner function does not count toward the
+    // statement maximum.
+
+    return 42;
+  };
+}
+</code></pre>
+<h3 id="ignoretoplevelfunctions">ignoreTopLevelFunctions</h3>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>{ &quot;max&quot;: 10 }, { &quot;ignoreTopLevelFunctions&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint max-statements: [&quot;error&quot;, 10, { &quot;ignoreTopLevelFunctions&quot;: true }]*/
+
+function foo() {
+  var foo1 = 1;
+  var foo2 = 2;
+  var foo3 = 3;
+  var foo4 = 4;
+  var foo5 = 5;
+  var foo6 = 6;
+  var foo7 = 7;
+  var foo8 = 8;
+  var foo9 = 9;
+  var foo10 = 10;
+  var foo11 = 11;
+}
+</code></pre>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="complexity.html">complexity</a></li>
+<li><a href="max-depth.html">max-depth</a></li>
+<li><a href="max-len.html">max-len</a></li>
+<li><a href="max-nested-callbacks.html">max-nested-callbacks</a></li>
+<li><a href="max-params.html">max-params</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

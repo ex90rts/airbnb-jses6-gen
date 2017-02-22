@@ -1,0 +1,73 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-using-error-objects-as-promise-rejection-reasons-prefer-promise-reject-errors-">require using Error objects as Promise rejection reasons (prefer-promise-reject-errors)</h1>
+<p>It is considered good practice to only pass instances of the built-in <code>Error</code> object to the <code>reject()</code> function for user-defined errors in Promises. <code>Error</code> objects automatically store a stack trace, which can be used to debug an error by determining where it came from. If a Promise is rejected with a non-<code>Error</code> value, it can be difficult to determine where the rejection occurred.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to ensure that Promises are only rejected with <code>Error</code> objects.</p>
+<h2 id="options">Options</h2>
+<p>This rule takes one optional object argument:</p>
+<ul>
+<li><code>allowEmptyReject: true</code> (<code>false</code> by default) allows calls to <code>Promise.reject()</code> with no arguments.</li>
+</ul>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint prefer-promise-reject-errors: &quot;error&quot;*/
+
+Promise.reject(&quot;something bad happened&quot;);
+
+Promise.reject(5);
+
+Promise.reject();
+
+new Promise(function(resolve, reject) {
+  reject(&quot;something bad happened&quot;);
+});
+
+new Promise(function(resolve, reject) {
+  reject();
+});
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint prefer-promise-reject-errors: &quot;error&quot;*/
+
+Promise.reject(new Error(&quot;something bad happened&quot;));
+
+Promise.reject(new TypeError(&quot;something bad happened&quot;));
+
+new Promise(function(resolve, reject) {
+  reject(new Error(&quot;something bad happened&quot;));
+});
+
+var foo = getUnknownValue();
+Promise.reject(foo);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>allowEmptyReject: true</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-promise-reject-errors: [&quot;error&quot;, {&quot;allowEmptyReject&quot;: true}]*/
+
+Promise.reject();
+
+new Promise(function(resolve, reject) {
+  reject();
+});
+</code></pre>
+<h2 id="known-limitations">Known Limitations</h2>
+<p>Due to the limits of static analysis, this rule cannot guarantee that you will only reject Promises with <code>Error</code> objects. While the rule will report cases where it can guarantee that the rejection reason is clearly not an <code>Error</code>, it will not report cases where there is uncertainty about whether a given reason is an <code>Error</code>. For more information on this caveat, see the <a href="http://eslint.org/docs/rules/no-throw-literal#known-limitations">similar limitations</a> in the <code>no-throw-literal</code> rule.</p>
+<p>To avoid conflicts between rules, this rule does not report non-error values used in <code>throw</code> statements in async functions, even though these lead to Promise rejections. To lint for these cases, use the <a href="http://eslint.org/docs/rules/no-throw-literal"><code>no-throw-literal</code></a> rule.</p>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you&#39;re using custom non-error values as Promise rejection reasons, you can turn off this rule.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://eslint.org/docs/rules/no-throw-literal"><code>no-throw-literal</code></a></li>
+<li><a href="http://bluebirdjs.com/docs/warning-explanations.html#warning-a-promise-was-rejected-with-a-non-error">Warning: a promise was rejected with a non-error</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

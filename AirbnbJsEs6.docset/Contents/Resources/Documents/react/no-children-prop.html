@@ -1,0 +1,41 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-passing-of-children-as-props-no-children-prop-">Prevent passing of children as props (no-children-prop)</h1>
+<p>Children should always be actual children, not passed in as a prop.</p>
+<p>When using JSX, the children should be nested between the opening and closing
+tags. When not using JSX, the children should be passed as additional
+arguments to <code>React.createElement</code>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">&lt;div children=&#39;Children&#39; /&gt;
+
+&lt;MyComponent children={&lt;AnotherComponent /&gt;} /&gt;
+&lt;MyComponent children={[&#39;Child 1&#39;, &#39;Child 2&#39;]} /&gt;
+
+React.createElement(&quot;div&quot;, { children: &#39;Children&#39; })
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">&lt;div&gt;Children&lt;/div&gt;
+
+&lt;MyComponent&gt;Children&lt;/MyComponent&gt;
+
+&lt;MyComponent&gt;
+  &lt;span&gt;Child 1&lt;/span&gt;
+  &lt;span&gt;Child 2&lt;/span&gt;
+&lt;/MyComponent&gt;
+
+React.createElement(&quot;div&quot;, {}, &#39;Children&#39;)
+React.createElement(&quot;div&quot;, &#39;Child 1&#39;, &#39;Child 2&#39;)
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

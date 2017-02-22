@@ -1,0 +1,46 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-object-constructors-no-new-object-">disallow <code>Object</code> constructors (no-new-object)</h1>
+<p>The <code>Object</code> constructor is used to create new generic objects in JavaScript, such as:</p>
+<pre><code class="lang-js">var myObject = new Object();
+</code></pre>
+<p>However, this is no different from using the more concise object literal syntax:</p>
+<pre><code class="lang-js">var myObject = {};
+</code></pre>
+<p>For this reason, many prefer to always use the object literal syntax and never use the <code>Object</code> constructor.</p>
+<p>While there are no performance differences between the two approaches, the byte savings and conciseness of the object literal form is what has made it the de facto way of creating new objects.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows <code>Object</code> constructors.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-new-object: &quot;error&quot;*/
+
+var myObject = new Object();
+
+var myObject = new Object;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-new-object: &quot;error&quot;*/
+
+var myObject = new CustomObject();
+
+var myObject = {};
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you wish to allow the use of the <code>Object</code> constructor, you can safely turn this rule off.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-array-constructor.html">no-array-constructor</a></li>
+<li><a href="no-new-wrappers.html">no-new-wrappers</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

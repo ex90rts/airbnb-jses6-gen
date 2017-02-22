@@ -1,0 +1,77 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-a-maximum-number-of-statements-allowed-per-line-max-statements-per-line-">enforce a maximum number of statements allowed per line (max-statements-per-line)</h1>
+<p>A line of code containing too many statements can be difficult to read. Code is generally read from the top down, especially when scanning, so limiting the number of statements allowed on a single line can be very beneficial for readability and maintainability.</p>
+<pre><code class="lang-js">function () { var bar; if (condition) { bar = 1; } else { bar = 2; } return true; } // too many statements
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces a maximum number of statements allowed per line.</p>
+<h2 id="options">Options</h2>
+<h3 id="max">max</h3>
+<p>The &quot;max&quot; object property is optional (default: 1).</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>{ &quot;max&quot;: 1 }</code> option:</p>
+<pre><code class="lang-js">/*eslint max-statements-per-line: [&quot;error&quot;, { &quot;max&quot;: 1 }]*/
+
+var bar; var baz;
+if (condition) { bar = 1; }
+for (var i = 0; i &lt; length; ++i) { bar = 1; }
+switch (discriminant) { default: break; }
+function foo() { bar = 1; }
+var foo = function foo() { bar = 1; };
+(function foo() { bar = 1; })();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>{ &quot;max&quot;: 1 }</code> option:</p>
+<pre><code class="lang-js">/*eslint max-statements-per-line: [&quot;error&quot;, { &quot;max&quot;: 1 }]*/
+
+var bar, baz;
+if (condition) bar = 1;
+for (var i = 0; i &lt; length; ++i);
+switch (discriminant) { default: }
+function foo() { }
+var foo = function foo() { };
+(function foo() { })();
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;max&quot;: 2 }</code> option:</p>
+<pre><code class="lang-js">/*eslint max-statements-per-line: [&quot;error&quot;, { &quot;max&quot;: 2 }]*/
+
+var bar; var baz; var qux;
+if (condition) { bar = 1; } else { baz = 2; }
+for (var i = 0; i &lt; length; ++i) { bar = 1; baz = 2; }
+switch (discriminant) { case &#39;test&#39;: break; default: break; }
+function foo() { bar = 1; baz = 2; }
+var foo = function foo() { bar = 1; };
+(function foo() { bar = 1; baz = 2; })();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;max&quot;: 2 }</code> option:</p>
+<pre><code class="lang-js">/*eslint max-statements-per-line: [&quot;error&quot;, { &quot;max&quot;: 2 }]*/
+
+var bar; var baz;
+if (condition) bar = 1; if (condition) baz = 2;
+for (var i = 0; i &lt; length; ++i) { bar = 1; }
+switch (discriminant) { default: break; }
+function foo() { bar = 1; }
+var foo = function foo() { bar = 1; };
+(function foo() { var bar = 1; })();
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You can turn this rule off if you are not concerned with the number of statements on each line.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="max-depth.html">max-depth</a></li>
+<li><a href="max-len.html">max-len</a></li>
+<li><a href="max-nested-callbacks.html">max-nested-callbacks</a></li>
+<li><a href="max-params.html">max-params</a></li>
+<li><a href="max-statements.html">max-statements</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

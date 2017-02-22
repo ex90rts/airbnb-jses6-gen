@@ -1,0 +1,108 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-certain-object-properties-no-restricted-properties-">disallow certain object properties (no-restricted-properties)</h1>
+<p>Certain properties on objects may be disallowed in a codebase. This is useful for deprecating an API or restricting usage of a module&#39;s methods. For example, you may want to disallow using <code>describe.only</code> when using Mocha or telling people to use <code>Object.assign</code> instead of <code>_.extend</code>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule looks for accessing a given property key on a given object name, either when reading the property&#39;s value or invoking it as a function. You may specify an optional message to indicate an alternative API or a reason for the restriction.</p>
+<h3 id="options">Options</h3>
+<p>This rule takes a list of objects, where the object name and property names are specified:</p>
+<pre><code class="lang-json">{
+    &quot;rules&quot;: {
+        &quot;no-restricted-properties&quot;: [2, {
+            &quot;object&quot;: &quot;disallowedObjectName&quot;,
+            &quot;property&quot;: &quot;disallowedPropertyName&quot;
+        }]
+    }
+}
+</code></pre>
+<p>Multiple object/property values can be disallowed, and you can specify an optional message:</p>
+<pre><code class="lang-json">{
+    &quot;rules&quot;: {
+        &quot;no-restricted-properties&quot;: [2, {
+            &quot;object&quot;: &quot;disallowedObjectName&quot;,
+            &quot;property&quot;: &quot;disallowedPropertyName&quot;
+        }, {
+            &quot;object&quot;: &quot;disallowedObjectName&quot;,
+            &quot;property&quot;: &quot;anotherDisallowedPropertyName&quot;,
+            &quot;message&quot;: &quot;Please use allowedObjectName.allowedPropertyName.&quot;
+        }]
+    }
+}
+</code></pre>
+<p>If the object name is omitted, the property is disallowed for all objects:</p>
+<pre><code class="lang-json">{
+    &quot;rules&quot;: {
+        &quot;no-restricted-properties&quot;: [2, {
+            &quot;property&quot;: &quot;__defineGetter__&quot;,
+            &quot;message&quot;: &quot;Please use Object.defineProperty instead.&quot;
+        }]
+    }
+}
+</code></pre>
+<p>If the property name is omitted, accessing any property of the given object is disallowed:</p>
+<pre><code class="lang-json">{
+    &quot;rules&quot;: {
+        &quot;no-restricted-properties&quot;: [2, {
+            &quot;object&quot;: &quot;require&quot;,
+            &quot;message&quot;: &quot;Please call require() directly.&quot;
+        }]
+    }
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/* eslint no-restricted-properties: [2, {
+    &quot;object&quot;: &quot;disallowedObjectName&quot;,
+    &quot;property&quot;: &quot;disallowedPropertyName&quot;
+}] */
+
+var example = disallowedObjectName.disallowedPropertyName; /*error Disallowed object property: disallowedObjectName.disallowedPropertyName.*/
+
+disallowedObjectName.disallowedPropertyName(); /*error Disallowed object property: disallowedObjectName.disallowedPropertyName.*/
+</code></pre>
+<pre><code class="lang-js">/* eslint no-restricted-properties: [2, {
+    &quot;property&quot;: &quot;__defineGetter__&quot;
+}] */
+
+foo.__defineGetter__(bar, baz);
+</code></pre>
+<pre><code class="lang-js">/* eslint no-restricted-properties: [2, {
+    &quot;object&quot;: &quot;require&quot;
+}] */
+
+require.resolve(&#39;foo&#39;);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/* eslint no-restricted-properties: [2, {
+    &quot;object&quot;: &quot;disallowedObjectName&quot;,
+    &quot;property&quot;: &quot;disallowedPropertyName&quot;
+}] */
+
+var example = disallowedObjectName.somePropertyName;
+
+allowedObjectName.disallowedPropertyName();
+</code></pre>
+<pre><code class="lang-js">/* eslint no-restricted-properties: [2, {
+    &quot;object&quot;: &quot;require&quot;
+}] */
+
+require(&#39;foo&#39;);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t have any object/property combinations to restrict, you should not use this rule.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-restricted-globals.html">no-restricted-globals</a></li>
+<li><a href="no-restricted-syntax.html">no-restricted-syntax</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

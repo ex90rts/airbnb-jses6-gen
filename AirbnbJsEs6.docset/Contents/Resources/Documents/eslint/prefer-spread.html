@@ -1,0 +1,71 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="suggest-using-the-spread-operator-instead-of-apply-prefer-spread-">Suggest using the spread operator instead of <code>.apply()</code>. (prefer-spread)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Before ES2015, one must use <code>Function.prototype.apply()</code> to call variadic functions.</p>
+<pre><code class="lang-js">var args = [1, 2, 3, 4];
+Math.max.apply(Math, args);
+</code></pre>
+<p>In ES2015, one can use the spread operator to call variadic functions.</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+var args = [1, 2, 3, 4];
+Math.max(...args);
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed to flag usage of <code>Function.prototype.apply()</code> in situations where the spread operator could be used instead.</p>
+<h2 id="examples">Examples</h2>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint prefer-spread: &quot;error&quot;*/
+
+foo.apply(undefined, args);
+foo.apply(null, args);
+obj.foo.apply(obj, args);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint prefer-spread: &quot;error&quot;*/
+
+// Using the spread operator
+foo(...args);
+obj.foo(...args);
+
+// The `this` binding is different.
+foo.apply(obj, args);
+obj.foo.apply(null, args);
+obj.foo.apply(otherObj, args);
+
+// The argument list is not variadic.
+// Those are warned by the `no-useless-call` rule.
+foo.apply(undefined, [1, 2, 3]);
+foo.apply(null, [1, 2, 3]);
+obj.foo.apply(obj, [1, 2, 3]);
+</code></pre>
+<p>Known limitations:</p>
+<p>This rule analyzes code statically to check whether or not the <code>this</code> argument is changed. So, if the <code>this</code> argument is computed in a dynamic expression, this rule cannot detect a violation.</p>
+<pre><code class="lang-js">/*eslint prefer-spread: &quot;error&quot;*/
+
+// This warns.
+a[i++].foo.apply(a[i++], args);
+
+// This does not warn.
+a[++i].foo.apply(a[i], args);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>This rule should not be used in ES3/5 environments.</p>
+<p>In ES2015 (ES6) or later, if you don&#39;t want to be notified about <code>Function.prototype.apply()</code> callings, you can safely disable this rule.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-useless-call.html">no-useless-call</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

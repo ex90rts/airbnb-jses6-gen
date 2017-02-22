@@ -1,0 +1,37 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-amd">no-amd</h1>
+<p>Reports <code>require([array], ...)</code> and <code>define([array], ...)</code> function calls at the
+module scope. Will not report if !=2 arguments, or first argument is not a literal array.</p>
+<p>Intended for temporary use when migrating to pure ES6 modules.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This will be reported:</p>
+<pre><code class="lang-js">define([&quot;a&quot;, &quot;b&quot;], function (a, b) { /* ... */ })
+
+require([&quot;b&quot;, &quot;c&quot;], function (b, c) { /* ... */ })
+</code></pre>
+<p>CommonJS <code>require</code> is still valid.</p>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t mind mixing module systems (sometimes this is useful), you probably
+don&#39;t want this rule.</p>
+<p>It is also fairly noisy if you have a larger codebase that is being transitioned
+from AMD to ES6 modules.</p>
+<h2 id="contributors">Contributors</h2>
+<p>Special thanks to @xjamundx for donating his no-define rule as a start to this.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="./no-commonjs.html"><code>no-commonjs</code></a>: report CommonJS <code>require</code> and <code>exports</code></li>
+<li>Source: <a href="https://github.com/xjamundx/eslint-plugin-modules">https://github.com/xjamundx/eslint-plugin-modules</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

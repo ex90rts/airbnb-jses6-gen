@@ -1,0 +1,87 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-empty-block-statements-no-empty-">disallow empty block statements (no-empty)</h1>
+<p>Empty block statements, while not technically errors, usually occur due to refactoring that wasn&#39;t completed. They can cause confusion when reading code.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows empty block statements. This rule ignores block statements which contain a comment (for example, in an empty <code>catch</code> or <code>finally</code> block of a <code>try</code> statement to indicate that execution should continue regardless of errors).</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-empty: &quot;error&quot;*/
+
+if (foo) {
+}
+
+while (foo) {
+}
+
+switch(foo) {
+}
+
+try {
+    doSomething();
+} catch(ex) {
+
+} finally {
+
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-empty: &quot;error&quot;*/
+
+if (foo) {
+    // empty
+}
+
+while (foo) {
+    /* empty */
+}
+
+try {
+    doSomething();
+} catch (ex) {
+    // continue regardless of error
+}
+
+try {
+    doSomething();
+} finally {
+    /* continue regardless of error */
+}
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule has an object option for exceptions:</p>
+<ul>
+<li><code>&quot;allowEmptyCatch&quot;: true</code> allows empty <code>catch</code> clauses (that is, which do not contain a comment)</li>
+</ul>
+<h3 id="allowemptycatch">allowEmptyCatch</h3>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>{ &quot;allowEmptyCatch&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/* eslint no-empty: [&quot;error&quot;, { &quot;allowEmptyCatch&quot;: true }] */
+try {
+    doSomething();
+} catch (ex) {}
+
+try {
+    doSomething();
+}
+catch (ex) {}
+finally {
+    /* continue regardless of error */
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you intentionally use empty block statements then you can disable this rule.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="./no-empty-function.html">no-empty-function</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

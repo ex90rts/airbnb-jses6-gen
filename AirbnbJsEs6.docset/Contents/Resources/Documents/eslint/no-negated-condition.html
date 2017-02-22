@@ -1,0 +1,64 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-negated-conditions-no-negated-condition-">disallow negated conditions (no-negated-condition)</h1>
+<p>Negated conditions are more difficult to understand. Code can be made more readable by inverting the condition instead.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows negated conditions in either of the following:</p>
+<ul>
+<li><code>if</code> statements which have an <code>else</code> branch</li>
+<li>ternary expressions</li>
+</ul>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-negated-condition: &quot;error&quot;*/
+
+if (!a) {
+    doSomething();
+} else {
+    doSomethingElse();
+}
+
+if (a != b) {
+    doSomething();
+} else {
+    doSomethingElse();
+}
+
+if (a !== b) {
+    doSomething();
+} else {
+    doSomethingElse();
+}
+
+!a ? c : b
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-negated-condition: &quot;error&quot;*/
+
+if (!a) {
+    doSomething();
+}
+
+if (!a) {
+    doSomething();
+} else if (b) {
+    doSomething();
+}
+
+if (a != b) {
+    doSomething();
+}
+
+a ? b : c
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

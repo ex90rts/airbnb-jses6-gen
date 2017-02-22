@@ -1,0 +1,58 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-implied-eval-no-implied-eval-">Disallow Implied eval() (no-implied-eval)</h1>
+<p>It&#39;s considered a good practice to avoid using <code>eval()</code> in JavaScript. There are security and performance implications involved with doing so, which is why many linters (including ESLint) recommend disallowing <code>eval()</code>. However, there are some other ways to pass a string and have it interpreted as JavaScript code that have similar concerns.</p>
+<p>The first is using <code>setTimeout()</code>, <code>setInterval()</code> or <code>execScript()</code> (Internet Explorer only), both of which can accept a string of JavaScript code as their first argument. For example:</p>
+<pre><code class="lang-js">setTimeout(&quot;alert(&#39;Hi!&#39;);&quot;, 100);
+</code></pre>
+<p>This is considered an implied <code>eval()</code> because a string of JavaScript code is
+ passed in to be interpreted. The same can be done with <code>setInterval()</code> and <code>execScript()</code>. Both interpret the JavaScript code in  the global scope. For  both <code>setTimeout()</code> and <code>setInterval()</code>, the first argument can also be a function, and that is considered safer and is more performant:</p>
+<pre><code class="lang-js">setTimeout(function() {
+    alert(&quot;Hi!&quot;);
+}, 100);
+</code></pre>
+<p>The best practice is to always use a function for the first argument of <code>setTimeout()</code> and <code>setInterval()</code> (and avoid <code>execScript()</code>).</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to eliminate implied <code>eval()</code> through the use of <code>setTimeout()</code>, <code>setInterval()</code> or <code>execScript()</code>. As such, it will warn when either function is used with a string as the first argument.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-implied-eval: &quot;error&quot;*/
+
+setTimeout(&quot;alert(&#39;Hi!&#39;);&quot;, 100);
+
+setInterval(&quot;alert(&#39;Hi!&#39;);&quot;, 100);
+
+execScript(&quot;alert(&#39;Hi!&#39;)&quot;);
+
+window.setTimeout(&quot;count = 5&quot;, 10);
+
+window.setInterval(&quot;foo = bar&quot;, 10);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-implied-eval: &quot;error&quot;*/
+
+setTimeout(function() {
+    alert(&quot;Hi!&quot;);
+}, 100);
+
+setInterval(function() {
+    alert(&quot;Hi!&quot;);
+}, 100);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you want to allow <code>setTimeout()</code> and <code>setInterval()</code> with string arguments, then you can safely disable this rule.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-eval.html">no-eval</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

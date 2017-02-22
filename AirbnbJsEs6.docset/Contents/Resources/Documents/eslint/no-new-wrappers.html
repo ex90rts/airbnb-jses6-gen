@@ -1,0 +1,70 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-primitive-wrapper-instances-no-new-wrappers-">Disallow Primitive Wrapper Instances (no-new-wrappers)</h1>
+<p>There are three primitive types in JavaScript that have wrapper objects: string, number, and boolean. These are represented by the constructors <code>String</code>, <code>Number</code>, and <code>Boolean</code>, respectively. The primitive wrapper types are used whenever one of these primitive values is read, providing them with object-like capabilities such as methods. Behind the scenes, an object of the associated wrapper type is created and then destroyed, which is why you can call methods on primitive values, such as:</p>
+<pre><code class="lang-js">var text = &quot;Hello world&quot;.substring(2);
+</code></pre>
+<p>Behind the scenes in this example, a <code>String</code> object is constructed. The <code>substring()</code> method exists on <code>String.prototype</code> and so is accessible to the string instance.</p>
+<p>It&#39;s also possible to manually create a new wrapper instance:</p>
+<pre><code class="lang-js">var stringObject = new String(&quot;Hello world&quot;);
+var numberObject = new Number(33);
+var booleanObject = new Boolean(false);
+</code></pre>
+<p>Although possible, there aren&#39;t any good reasons to use these primitive wrappers as constructors. They tend to confuse other developers more than anything else because they seem like they should act as primitives, but they do not. For example:</p>
+<pre><code class="lang-js">var stringObject = new String(&quot;Hello world&quot;);
+console.log(typeof stringObject);       // &quot;object&quot;
+
+var text = &quot;Hello world&quot;;
+console.log(typeof text);               // &quot;string&quot;
+
+var booleanObject = new Boolean(false);
+if (booleanObject) {    // all objects are truthy!
+    console.log(&quot;This executes&quot;);
+}
+</code></pre>
+<p>The first problem is that primitive wrapper objects are, in fact, objects. That means <code>typeof</code> will return <code>&quot;object&quot;</code> instead of <code>&quot;string&quot;</code>, <code>&quot;number&quot;</code>, or <code>&quot;boolean&quot;</code>. The second problem comes with boolean objects. Every object is truthy, that means an instance of <code>Boolean</code> always resolves to <code>true</code> even when its actual value is <code>false</code>.</p>
+<p>For these reasons, it&#39;s considered a best practice to avoid using primitive wrapper types with <code>new</code>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to eliminate the use of <code>String</code>, <code>Number</code>, and <code>Boolean</code> with the <code>new</code> operator. As such, it warns whenever it sees <code>new String</code>, <code>new Number</code>, or <code>new Boolean</code>.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-new-wrappers: &quot;error&quot;*/
+
+var stringObject = new String(&quot;Hello world&quot;);
+var numberObject = new Number(33);
+var booleanObject = new Boolean(false);
+
+var stringObject = new String;
+var numberObject = new Number;
+var booleanObject = new Boolean;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-new-wrappers: &quot;error&quot;*/
+
+var text = String(someValue);
+var num = Number(someValue);
+
+var object = new MyString();
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you want to allow the use of primitive wrapper objects, then you can safely disable this rule.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="https://www.inkling.com/read/javascript-definitive-guide-david-flanagan-6th/chapter-3/wrapper-objects">Wrapper objects</a></li>
+</ul>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-array-constructor.html">no-array-constructor</a></li>
+<li><a href="no-new-object.html">no-new-object</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

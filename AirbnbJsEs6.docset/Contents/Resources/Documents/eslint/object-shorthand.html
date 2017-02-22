@@ -1,0 +1,203 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-object-literal-shorthand-syntax-object-shorthand-">Require Object Literal Shorthand Syntax (object-shorthand)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>EcmaScript 6 provides a concise form for defining object literal methods and properties. This
+syntax can make defining complex object literals much cleaner.</p>
+<p>Here are a few common examples using the ES5 syntax:</p>
+<pre><code class="lang-js">// properties
+var foo = {
+    x: x,
+    y: y,
+    z: z,
+};
+
+// methods
+var foo = {
+    a: function() {},
+    b: function() {}
+};
+</code></pre>
+<p>Now here are ES6 equivalents:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+// properties
+var foo = {x, y, z};
+
+// methods
+var foo = {
+    a() {},
+    b() {}
+};
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces the use of the shorthand syntax. This applies
+to all methods (including generators) defined in object literals and any
+properties defined where the key name matches name of the assigned variable.</p>
+<p>Each of the following properties would warn:</p>
+<pre><code class="lang-js">/*eslint object-shorthand: &quot;error&quot;*/
+/*eslint-env es6*/
+
+var foo = {
+    w: function() {},
+    x: function *() {},
+    [y]: function() {},
+    z: z
+};
+</code></pre>
+<p>In that case the expected syntax would have been:</p>
+<pre><code class="lang-js">/*eslint object-shorthand: &quot;error&quot;*/
+/*eslint-env es6*/
+
+var foo = {
+    w() {},
+    *x() {},
+    [y]() {},
+    z
+};
+</code></pre>
+<p>This rule does not flag arrow functions inside of object literals.
+The following will <em>not</em> warn:</p>
+<pre><code class="lang-js">/*eslint object-shorthand: &quot;error&quot;*/
+/*eslint-env es6*/
+
+var foo = {
+    x: (y) =&gt; y
+};
+</code></pre>
+<h2 id="options">Options</h2>
+<p>The rule takes an option which specifies when it should be applied. It can be set to one of the following values:</p>
+<ul>
+<li><code>&quot;always&quot;</code> (default) expects that the shorthand will be used whenever possible.</li>
+<li><code>&quot;methods&quot;</code> ensures the method shorthand is used (also applies to generators).</li>
+<li><code>&quot;properties&quot;</code> ensures the property shorthand is used (where the key and variable name match).</li>
+<li><code>&quot;never&quot;</code> ensures that no property or method shorthand is used in any object literal.</li>
+<li><code>&quot;consistent&quot;</code> ensures that either all shorthand or all longform will be used in an object literal.</li>
+<li><code>&quot;consistent-as-needed&quot;</code> ensures that either all shorthand or all longform will be used in an object literal, but ensures all shorthand whenever possible.</li>
+</ul>
+<p>You can set the option in configuration like this:</p>
+<pre><code class="lang-json">{
+    &quot;object-shorthand&quot;: [&quot;error&quot;, &quot;always&quot;]
+}
+</code></pre>
+<p>Additionally, the rule takes an optional object configuration:</p>
+<ul>
+<li><code>&quot;avoidQuotes&quot;: true</code> indicates that longform syntax is preferred whenever the object key is a string literal (default: <code>false</code>). Note that this option can only be enabled when the string option is set to <code>&quot;always&quot;</code>, <code>&quot;methods&quot;</code>, or <code>&quot;properties&quot;</code>.</li>
+<li><code>&quot;ignoreConstructors&quot;: true</code> can be used to prevent the rule from reporting errors for constructor functions. (By default, the rule treats constructors the same way as other functions.) Note that this option can only be enabled when the string option is set to <code>&quot;always&quot;</code> or <code>&quot;methods&quot;</code>.</li>
+<li><code>&quot;avoidExplicitReturnArrows&quot;: true</code> indicates that methods are preferred over explicit-return arrow functions for function properties. (By default, the rule allows either of these.) Note that this option can only be enabled when the string option is set to <code>&quot;always&quot;</code> or <code>&quot;methods&quot;</code>.</li>
+</ul>
+<h3 id="-avoidquotes-"><code>avoidQuotes</code></h3>
+<pre><code class="lang-json">{
+    &quot;object-shorthand&quot;: [&quot;error&quot;, &quot;always&quot;, { &quot;avoidQuotes&quot;: true }]
+}
+</code></pre>
+<p class="incorrect icon">Example of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;, { &quot;avoidQuotes&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint object-shorthand: [&quot;error&quot;, &quot;always&quot;, { &quot;avoidQuotes&quot;: true }]*/
+/*eslint-env es6*/
+
+var foo = {
+    &quot;bar-baz&quot;() {}
+};
+</code></pre>
+<p class="correct icon">Example of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;, { &quot;avoidQuotes&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint object-shorthand: [&quot;error&quot;, &quot;always&quot;, { &quot;avoidQuotes&quot;: true }]*/
+/*eslint-env es6*/
+
+var foo = {
+    &quot;bar-baz&quot;: function() {},
+    &quot;qux&quot;: qux
+};
+</code></pre>
+<h3 id="-ignoreconstructors-"><code>ignoreConstructors</code></h3>
+<pre><code class="lang-json">{
+    &quot;object-shorthand&quot;: [&quot;error&quot;, &quot;always&quot;, { &quot;ignoreConstructors&quot;: true }]
+}
+</code></pre>
+<p class="correct icon">Example of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;, { &quot;ignoreConstructors&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint object-shorthand: [&quot;error&quot;, &quot;always&quot;, { &quot;ignoreConstructors&quot;: true }]*/
+/*eslint-env es6*/
+
+var foo = {
+    ConstructorFunction: function() {}
+};
+</code></pre>
+<h3 id="-avoidexplicitreturnarrows-"><code>avoidExplicitReturnArrows</code></h3>
+<pre><code class="lang-json">{
+    &quot;object-shorthand&quot;: [&quot;error&quot;, &quot;always&quot;, { &quot;avoidExplicitReturnArrows&quot;: true }]
+}
+</code></pre>
+<p class="incorrect icon">Example of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;, { &quot;avoidExplicitReturnArrows&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint object-shorthand: [&quot;error&quot;, &quot;always&quot;, { &quot;avoidExplicitReturnArrows&quot;: true }]*/
+/*eslint-env es6*/
+
+var foo = {
+  foo: (bar, baz) =&gt; {
+    return bar + baz;
+  },
+
+  qux: (foobar) =&gt; {
+    return foobar * 2;
+  }
+};
+</code></pre>
+<p class="correct icon">Example of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;, { &quot;avoidExplicitReturnArrows&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint object-shorthand: [&quot;error&quot;, &quot;always&quot;, { &quot;avoidExplicitReturnArrows&quot;: true }]*/
+/*eslint-env es6*/
+
+var foo = {
+  foo(bar, baz) {
+    return bar + baz;
+  },
+
+  qux: foobar =&gt; foobar * 2
+};
+</code></pre>
+<p class="incorrect icon">Example of <strong>incorrect</strong> code for this rule with the <code>&quot;consistent&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint object-shorthand: [2, &quot;consistent&quot;]*/
+/*eslint-env es6*/
+
+var foo = {
+    a,
+    b: &quot;foo&quot;,
+};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;consistent&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint object-shorthand: [2, &quot;consistent&quot;]*/
+/*eslint-env es6*/
+
+var foo = {
+    a: a,
+    b: &quot;foo&quot;
+};
+
+var bar = {
+    a,
+    b,
+};
+</code></pre>
+<p class="incorrect icon">Example of <strong>incorrect</strong> code with the <code>&quot;consistent-as-needed&quot;</code> option, which is very similar to <code>&quot;consistent&quot;</code>:</p>
+<pre><code class="lang-js">/*eslint object-shorthand: [2, &quot;consistent-as-needed&quot;]*/
+/*eslint-env es6*/
+
+var foo = {
+    a: a,
+    b: b,
+};
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>Anyone not yet in an ES6 environment would not want to apply this rule. Others may find the terseness of the shorthand
+syntax harder to read and may not want to encourage it with this rule.</p>
+<h2 id="further-reading">Further Reading</h2>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer">Object initializer - MDN</a></p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

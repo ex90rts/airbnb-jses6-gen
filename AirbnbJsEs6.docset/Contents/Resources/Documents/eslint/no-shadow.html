@@ -1,0 +1,145 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-variable-declarations-from-shadowing-variables-declared-in-the-outer-scope-no-shadow-">disallow variable declarations from shadowing variables declared in the outer scope (no-shadow)</h1>
+<p>Shadowing is the process by which a local variable shares the same name as a variable in its containing scope. For example:</p>
+<pre><code class="lang-js">var a = 3;
+function b() {
+    var a = 10;
+}
+</code></pre>
+<p>In this case, the variable <code>a</code> inside of <code>b()</code> is shadowing the variable <code>a</code> in the global scope. This can cause confusion while reading the code and it&#39;s impossible to access the global variable.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to eliminate shadowed variable declarations.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-shadow: &quot;error&quot;*/
+/*eslint-env es6*/
+
+var a = 3;
+function b() {
+    var a = 10;
+}
+
+var b = function () {
+    var a = 10;
+}
+
+function b(a) {
+    a = 10;
+}
+b(a);
+
+if (true) {
+    let a = 5;
+}
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule takes one option, an object, with properties <code>&quot;builtinGlobals&quot;</code>, <code>&quot;hoist&quot;</code> and <code>&quot;allow&quot;</code>.</p>
+<pre><code class="lang-json">{
+    &quot;no-shadow&quot;: [&quot;error&quot;, { &quot;builtinGlobals&quot;: false, &quot;hoist&quot;: &quot;functions&quot;, &quot;allow&quot;: [] }]
+}
+</code></pre>
+<h3 id="builtinglobals">builtinGlobals</h3>
+<p>The <code>builtinGlobals</code> option is <code>false</code> by default.
+If it is <code>true</code>, the rule prevents shadowing of built-in global variables: <code>Object</code>, <code>Array</code>, <code>Number</code>, and so on.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{ &quot;builtinGlobals&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-shadow: [&quot;error&quot;, { &quot;builtinGlobals&quot;: true }]*/
+
+function foo() {
+    var Object = 0;
+}
+</code></pre>
+<h3 id="hoist">hoist</h3>
+<p>The <code>hoist</code> option has three settings:</p>
+<ul>
+<li><code>functions</code> (by default) - reports shadowing before the outer functions are defined.</li>
+<li><code>all</code> - reports all shadowing before the outer variables/functions are defined.</li>
+<li><code>never</code> - never report shadowing before the outer variables/functions are defined.</li>
+</ul>
+<h4 id="hoist-functions">hoist: functions</h4>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the default <code>{ &quot;hoist&quot;: &quot;functions&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-shadow: [&quot;error&quot;, { &quot;hoist&quot;: &quot;functions&quot; }]*/
+/*eslint-env es6*/
+
+if (true) {
+    let b = 6;
+}
+
+function b() {}
+</code></pre>
+<p>Although <code>let b</code> in the <code>if</code> statement is before the <em>function</em> declaration in the outer scope, it is incorrect.</p>
+<p class="correct icon">Examples of <strong>correct</strong> code for the default <code>{ &quot;hoist&quot;: &quot;functions&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-shadow: [&quot;error&quot;, { &quot;hoist&quot;: &quot;functions&quot; }]*/
+/*eslint-env es6*/
+
+if (true) {
+    let a = 3;
+}
+
+let a = 5;
+</code></pre>
+<p>Because <code>let a</code> in the <code>if</code> statement is before the <em>variable</em> declaration in the outer scope, it is correct.</p>
+<h4 id="hoist-all">hoist: all</h4>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{ &quot;hoist&quot;: &quot;all&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-shadow: [&quot;error&quot;, { &quot;hoist&quot;: &quot;all&quot; }]*/
+/*eslint-env es6*/
+
+if (true) {
+    let a = 3;
+    let b = 6;
+}
+
+let a = 5;
+function b() {}
+</code></pre>
+<h4 id="hoist-never">hoist: never</h4>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;hoist&quot;: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-shadow: [&quot;error&quot;, { &quot;hoist&quot;: &quot;never&quot; }]*/
+/*eslint-env es6*/
+
+if (true) {
+    let a = 3;
+    let b = 6;
+}
+
+let a = 5;
+function b() {}
+</code></pre>
+<p>Because <code>let a</code> and <code>let b</code> in the <code>if</code> statement are before the declarations in the outer scope, they are correct.</p>
+<h3 id="allow">allow</h3>
+<p>The <code>allow</code> option is an array of identifier names for which shadowing is allowed. For example, <code>&quot;resolve&quot;</code>, <code>&quot;reject&quot;</code>, <code>&quot;done&quot;</code>, <code>&quot;cb&quot;</code>.</p>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;allow&quot;: [&quot;done&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-shadow: [&quot;error&quot;, { &quot;allow&quot;: [&quot;done&quot;] }]*/
+/*eslint-env es6*/
+
+import async from &#39;async&#39;;
+
+function foo(done) {
+  async.map([1, 2], function (e, done) {
+    done(null, e * 2)
+  }, done);
+}
+
+foo(function (err, result) {
+  console.log({ err, result });
+});
+</code></pre>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Variable_shadowing">Variable Shadowing</a></li>
+</ul>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-shadow-restricted-names.html">no-shadow-restricted-names</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

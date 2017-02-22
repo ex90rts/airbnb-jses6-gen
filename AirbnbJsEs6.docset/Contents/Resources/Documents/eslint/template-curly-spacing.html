@@ -1,0 +1,71 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-usage-of-spacing-in-template-strings-template-curly-spacing-">Enforce Usage of Spacing in Template Strings (template-curly-spacing)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>We can embed expressions in template strings with using a pair of <code>${</code> and <code>}</code>.</p>
+<p>This rule can force usage of spacing <em>within</em> the curly brace pair according to style guides.</p>
+<pre><code class="lang-js">let hello = `hello, ${people.name}!`;
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to maintain consistency around the spacing inside of template literals.</p>
+<h2 id="options">Options</h2>
+<pre><code class="lang-json">{
+    &quot;template-curly-spacing&quot;: [&quot;error&quot;, &quot;never&quot;]
+}
+</code></pre>
+<p>This rule has one option which has either <code>&quot;never&quot;</code> or <code>&quot;always&quot;</code> as value.</p>
+<ul>
+<li><code>&quot;never&quot;</code> (by default) - Disallows spaces inside of the curly brace pair.</li>
+<li><code>&quot;always&quot;</code> - Requires one or more spaces inside of the curly brace pair.</li>
+</ul>
+<h2 id="examples">Examples</h2>
+<h3 id="never">never</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint template-curly-spacing: &quot;error&quot;*/
+
+`hello, ${ people.name}!`;
+`hello, ${people.name }!`;
+
+`hello, ${ people.name }!`;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint template-curly-spacing: &quot;error&quot;*/
+
+`hello, ${people.name}!`;
+
+`hello, ${
+    people.name
+}!`;
+</code></pre>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint template-curly-spacing: [&quot;error&quot;, &quot;always&quot;]*/
+
+`hello, ${ people.name}!`;
+`hello, ${people.name }!`;
+
+`hello, ${people.name}!`;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint template-curly-spacing: [&quot;error&quot;, &quot;always&quot;]*/
+
+`hello, ${ people.name }!`;
+
+`hello, ${
+    people.name
+}!`;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about usage of spacing inside of template strings, then it&#39;s safe to disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

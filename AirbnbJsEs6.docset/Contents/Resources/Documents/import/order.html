@@ -1,0 +1,144 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-a-convention-in-module-import-order">Enforce a convention in module import order</h1>
+<p>Enforce a convention in the order of <code>require()</code> / <code>import</code> statements. The order is as shown in the following example:</p>
+<pre><code class="lang-js">// 1. node &quot;builtins&quot;
+import fs from &#39;fs&#39;;
+import path from &#39;path&#39;;
+// 2. &quot;external&quot; modules
+import _ from &#39;lodash&#39;;
+import chalk from &#39;chalk&#39;;
+// 3. &quot;internal&quot; modules
+// (if you have configured your path or webpack to handle your internal paths differently)
+import foo from &#39;src/foo&#39;;
+// 4. modules from a &quot;parent&quot; directory
+import foo from &#39;../foo&#39;;
+import qux from &#39;../../foo/qux&#39;;
+// 5. &quot;sibling&quot; modules from the same or a sibling&#39;s directory
+import bar from &#39;./bar&#39;;
+import baz from &#39;./bar/baz&#39;;
+// 6. &quot;index&quot; of the current directory
+import main from &#39;./&#39;;
+</code></pre>
+<p>Unassigned imports are ignored, as the order they are imported in may be important.</p>
+<p>Statements using the ES6 <code>import</code> syntax must appear before any <code>require()</code> statements.</p>
+<h2 id="fail">Fail</h2>
+<pre><code class="lang-js">import _ from &#39;lodash&#39;;
+import path from &#39;path&#39;; // `path` import should occur before import of `lodash`
+
+// -----
+
+var _ = require(&#39;lodash&#39;);
+var path = require(&#39;path&#39;); // `path` import should occur before import of `lodash`
+
+// -----
+
+var path = require(&#39;path&#39;);
+import foo from &#39;./foo&#39;; // `import` statements must be before `require` statement
+</code></pre>
+<h2 id="pass">Pass</h2>
+<pre><code class="lang-js">import path from &#39;path&#39;;
+import _ from &#39;lodash&#39;;
+
+// -----
+
+var path = require(&#39;path&#39;);
+var _ = require(&#39;lodash&#39;);
+
+// -----
+
+// Allowed as ̀`babel-register` is not assigned.
+require(&#39;babel-register&#39;);
+var path = require(&#39;path&#39;);
+
+// -----
+
+// Allowed as `import` must be before `require`
+import foo from &#39;./foo&#39;;
+var path = require(&#39;path&#39;);
+</code></pre>
+<h2 id="options">Options</h2>
+<p>This rule supports the following options:</p>
+<h3 id="-groups-array-"><code>groups: [array]</code>:</h3>
+<p>How groups are defined, and the order to respect. <code>groups</code> must be an array of <code>string</code> or [<code>string</code>]. The only allowed <code>string</code>s are: <code>&quot;builtin&quot;</code>, <code>&quot;external&quot;</code>, <code>&quot;internal&quot;</code>, <code>&quot;parent&quot;</code>, <code>&quot;sibling&quot;</code>, <code>&quot;index&quot;</code>. The enforced order is the same as the order of each element in a group. Omitted types are implicitly grouped together as the last element. Example:</p>
+<pre><code class="lang-js">[
+  &#39;builtin&#39;, // Built-in types are first
+  [&#39;sibling&#39;, &#39;parent&#39;], // Then sibling and parent types. They can be mingled together
+  &#39;index&#39;, // Then the index file
+  // Then the rest: internal and external type
+]
+</code></pre>
+<p>The default value is <code>[&quot;builtin&quot;, &quot;external&quot;, &quot;parent&quot;, &quot;sibling&quot;, &quot;index&quot;]</code>.</p>
+<p>You can set the options like this:</p>
+<pre><code class="lang-js">&quot;import/order&quot;: [&quot;error&quot;, {&quot;groups&quot;: [&quot;index&quot;, &quot;sibling&quot;, &quot;parent&quot;, &quot;internal&quot;, &quot;external&quot;, &quot;builtin&quot;]}]
+</code></pre>
+<h3 id="-newlines-between-ignore-always-always-and-inside-groups-never-"><code>newlines-between: [ignore|always|always-and-inside-groups|never]</code>:</h3>
+<p>Enforces or forbids new lines between import groups:</p>
+<ul>
+<li>If set to <code>ignore</code>, no errors related to new lines between import groups will be reported (default).</li>
+<li>If set to <code>always</code>, at least one new line between each group will be enforced, and new lines inside a group will be forbidden. To prevent multiple lines between imports, core <code>no-multiple-empty-lines</code> rule can be used.</li>
+<li>If set to <code>always-and-inside-groups</code>, it will act like <code>always</code> except newlines are allowed inside import groups.</li>
+<li>If set to <code>never</code>, no new lines are allowed in the entire import section.</li>
+</ul>
+<p>With the default group setting, the following will be invalid:</p>
+<pre><code class="lang-js">/* eslint import/order: [&quot;error&quot;, {&quot;newlines-between&quot;: &quot;always&quot;}] */
+import fs from &#39;fs&#39;;
+import path from &#39;path&#39;;
+import index from &#39;./&#39;;
+import sibling from &#39;./foo&#39;;
+</code></pre>
+<pre><code class="lang-js">/* eslint import/order: [&quot;error&quot;, {&quot;newlines-between&quot;: &quot;always-and-inside-groups&quot;}] */
+import fs from &#39;fs&#39;;
+
+import path from &#39;path&#39;;
+import index from &#39;./&#39;;
+import sibling from &#39;./foo&#39;;
+</code></pre>
+<pre><code class="lang-js">/* eslint import/order: [&quot;error&quot;, {&quot;newlines-between&quot;: &quot;never&quot;}] */
+import fs from &#39;fs&#39;;
+import path from &#39;path&#39;;
+
+import index from &#39;./&#39;;
+
+import sibling from &#39;./foo&#39;;
+</code></pre>
+<p>while those will be valid:</p>
+<pre><code class="lang-js">/* eslint import/order: [&quot;error&quot;, {&quot;newlines-between&quot;: &quot;always&quot;}] */
+import fs from &#39;fs&#39;;
+import path from &#39;path&#39;;
+
+import index from &#39;./&#39;;
+
+import sibling from &#39;./foo&#39;;
+</code></pre>
+<pre><code class="lang-js">/* eslint import/order: [&quot;error&quot;, {&quot;newlines-between&quot;: &quot;always-and-inside-groups&quot;}] */
+import fs from &#39;fs&#39;;
+
+import path from &#39;path&#39;;
+
+import index from &#39;./&#39;;
+
+import sibling from &#39;./foo&#39;;
+</code></pre>
+<pre><code class="lang-js">/* eslint import/order: [&quot;error&quot;, {&quot;newlines-between&quot;: &quot;never&quot;}] */
+import fs from &#39;fs&#39;;
+import path from &#39;path&#39;;
+import index from &#39;./&#39;;
+import sibling from &#39;./foo&#39;;
+</code></pre>
+<h2 id="related">Related</h2>
+<ul>
+<li><a href="../../README.md#importexternal-module-folders"><code>import/external-module-folders</code></a> setting</li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

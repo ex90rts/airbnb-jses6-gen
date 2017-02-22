@@ -1,0 +1,115 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-proptypes-declarations-alphabetical-sorting-sort-prop-types-">Enforce propTypes declarations alphabetical sorting (sort-prop-types)</h1>
+<p>Some developers prefer to sort propTypes declarations alphabetically to be able to find necessary declaration easier at the later time. Others feel that it adds complexity and becomes burden to maintain.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule checks all components and verifies that all propTypes declarations are sorted alphabetically. A spread attribute resets the verification. The default configuration of the rule is case-sensitive.</p>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Component = React.createClass({
+  propTypes: {
+    z: React.PropTypes.number,
+    a: React.PropTypes.any,
+    b: React.PropTypes.string
+  },
+...
+});
+
+class Component extends React.Component {
+  ...
+}
+Component.propTypes = {
+  z: React.PropTypes.number,
+  a: React.PropTypes.any,
+  b: React.PropTypes.string
+};
+
+class Component extends React.Component {
+  static propTypes = {
+    z: React.PropTypes.any,
+    y: React.PropTypes.any,
+    a: React.PropTypes.any
+  }
+  render() {
+    return &lt;div /&gt;;
+  }
+}
+</code></pre>
+<p>The following patterns are considered okay and do not cause warnings:</p>
+<pre><code class="lang-jsx">var Component = React.createClass({
+  propTypes: {
+    a: React.PropTypes.number,
+    b: React.PropTypes.any,
+    c: React.PropTypes.string
+  },
+...
+});
+
+class Component extends React.Component {
+  ...
+}
+Component.propTypes = {
+  a: React.PropTypes.string,
+  b: React.PropTypes.any,
+  c: React.PropTypes.string
+};
+
+class Component extends React.Component {
+  static propTypes = {
+    a: React.PropTypes.any,
+    b: React.PropTypes.any,
+    c: React.PropTypes.any
+  }
+  render() {
+    return &lt;div /&gt;;
+  }
+}
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<pre><code class="lang-js">...
+&quot;sort-prop-types&quot;: [&lt;enabled&gt;, {
+  &quot;callbacksLast&quot;: &lt;boolean&gt;,
+  &quot;ignoreCase&quot;: &lt;boolean&gt;,
+  &quot;requiredFirst&quot;: &lt;boolean&gt;,
+}]
+...
+</code></pre>
+<h3 id="-ignorecase-"><code>ignoreCase</code></h3>
+<p>When <code>true</code> the rule ignores the case-sensitivity of the declarations order.</p>
+<h3 id="-callbackslast-"><code>callbacksLast</code></h3>
+<p>When <code>true</code>, propTypes for props beginning with &quot;on&quot; must be listed after all other props:</p>
+<pre><code class="lang-js">var Component = React.createClass({
+  propTypes: {
+    a: React.PropTypes.number,
+    z: React.PropTypes.string,
+    onBar: React.PropTypes.func,
+    onFoo: React.PropTypes.func,
+  },
+...
+});
+</code></pre>
+<h3 id="-requiredfirst-"><code>requiredFirst</code></h3>
+<p>When <code>true</code>, prop types for required props must be listed before all other props:</p>
+<pre><code class="lang-js">var Component = React.createClass({
+  propTypes: {
+    barRequired: React.PropTypes.any.isRequired,
+    fooRequired: React.PropTypes.any.isRequired,
+    a: React.PropTypes.number,
+    z: React.PropTypes.string,
+  },
+...
+});
+</code></pre>
+<h2 id="when-not-to-use">When not to use</h2>
+<p>This rule is a formatting preference and not following it won&#39;t negatively affect the quality of your code. If alphabetizing props declarations isn&#39;t a part of your coding standards, then you can leave this rule off.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-static-element-interactions">no-static-element-interactions</h1>
+<p>Enforce non-interactive DOM elements have no interactive handlers. Static elements such as <code>&lt;div&gt;</code> and <code>&lt;span&gt;</code> should not have mouse/keyboard event listeners. Instead use something more semantic, such as a button or a link.</p>
+<p>Valid interactive elements are:</p>
+<ul>
+<li><code>&lt;a&gt;</code> elements with <code>href</code> or <code>tabIndex</code> props</li>
+<li><code>&lt;button&gt;</code> elements</li>
+<li><code>&lt;input&gt;</code> elements that are not <code>hidden</code></li>
+<li><code>&lt;select&gt;</code> and <code>&lt;option&gt;</code> elements</li>
+<li><code>&lt;textarea&gt;</code> elements</li>
+<li><code>&lt;area&gt;</code> elements</li>
+</ul>
+<h2 id="rule-details">Rule details</h2>
+<p>This rule takes no arguments.</p>
+<h3 id="succeed">Succeed</h3>
+<pre><code class="lang-jsx">&lt;button onClick={() =&gt; {}} className=&quot;foo&quot; /&gt;
+&lt;div className=&quot;foo&quot; {...props} /&gt;
+&lt;input type=&quot;text&quot; onClick={() =&gt; {}} /&gt;
+</code></pre>
+<h3 id="fail">Fail</h3>
+<pre><code class="lang-jsx">&lt;div onClick={() =&gt; {}} /&gt;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

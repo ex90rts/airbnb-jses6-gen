@@ -1,0 +1,235 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="suggest-using-reflect-methods-where-applicable-prefer-reflect-">Suggest using Reflect methods where applicable (prefer-reflect)</h1>
+<p>This rule was <strong>deprecated</strong> in ESLint v3.9.0 and will not be replaced. The original intent of this rule now seems misguided as we have come to understand that <code>Reflect</code> methods are not actually intended to replace the <code>Object</code> counterparts the rule suggests, but rather exist as low-level primitives to be used with proxies in order to replicate the default behavior of various previously existing functionality.</p>
+<p>The ES6 Reflect API comes with a handful of methods which somewhat deprecate methods on old constructors:</p>
+<ul>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.apply"><code>Reflect.apply</code></a> effectively deprecates <a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-function.prototype.apply"><code>Function.prototype.apply</code></a> and <a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-function.prototype.call"><code>Function.prototype.call</code></a></li>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.deleteproperty"><code>Reflect.deleteProperty</code></a> effectively deprecates the <a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-delete-operator-runtime-semantics-evaluation"><code>delete</code> keyword</a></li>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.getownpropertydescriptor"><code>Reflect.getOwnPropertyDescriptor</code></a> effectively deprecates <a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.getownpropertydescriptor"><code>Object.getOwnPropertyDescriptor</code></a></li>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.getprototypeof"><code>Reflect.getPrototypeOf</code></a> effectively deprecates <a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.getprototypeof"><code>Object.getPrototypeOf</code></a></li>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.setprototypeof"><code>Reflect.setPrototypeOf</code></a> effectively deprecates <a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.setprototypeof"><code>Object.setPrototypeOf</code></a></li>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.preventextensions"><code>Reflect.preventExtensions</code></a>  effectively deprecates <a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.preventextensions"><code>Object.preventExtensions</code></a></li>
+</ul>
+<p>The prefer-reflect rule will flag usage of any older method, suggesting to instead use the newer Reflect version.</p>
+<h2 id="rule-details">Rule Details</h2>
+<h2 id="options">Options</h2>
+<h3 id="exceptions">Exceptions</h3>
+<pre><code>&quot;prefer-reflect&quot;: [&lt;enabled&gt;, { &quot;exceptions&quot;: [&lt;...exceptions&gt;] }]
+</code></pre><p>The <code>exceptions</code> option allows you to pass an array of methods names you&#39;d like to continue to use in the old style.</p>
+<p>For example if you wish to use all Reflect methods, except for <code>Function.prototype.apply</code> then your config would look like <code>prefer-reflect: [2, { &quot;exceptions&quot;: [&quot;apply&quot;] }]</code>.</p>
+<p>If you want to use Reflect methods, but keep using the <code>delete</code> keyword, then your config would look like <code>prefer-reflect: [2, { &quot;exceptions&quot;: [&quot;delete&quot;] }]</code>.</p>
+<p>These can be combined as much as you like. To make all methods exceptions (thereby rendering this rule useless), use <code>prefer-reflect: [2, { &quot;exceptions&quot;: [&quot;apply&quot;, &quot;call&quot;, &quot;defineProperty&quot;, &quot;getOwnPropertyDescriptor&quot;, &quot;getPrototypeOf&quot;, &quot;setPrototypeOf&quot;, &quot;isExtensible&quot;, &quot;getOwnPropertyNames&quot;, &quot;preventExtensions&quot;, &quot;delete&quot;] }]</code></p>
+<h3 id="reflect-apply">Reflect.apply</h3>
+<p>Deprecates <code>Function.prototype.apply()</code> and <code>Function.prototype.call()</code></p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+myFunction.apply(undefined, args);
+myFunction.apply(null, args);
+obj.myMethod.apply(obj, args);
+obj.myMethod.apply(other, args);
+
+myFunction.call(undefined, arg);
+myFunction.call(null, arg);
+obj.myMethod.call(obj, arg);
+obj.myMethod.call(other, arg);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+Reflect.apply(myFunction, undefined, args);
+Reflect.apply(myFunction, null, args);
+Reflect.apply(obj.myMethod, obj, args);
+Reflect.apply(obj.myMethod, other, args);
+Reflect.apply(myFunction, undefined, [arg]);
+Reflect.apply(myFunction, null, [arg]);
+Reflect.apply(obj.myMethod, obj, [arg]);
+Reflect.apply(obj.myMethod, other, [arg]);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;exceptions&quot;: [&quot;apply&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: [&quot;error&quot;, { &quot;exceptions&quot;: [&quot;apply&quot;] }]*/
+
+// in addition to Reflect.apply(...):
+myFunction.apply(undefined, args);
+myFunction.apply(null, args);
+obj.myMethod.apply(obj, args);
+obj.myMethod.apply(other, args);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;exceptions&quot;: [&quot;call&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: [&quot;error&quot;, { &quot;exceptions&quot;: [&quot;call&quot;] }]*/
+
+// in addition to Reflect.apply(...):
+myFunction.call(undefined, arg);
+myFunction.call(null, arg);
+obj.myMethod.call(obj, arg);
+obj.myMethod.call(other, arg);
+</code></pre>
+<h3 id="reflect-defineproperty">Reflect.defineProperty</h3>
+<p>Deprecates <code>Object.defineProperty()</code></p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+Object.defineProperty({}, &#39;foo&#39;, {value: 1})
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+Reflect.defineProperty({}, &#39;foo&#39;, {value: 1})
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;exceptions&quot;: [&quot;defineProperty&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: [&quot;error&quot;, { &quot;exceptions&quot;: [&quot;defineProperty&quot;] }]*/
+
+Object.defineProperty({}, &#39;foo&#39;, {value: 1})
+Reflect.defineProperty({}, &#39;foo&#39;, {value: 1})
+</code></pre>
+<h3 id="reflect-getownpropertydescriptor">Reflect.getOwnPropertyDescriptor</h3>
+<p>Deprecates <code>Object.getOwnPropertyDescriptor()</code></p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+Object.getOwnPropertyDescriptor({}, &#39;foo&#39;)
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+Reflect.getOwnPropertyDescriptor({}, &#39;foo&#39;)
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;exceptions&quot;: [&quot;getOwnPropertyDescriptor&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: [&quot;error&quot;, { &quot;exceptions&quot;: [&quot;getOwnPropertyDescriptor&quot;] }]*/
+
+Object.getOwnPropertyDescriptor({}, &#39;foo&#39;)
+Reflect.getOwnPropertyDescriptor({}, &#39;foo&#39;)
+</code></pre>
+<h3 id="reflect-getprototypeof">Reflect.getPrototypeOf</h3>
+<p>Deprecates <code>Object.getPrototypeOf()</code></p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+Object.getPrototypeOf({}, &#39;foo&#39;)
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+Reflect.getPrototypeOf({}, &#39;foo&#39;)
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;exceptions&quot;: [&quot;getPrototypeOf&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: [&quot;error&quot;, { &quot;exceptions&quot;: [&quot;getPrototypeOf&quot;] }]*/
+
+Object.getPrototypeOf({}, &#39;foo&#39;)
+Reflect.getPrototypeOf({}, &#39;foo&#39;)
+</code></pre>
+<h3 id="reflect-setprototypeof">Reflect.setPrototypeOf</h3>
+<p>Deprecates <code>Object.setPrototypeOf()</code></p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+Object.setPrototypeOf({}, Object.prototype)
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+Reflect.setPrototypeOf({}, Object.prototype)
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;exceptions&quot;: [&quot;setPrototypeOf&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: [&quot;error&quot;, { &quot;exceptions&quot;: [&quot;setPrototypeOf&quot;] }]*/
+
+Object.setPrototypeOf({}, Object.prototype)
+Reflect.setPrototypeOf({}, Object.prototype)
+</code></pre>
+<h3 id="reflect-isextensible">Reflect.isExtensible</h3>
+<p>Deprecates <code>Object.isExtensible</code></p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+Object.isExtensible({})
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+Reflect.isExtensible({})
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;exceptions&quot;: [&quot;isExtensible&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: [&quot;error&quot;, { &quot;exceptions&quot;: [&quot;isExtensible&quot;] }]*/
+
+Object.isExtensible({})
+Reflect.isExtensible({})
+</code></pre>
+<h3 id="reflect-getownpropertynames">Reflect.getOwnPropertyNames</h3>
+<p>Deprecates <code>Object.getOwnPropertyNames()</code></p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+Object.getOwnPropertyNames({})
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+Reflect.getOwnPropertyNames({})
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;exceptions&quot;: [&quot;getOwnPropertyNames&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: [&quot;error&quot;, { &quot;exceptions&quot;: [&quot;getOwnPropertyNames&quot;] }]*/
+
+Object.getOwnPropertyNames({})
+Reflect.getOwnPropertyNames({})
+</code></pre>
+<h3 id="reflect-preventextensions">Reflect.preventExtensions</h3>
+<p>Deprecates <code>Object.preventExtensions()</code></p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+Object.preventExtensions({})
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+Reflect.preventExtensions({})
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;exceptions&quot;: [&quot;preventExtensions&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: [&quot;error&quot;, { &quot;exceptions&quot;: [&quot;preventExtensions&quot;] }]*/
+
+Object.preventExtensions({})
+Reflect.preventExtensions({})
+</code></pre>
+<h3 id="reflect-deleteproperty">Reflect.deleteProperty</h3>
+<p>Deprecates the <code>delete</code> keyword</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+delete foo.bar; // deleting object property
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule when used without exceptions:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: &quot;error&quot;*/
+
+delete bar; // deleting variable
+Reflect.deleteProperty(foo, &#39;bar&#39;);
+</code></pre>
+<p>Note: For a rule preventing deletion of variables, see <a href="no-delete-var.html">no-delete-var instead</a></p>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;exceptions&quot;: [&quot;delete&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint prefer-reflect: [&quot;error&quot;, { &quot;exceptions&quot;: [&quot;delete&quot;] }]*/
+
+delete bar
+delete foo.bar
+Reflect.deleteProperty(foo, &#39;bar&#39;);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>This rule should not be used in ES3/5 environments.</p>
+<p>In ES2015 (ES6) or later, if you don&#39;t want to be notified about places where Reflect could be used, you can safely disable this rule.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-useless-call.html">no-useless-call</a></li>
+<li><a href="prefer-spread.html">prefer-spread</a></li>
+<li><a href="no-delete-var.html">no-delete-var</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

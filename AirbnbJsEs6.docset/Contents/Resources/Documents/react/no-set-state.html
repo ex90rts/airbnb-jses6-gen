@@ -1,0 +1,41 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-usage-of-setstate-no-set-state-">Prevent usage of setState (no-set-state)</h1>
+<p>When using an architecture that separates your application state from your UI components (e.g. Flux), it may be desirable to forbid the use of local component state. This rule is especially helpful in read-only applications (that don&#39;t use forms), since local component state should rarely be necessary in such cases.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  getInitialState: function() {
+    return {
+      name: this.props.name
+    };
+  },
+  handleClick: function() {
+    this.setState({
+      name: this.props.name.toUpperCase()
+    });
+  },
+  render: function() {
+    return &lt;div onClick={this.handleClick.bind(this)}&gt;Hello {this.state.name}&lt;/div&gt;;
+  }
+});
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  render: function() {
+    return &lt;div onClick={this.props.handleClick}&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+});
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

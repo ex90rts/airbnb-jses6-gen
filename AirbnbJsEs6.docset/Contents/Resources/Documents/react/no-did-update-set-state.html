@@ -1,0 +1,84 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-usage-of-setstate-in-componentdidupdate-no-did-update-set-state-">Prevent usage of setState in componentDidUpdate (no-did-update-set-state)</h1>
+<p>Updating the state after a component update will trigger a second <code>render()</code> call and can lead to property/layout thrashing.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  componentDidUpdate: function() {
+     this.setState({
+        name: this.props.name.toUpperCase()
+      });
+    },
+  render: function() {
+    return &lt;div&gt;Hello {this.state.name}&lt;/div&gt;;
+  }
+});
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  componentDidUpdate: function() {
+    this.props.onUpdate();
+  },
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+});
+</code></pre>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  componentDidUpdate: function() {
+    this.onUpdate(function callback(newName) {
+      this.setState({
+        name: newName
+      });
+    });
+  },
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+});
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<pre><code class="lang-js">...
+&quot;no-did-update-set-state&quot;: [&lt;enabled&gt;, &lt;mode&gt;]
+...
+</code></pre>
+<h3 id="-disallow-in-func-mode"><code>disallow-in-func</code> mode</h3>
+<p>By default this rule forbids any call to <code>this.setState</code> in <code>componentDidUpdate</code> outside of functions. The <code>disallow-in-func</code> mode makes this rule more strict by disallowing calls to <code>this.setState</code> even within functions.</p>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  componentDidUpdate: function() {
+     this.setState({
+        name: this.props.name.toUpperCase()
+      });
+    },
+  render: function() {
+    return &lt;div&gt;Hello {this.state.name}&lt;/div&gt;;
+  }
+});
+</code></pre>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  componentDidUpdate: function() {
+    this.onUpdate(function callback(newName) {
+      this.setState({
+        name: newName
+      });
+    });
+  },
+  render: function() {
+    return &lt;div&gt;Hello {this.state.name}&lt;/div&gt;;
+  }
+});
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

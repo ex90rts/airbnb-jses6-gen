@@ -1,0 +1,51 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-missing-parentheses-around-multiline-jsx-jsx-wrap-multilines-">Prevent missing parentheses around multiline JSX (jsx-wrap-multilines)</h1>
+<p>Wrapping multiline JSX in parentheses can improve readability and/or convenience. It optionally takes a second parameter in the form of an object, containing places to apply the rule. By default, <code>&quot;declaration&quot;</code>, <code>&quot;assignment&quot;</code>, and <code>&quot;return&quot;</code> syntax is checked, but these can be explicitly disabled. Any syntax type missing in the object will follow the default behavior (become enabled).</p>
+<p class="fixable icon"><strong>Fixable:</strong> This rule is automatically fixable using the <code>--fix</code> flag on the command line.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  render: function() {
+    return &lt;div&gt;
+      &lt;p&gt;Hello {this.props.name}&lt;/p&gt;
+    &lt;/div&gt;;
+  }
+});
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var singleLineJSX = &lt;p&gt;Hello&lt;/p&gt;
+
+var Hello = React.createClass({
+  render: function() {
+    return (
+      &lt;div&gt;
+        &lt;p&gt;Hello {this.props.name}&lt;/p&gt;
+      &lt;/div&gt;
+    );
+  }
+});
+
+// When [1, {declaration: false}]
+var hello;
+hello = &lt;div&gt;
+  &lt;p&gt;Hello&lt;/p&gt;
+&lt;/div&gt;
+
+// When [1, {declaration: true, assignment: false, return: true}]
+var world = &lt;div&gt;
+  &lt;p&gt;World&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

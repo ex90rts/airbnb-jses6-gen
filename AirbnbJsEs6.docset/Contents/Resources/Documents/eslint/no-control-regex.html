@@ -1,0 +1,37 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-control-characters-in-regular-expressions-no-control-regex-">disallow control characters in regular expressions (no-control-regex)</h1>
+<p>Control characters are special, invisible characters in the ASCII range 0-31. These characters are rarely used in JavaScript strings so a regular expression containing these characters is most likely a mistake.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows control characters in regular expressions.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-control-regex: &quot;error&quot;*/
+
+var pattern1 = /\x1f/;
+var pattern2 = new RegExp(&quot;\x1f&quot;);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-control-regex: &quot;error&quot;*/
+
+var pattern1 = /\x20/;
+var pattern2 = new RegExp(&quot;\x20&quot;);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you need to use control character pattern matching, then you should turn this rule off.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-div-regex.html">no-div-regex</a></li>
+<li><a href="no-regex-spaces.html">no-regex-spaces</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

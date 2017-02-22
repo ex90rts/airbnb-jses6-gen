@@ -1,0 +1,34 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-usage-of-deprecated-methods-no-deprecated-">Prevent usage of deprecated methods (no-deprecated)</h1>
+<p>Several methods are deprecated between React versions. This rule will warn you if you try to use a deprecated method. Use the <a href="/README.md#configuration">shared settings</a> to specify the React version.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">React.render(&lt;MyComponent /&gt;, root);
+
+React.unmountComponentAtNode(root);
+
+React.findDOMNode(this.refs.foo);
+
+React.renderToString(&lt;MyComponent /&gt;);
+
+React.renderToStaticMarkup(&lt;MyComponent /&gt;);
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">ReactDOM.render(&lt;MyComponent /&gt;, root);
+
+// When [1, {&quot;react&quot;: &quot;0.13.0&quot;}]
+ReactDOM.findDOMNode(this.refs.foo);
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

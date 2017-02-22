@@ -1,0 +1,40 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-new-require-no-new-require-">Disallow new require (no-new-require)</h1>
+<p>The <code>require</code> function is used to include modules that exist in separate files, such as:</p>
+<pre><code class="lang-js">var appHeader = require(&#39;app-header&#39;);
+</code></pre>
+<p>Some modules return a constructor which can potentially lead to code such as:</p>
+<pre><code class="lang-js">var appHeader = new require(&#39;app-header&#39;);
+</code></pre>
+<p>Unfortunately, this introduces a high potential for confusion since the code author likely meant to write:</p>
+<pre><code class="lang-js">var appHeader = new (require(&#39;app-header&#39;));
+</code></pre>
+<p>For this reason, it is usually best to disallow this particular expression.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to eliminate use of the <code>new require</code> expression.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-new-require: &quot;error&quot;*/
+
+var appHeader = new require(&#39;app-header&#39;);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-new-require: &quot;error&quot;*/
+
+var AppHeader = require(&#39;app-header&#39;);
+var appHeader = new AppHeader();
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you are using a custom implementation of <code>require</code> and your code will never be used in projects where a standard <code>require</code> (CommonJS, Node.js, AMD) is expected, you can safely turn this rule off.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

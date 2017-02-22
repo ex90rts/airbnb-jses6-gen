@@ -1,0 +1,104 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-missing-displayname-in-a-react-component-definition-display-name-">Prevent missing displayName in a React component definition (display-name)</h1>
+<p>DisplayName allows you to name your component. This name is used by React in debugging messages.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+});
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  displayName: &#39;Hello&#39;,
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+});
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<pre><code class="lang-js">...
+&quot;display-name&quot;: [&lt;enabled&gt;, { &quot;ignoreTranspilerName&quot;: &lt;boolean&gt; }]
+...
+</code></pre>
+<h3 id="-ignoretranspilername-"><code>ignoreTranspilerName</code></h3>
+<p>When <code>true</code> the rule will ignore the name set by the transpiler and require a <code>displayName</code> property in this case.</p>
+<p>The following patterns are considered okay and do not cause warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  displayName: &#39;Hello&#39;,
+
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+});
+module.exports = Hello;
+</code></pre>
+<pre><code class="lang-jsx">export default class Hello extends React.Component {
+  render() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+}
+Hello.displayName = &#39;Hello&#39;;
+</code></pre>
+<pre><code class="lang-jsx">export default function Hello({ name }) {
+  return &lt;div&gt;Hello {name}&lt;/div&gt;;
+}
+Hello.displayName = &#39;Hello&#39;;
+</code></pre>
+<p>The following patterns will cause warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+});
+module.exports = Hello;
+</code></pre>
+<pre><code class="lang-jsx">export default class Hello extends React.Component {
+  render() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+}
+</code></pre>
+<pre><code class="lang-jsx">module.exports = React.createClass({
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+});
+</code></pre>
+<pre><code class="lang-jsx">export default class extends React.Component {
+  render() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+}
+</code></pre>
+<pre><code class="lang-jsx">function HelloComponent() {
+  return React.createClass({
+    render: function() {
+      return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+    }
+  });
+}
+module.exports = HelloComponent();
+</code></pre>
+<h2 id="about-component-detection">About component detection</h2>
+<p>For this rule to work we need to detect React components, this could be very hard since components could be declared in a lot of ways.</p>
+<p>For now we should detect components created with:</p>
+<ul>
+<li><code>React.createClass()</code></li>
+<li>an ES6 class that inherit from <code>React.Component</code> or <code>Component</code></li>
+<li>a stateless function that return JSX or the result of a <code>React.createElement</code> call.</li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

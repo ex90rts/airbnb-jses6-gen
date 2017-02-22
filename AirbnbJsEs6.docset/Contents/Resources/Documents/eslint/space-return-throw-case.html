@@ -1,0 +1,37 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="space-return-throw-case-require-spaces-after-return-throw-and-case-keywords">space-return-throw-case: require spaces after <code>return</code>, <code>throw</code>, and <code>case</code> keywords</h1>
+<p class="removed icon">(removed) This rule was <strong>removed</strong> in ESLint v2.0 and <strong>replaced</strong> by the <a href="keyword-spacing.html">keyword-spacing</a> rule.</p>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixed problems reported by this rule.</p>
+<p>Require spaces following <code>return</code>, <code>throw</code>, and <code>case</code>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint space-return-throw-case: &quot;error&quot;*/
+
+throw{a:0}
+
+function f(){ return-a; }
+
+switch(a){ case&#39;a&#39;: break; }
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint space-return-throw-case: &quot;error&quot;*/
+
+throw {a: 0};
+
+function f(){ return -a; }
+
+switch(a){ case &#39;a&#39;: break; }
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

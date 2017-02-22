@@ -1,0 +1,31 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-usage-of-unsafe-target-_blank-jsx-no-target-blank-">Prevent usage of unsafe <code>target=&#39;_blank&#39;</code> (jsx-no-target-blank)</h1>
+<p>When creating a JSX element that has an a tag, it is often desired to have
+the link open in a new tab using the <code>target=&#39;_blank&#39;</code> attribute. Using this
+attribute unaccompanied by <code>rel=&#39;noreferrer noopener&#39;</code>, however, is a severe
+security vulnerability (<a href="https://mathiasbynens.github.io/rel-noopener">see here for more details</a>)
+This rules requires that you accompany all <code>target=&#39;_blank&#39;</code> attributes with <code>rel=&#39;noreferrer noopener&#39;</code>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered errors:</p>
+<pre><code class="lang-jsx">var Hello = &lt;a target=&#39;_blank&#39;&gt;&lt;/a&gt;
+</code></pre>
+<p>The following patterns are not considered errors:</p>
+<pre><code class="lang-jsx">var Hello = &lt;p target=&#39;_blank&#39;&gt;&lt;/p&gt;
+var Hello = &lt;a target=&#39;_blank&#39; rel=&#39;noopener noreferrer&#39;&gt;&lt;/a&gt;
+var Hello = &lt;a&gt;&lt;/a&gt;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you do not have any external links, you can disable this rule</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

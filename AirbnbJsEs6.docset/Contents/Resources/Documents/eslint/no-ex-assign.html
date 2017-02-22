@@ -1,0 +1,41 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-reassigning-exceptions-in-catch-clauses-no-ex-assign-">disallow reassigning exceptions in <code>catch</code> clauses (no-ex-assign)</h1>
+<p>If a <code>catch</code> clause in a <code>try</code> statement accidentally (or purposely) assigns another value to the exception parameter, it impossible to refer to the error from that point on.
+Since there is no <code>arguments</code> object to offer alternative access to this data, assignment of the parameter is absolutely destructive.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows reassigning exceptions in <code>catch</code> clauses.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-ex-assign: &quot;error&quot;*/
+
+try {
+    // code
+} catch (e) {
+    e = 10;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-ex-assign: &quot;error&quot;*/
+
+try {
+    // code
+} catch (e) {
+    var foo = 10;
+}
+</code></pre>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://weblog.bocoup.com/the-catch-with-try-catch/">The &quot;catch&quot; with try...catch</a> by Ben Alman explains how the exception identifier can leak into the outer scope in IE 6-8</li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

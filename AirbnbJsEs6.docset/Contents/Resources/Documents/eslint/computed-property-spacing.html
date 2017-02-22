@@ -1,0 +1,87 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-or-enforce-spaces-inside-of-computed-properties-computed-property-spacing-">Disallow or enforce spaces inside of computed properties (computed-property-spacing)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>While formatting preferences are very personal, a number of style guides require
+or disallow spaces between computed properties in the following situations:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+var obj = { prop: &quot;value&quot; };
+var a = &quot;prop&quot;;
+var x = obj[a]; // computed property in object member expression
+
+var a = &quot;prop&quot;;
+var obj = {
+  [a]: &quot;value&quot; // computed property key in object literal (ECMAScript 6)
+};
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces consistent spacing inside computed property brackets.</p>
+<p>It either requires or disallows spaces between the brackets and the values inside of them.
+This rule does not apply to brackets that are separated from the adjacent value by a newline.</p>
+<h2 id="options">Options</h2>
+<p>This rule has a string option:</p>
+<ul>
+<li><code>&quot;never&quot;</code> (default) disallows spaces inside computed property brackets</li>
+<li><code>&quot;always&quot;</code> requires one or more spaces inside computed property brackets</li>
+</ul>
+<h3 id="never">never</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint computed-property-spacing: [&quot;error&quot;, &quot;never&quot;]*/
+/*eslint-env es6*/
+
+obj[foo ]
+obj[ &#39;foo&#39;]
+var x = {[ b ]: a}
+obj[foo[ bar ]]
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint computed-property-spacing: [&quot;error&quot;, &quot;never&quot;]*/
+/*eslint-env es6*/
+
+obj[foo]
+obj[&#39;foo&#39;]
+var x = {[b]: a}
+obj[foo[bar]]
+</code></pre>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint computed-property-spacing: [&quot;error&quot;, &quot;always&quot;]*/
+/*eslint-env es6*/
+
+obj[foo]
+var x = {[b]: a}
+obj[ foo]
+obj[&#39;foo&#39; ]
+obj[foo[ bar ]]
+var x = {[ b]: a}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint computed-property-spacing: [&quot;error&quot;, &quot;always&quot;]*/
+/*eslint-env es6*/
+
+obj[ foo ]
+obj[ &#39;foo&#39; ]
+var x = {[ b ]: a}
+obj[ foo[ bar ] ]
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You can turn this rule off if you are not concerned with the consistency of computed properties.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="array-bracket-spacing.html">array-bracket-spacing</a></li>
+<li><a href="comma-spacing.html">comma-spacing</a></li>
+<li><a href="space-in-parens.html">space-in-parens</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

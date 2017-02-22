@@ -1,0 +1,44 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="forbid-unassigned-imports">Forbid unassigned imports</h1>
+<p>With both CommonJS&#39; <code>require</code> and the ES6 modules&#39; <code>import</code> syntax, it is possible to import a module but not to use its result. This can be done explicitly by not assigning the module to as variable. Doing so can mean either of the following things:</p>
+<ul>
+<li>The module is imported but not used</li>
+<li>The module has side-effects (like <a href="https://www.npmjs.com/package/should"><code>should</code></a>). Having side-effects, makes it hard to know whether the module is actually used or can be removed. It can also make it harder to test or mock parts of your application.</li>
+</ul>
+<p>This rule aims to remove modules with side-effects by reporting when a module is imported but not assigned.</p>
+<h2 id="fail">Fail</h2>
+<pre><code class="lang-js">import &#39;should&#39;
+require(&#39;should&#39;)
+</code></pre>
+<h2 id="pass">Pass</h2>
+<pre><code class="lang-js">import _ from &#39;foo&#39;
+import _, {foo} from &#39;foo&#39;
+import _, {foo as bar} from &#39;foo&#39;
+import {foo as bar} from &#39;foo&#39;
+import * as _ from &#39;foo&#39;
+
+const _ = require(&#39;foo&#39;)
+const {foo} = require(&#39;foo&#39;)
+const {foo: bar} = require(&#39;foo&#39;)
+const [a, b] = require(&#39;foo&#39;)
+const _ = require(&#39;foo&#39;)
+
+// Module is not assigned, but it is used
+bar(require(&#39;foo&#39;))
+require(&#39;foo&#39;).bar
+require(&#39;foo&#39;).bar()
+require(&#39;foo&#39;)()
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

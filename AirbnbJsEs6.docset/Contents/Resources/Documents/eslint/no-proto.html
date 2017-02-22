@@ -1,0 +1,36 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-use-of-__proto__-no-proto-">Disallow Use of <code>__proto__</code> (no-proto)</h1>
+<p><code>__proto__</code> property has been deprecated as of ECMAScript 3.1 and shouldn&#39;t be used in the code. Use <code>getPrototypeOf</code> method instead.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>When an object is created <code>__proto__</code> is set to the original prototype property of the object’s constructor function. <code>getPrototypeOf</code> is the preferred method of getting &quot;the prototype&quot;.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-proto: &quot;error&quot;*/
+
+var a = obj.__proto__;
+
+var a = obj[&quot;__proto__&quot;];
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-proto: &quot;error&quot;*/
+
+var a = Object.getPrototypeOf(obj);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you need to support legacy browsers, you might want to turn this rule off, since support for <code>getPrototypeOf</code> is not yet universal.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://ejohn.org/blog/objectgetprototypeof/">Object.getPrototypeOf</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

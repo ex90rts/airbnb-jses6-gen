@@ -1,0 +1,117 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-unused-expressions-no-unused-expressions-">Disallow Unused Expressions (no-unused-expressions)</h1>
+<p>An unused expression which has no effect on the state of the program indicates a logic error.</p>
+<p>For example, <code>n + 1;</code> is not a syntax error, but it might be a typing mistake where a programmer meant an assignment statement <code>n += 1;</code> instead.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to eliminate unused expressions which have no effect on the state of the program.</p>
+<p>This rule does not apply to function calls or constructor calls with the <code>new</code> operator, because they could have <em>side effects</em> on the state of the program.</p>
+<pre><code class="lang-js">var i = 0;
+function increment() { i += 1; }
+increment(); // return value is unused, but i changed as a side effect
+
+var nThings = 0;
+function Thing() { nThings += 1; }
+new Thing(); // constructed object is unused, but nThings changed as a side effect
+</code></pre>
+<p>This rule does not apply to directives (which are in the form of literal string expressions such as <code>&quot;use strict&quot;;</code> at the beginning of a script, module, or function).</p>
+<p>Sequence expressions (those using a comma, such as <code>a = 1, b = 2</code>) are always considered unused unless their return value is assigned or used in a condition evaluation, or a function call is made with the sequence expression value.</p>
+<h2 id="options">Options</h2>
+<p>This rule, in its default state, does not require any arguments. If you would like to enable one or more of the following you may pass an object with the options set as follows:</p>
+<ul>
+<li><code>allowShortCircuit</code> set to <code>true</code> will allow you to use short circuit evaluations in your expressions (Default: <code>false</code>).</li>
+<li><code>allowTernary</code> set to <code>true</code> will enable you use ternary operators in your expressions similarly to short circuit evaluations (Default: <code>false</code>).</li>
+</ul>
+<p>These options allow unused expressions <em>only if all</em> of the code paths either directly change the state (for example, assignment statement) or could have <em>side effects</em> (for example, function call).</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the default <code>{ &quot;allowShortCircuit&quot;: false, &quot;allowTernary&quot;: false }</code> options:</p>
+<pre><code class="lang-js">/*eslint no-unused-expressions: &quot;error&quot;*/
+
+0
+
+if(0) 0
+
+{0}
+
+f(0), {}
+
+a &amp;&amp; b()
+
+a, b()
+
+c = a, b;
+
+a() &amp;&amp; function namedFunctionInExpressionContext () {f();}
+
+(function anIncompleteIIFE () {});
+</code></pre>
+<p>Note that one or more string expression statements (with or without semi-colons) will only be considered as unused if they are not in the beginning of a script, module, or function (alone and uninterrupted by other statements). Otherwise, they will be treated as part of a &quot;directive prologue&quot;, a section potentially usable by JavaScript engines. This includes &quot;strict mode&quot; directives.</p>
+<pre><code class="lang-js">&quot;use strict&quot;;
+&quot;use asm&quot;
+&quot;use stricter&quot;;
+&quot;use babel&quot;
+&quot;any other strings like this in the prologue&quot;;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the default <code>{ &quot;allowShortCircuit&quot;: false, &quot;allowTernary&quot;: false }</code> options:</p>
+<pre><code class="lang-js">/*eslint no-unused-expressions: &quot;error&quot;*/
+
+{} // In this context, this is a block statement, not an object literal
+
+{myLabel: someVar} // In this context, this is a block statement with a label and expression, not an object literal
+
+function namedFunctionDeclaration () {}
+
+(function aGenuineIIFE () {}());
+
+f()
+
+a = 0
+
+new C
+
+delete a.b
+
+void a
+</code></pre>
+<h3 id="allowshortcircuit">allowShortCircuit</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{ &quot;allowShortCircuit&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-unused-expressions: [&quot;error&quot;, { &quot;allowShortCircuit&quot;: true }]*/
+
+a || b
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;allowShortCircuit&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-unused-expressions: [&quot;error&quot;, { &quot;allowShortCircuit&quot;: true }]*/
+
+a &amp;&amp; b()
+a() || (b = c)
+</code></pre>
+<h3 id="allowternary">allowTernary</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{ &quot;allowTernary&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-unused-expressions: [&quot;error&quot;, { &quot;allowTernary&quot;: true }]*/
+
+a ? b : 0
+a ? b : c()
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;allowTernary&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-unused-expressions: [&quot;error&quot;, { &quot;allowTernary&quot;: true }]*/
+
+a ? b() : c()
+a ? (b = c) : d()
+</code></pre>
+<h3 id="allowshortcircuit-and-allowternary">allowShortCircuit and allowTernary</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;allowShortCircuit&quot;: true, &quot;allowTernary&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint no-unused-expressions: [&quot;error&quot;, { &quot;allowShortCircuit&quot;: true, &quot;allowTernary&quot;: true }]*/
+
+a ? b() || (c = d) : e()
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

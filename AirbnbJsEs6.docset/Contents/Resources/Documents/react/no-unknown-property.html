@@ -1,0 +1,39 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-usage-of-unknown-dom-property-no-unknown-property-">Prevent usage of unknown DOM property (no-unknown-property)</h1>
+<p>In JSX all DOM properties and attributes should be camelCased to be consistent with standard JavaScript style. This can be a possible source of error if you are used to writing plain HTML.</p>
+<p class="fixable icon"><strong>Fixable:</strong> This rule is automatically fixable using the <code>--fix</code> flag on the command line.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var React = require(&#39;react&#39;);
+
+var Hello = &lt;div class=&quot;hello&quot;&gt;Hello World&lt;/div&gt;;
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var React = require(&#39;react&#39;);
+
+var Hello = &lt;div className=&quot;hello&quot;&gt;Hello World&lt;/div&gt;;
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<pre><code class="lang-js">...
+&quot;no-unknown-property&quot;: [&lt;enabled&gt;, { ignore: &lt;ignore&gt; }]
+...
+</code></pre>
+<ul>
+<li><code>enabled</code>: for enabling the rule. 0=off, 1=warn, 2=error. Defaults to 0.</li>
+<li><code>ignore</code>: optional array of property and attribute names to ignore during validation.</li>
+</ul>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you are not using JSX you can disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

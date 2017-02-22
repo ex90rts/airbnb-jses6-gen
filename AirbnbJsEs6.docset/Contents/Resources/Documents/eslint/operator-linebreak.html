@@ -1,0 +1,183 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-consistent-linebreak-style-for-operators-operator-linebreak-">enforce consistent linebreak style for operators (operator-linebreak)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>When a statement is too long to fit on a single line, line breaks are generally inserted next to the operators separating expressions. The first style coming to mind would be to place the operator at the end of the line, following the english punctuation rules.</p>
+<pre><code class="lang-js">var fullHeight = borderTop +
+                 innerHeight +
+                 borderBottom;
+</code></pre>
+<p>Some developers find that placing operators at the beginning of the line makes the code more readable.</p>
+<pre><code class="lang-js">var fullHeight = borderTop
+               + innerHeight
+               + borderBottom;
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces a consistent linebreak style for operators.</p>
+<h2 id="options">Options</h2>
+<p>This rule has one option, which can be a string option or an object option.</p>
+<p>String option:</p>
+<ul>
+<li><code>&quot;after&quot;</code> requires linebreaks to be placed after the operator</li>
+<li><code>&quot;before&quot;</code> requires linebreaks to be placed before the operator</li>
+<li><code>&quot;none&quot;</code> disallows linebreaks on either side of the operator</li>
+</ul>
+<p>Object option:</p>
+<ul>
+<li><code>&quot;overrides&quot;</code> overrides the global setting for specified operators</li>
+</ul>
+<p>The default configuration is <code>&quot;after&quot;, { &quot;overrides&quot;: { &quot;?&quot;: &quot;before&quot;, &quot;:&quot;: &quot;before&quot; } }</code></p>
+<h3 id="after">after</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;after&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint operator-linebreak: [&quot;error&quot;, &quot;after&quot;]*/
+
+foo = 1
++
+2;
+
+foo = 1
+    + 2;
+
+foo
+    = 5;
+
+if (someCondition
+    || otherCondition) {
+}
+
+answer = everything
+  ? 42
+  : foo;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;after&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint operator-linebreak: [&quot;error&quot;, &quot;after&quot;]*/
+
+foo = 1 + 2;
+
+foo = 1 +
+      2;
+
+foo =
+    5;
+
+if (someCondition ||
+    otherCondition) {
+}
+
+answer = everything ?
+  42 :
+  foo;
+</code></pre>
+<h3 id="before">before</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;before&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint operator-linebreak: [&quot;error&quot;, &quot;before&quot;]*/
+
+foo = 1 +
+      2;
+
+foo =
+    5;
+
+if (someCondition ||
+    otherCondition) {
+}
+
+answer = everything ?
+  42 :
+  foo;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;before&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint operator-linebreak: [&quot;error&quot;, &quot;before&quot;]*/
+
+foo = 1 + 2;
+
+foo = 1
+    + 2;
+
+foo
+    = 5;
+
+if (someCondition
+    || otherCondition) {
+}
+
+answer = everything
+  ? 42
+  : foo;
+</code></pre>
+<h3 id="none">none</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;none&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint operator-linebreak: [&quot;error&quot;, &quot;none&quot;]*/
+
+foo = 1 +
+      2;
+
+foo = 1
+    + 2;
+
+if (someCondition ||
+    otherCondition) {
+}
+
+if (someCondition
+    || otherCondition) {
+}
+
+answer = everything
+  ? 42
+  : foo;
+
+answer = everything ?
+  42 :
+  foo;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;none&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint operator-linebreak: [&quot;error&quot;, &quot;none&quot;]*/
+
+foo = 1 + 2;
+
+foo = 5;
+
+if (someCondition || otherCondition) {
+}
+
+answer = everything ? 42 : foo;
+</code></pre>
+<h3 id="overrides">overrides</h3>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>{ &quot;overrides&quot;: { &quot;+=&quot;: &quot;before&quot; } }</code> option:</p>
+<pre><code class="lang-js">/*eslint operator-linebreak: [&quot;error&quot;, &quot;after&quot;, { &quot;overrides&quot;: { &quot;+=&quot;: &quot;before&quot; } }]*/
+
+var thing
+  += &#39;thing&#39;;
+</code></pre>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>{ &quot;overrides&quot;: { &quot;?&quot;: &quot;ignore&quot;, &quot;:&quot;: &quot;ignore&quot; } }</code> option:</p>
+<pre><code class="lang-js">/*eslint operator-linebreak: [&quot;error&quot;, &quot;after&quot;, { &quot;overrides&quot;: { &quot;?&quot;: &quot;ignore&quot;, &quot;:&quot;: &quot;ignore&quot; } }]*/
+
+answer = everything ?
+  42
+  : foo;
+
+answer = everything
+  ?
+  42
+  :
+  foo;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If your project will not be using a common operator line break style, turn this rule off.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="comma-style.html">comma-style</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

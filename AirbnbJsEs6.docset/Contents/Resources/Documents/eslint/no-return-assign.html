@@ -1,0 +1,90 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-assignment-in-return-statement-no-return-assign-">Disallow Assignment in return Statement (no-return-assign)</h1>
+<p>One of the interesting, and sometimes confusing, aspects of JavaScript is that assignment can happen at almost any point. Because of this, an errant equals sign can end up causing assignment when the true intent was to do a comparison. This is especially true when using a <code>return</code> statement. For example:</p>
+<pre><code class="lang-js">function doSomething() {
+    return foo = bar + 2;
+}
+</code></pre>
+<p>It is difficult to tell the intent of the <code>return</code> statement here. It&#39;s possible that the function is meant to return the result of <code>bar + 2</code>, but then why is it assigning to <code>foo</code>? It&#39;s also possible that the intent was to use a comparison operator such as <code>==</code> and that this code is an error.</p>
+<p>Because of this ambiguity, it&#39;s considered a best practice to not use assignment in <code>return</code> statements.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to eliminate assignments from <code>return</code> statements. As such, it will warn whenever an assignment is found as part of <code>return</code>.</p>
+<h2 id="options">Options</h2>
+<p>The rule takes one option, a string, which must contain one of the following values:</p>
+<ul>
+<li><code>except-parens</code> (default): Disallow assignments unless they are enclosed in parentheses.</li>
+<li><code>always</code>: Disallow all assignments.</li>
+</ul>
+<h3 id="except-parens">except-parens</h3>
+<p>This is the default option.
+It disallows assignments unless they are enclosed in parentheses.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the default <code>&quot;except-parens&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint no-return-assign: &quot;error&quot;*/
+
+function doSomething() {
+    return foo = bar + 2;
+}
+
+function doSomething() {
+    return foo += 2;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the default <code>&quot;except-parens&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint no-return-assign: &quot;error&quot;*/
+
+function doSomething() {
+    return foo == bar + 2;
+}
+
+function doSomething() {
+    return foo === bar + 2;
+}
+
+function doSomething() {
+    return (foo = bar + 2);
+}
+</code></pre>
+<h3 id="always">always</h3>
+<p>This option disallows all assignments in <code>return</code> statements.
+All assignments are treated as problems.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint no-return-assign: [&quot;error&quot;, &quot;always&quot;]*/
+
+function doSomething() {
+    return foo = bar + 2;
+}
+
+function doSomething() {
+    return foo += 2;
+}
+
+function doSomething() {
+    return (foo = bar + 2);
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint no-return-assign: [&quot;error&quot;, &quot;always&quot;]*/
+
+function doSomething() {
+    return foo == bar + 2;
+}
+
+function doSomething() {
+    return foo === bar + 2;
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you want to allow the use of assignment operators in a <code>return</code> statement, then you can safely disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

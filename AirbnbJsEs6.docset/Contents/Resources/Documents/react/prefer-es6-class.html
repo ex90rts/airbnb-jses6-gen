@@ -1,0 +1,53 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-es5-or-es6-class-for-react-components-prefer-es6-class-">Enforce ES5 or ES6 class for React Components (prefer-es6-class)</h1>
+<p>React offers you two way to create traditional components: using the ES5 <code>React.createClass</code> method or the new ES6 class system. This rule allow you to enforce one way or another.</p>
+<h2 id="rule-options">Rule Options</h2>
+<pre><code class="lang-js">...
+&quot;prefer-es6-class&quot;: [&lt;enabled&gt;, &lt;mode&gt;]
+...
+</code></pre>
+<h3 id="-always-mode"><code>always</code> mode</h3>
+<p>Will enforce ES6 classes for React Components. This is the default mode.</p>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+});
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">class Hello extends React.Component {
+  render() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+}
+</code></pre>
+<h3 id="-never-mode"><code>never</code> mode</h3>
+<p>Will enforce ES5 classes for React Components</p>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">class Hello extends React.Component {
+  render() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+}
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+});
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

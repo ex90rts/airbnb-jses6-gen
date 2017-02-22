@@ -1,0 +1,49 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="unambiguous">unambiguous</h1>
+<p>Warn if a <code>module</code> could be mistakenly parsed as a <code>script</code> by a consumer leveraging
+<a href="https://github.com/nodejs/node-eps/blob/master/002-es6-modules.md#51-determining-if-source-is-an-es-module">Unambiguous JavaScript Grammar</a> to determine correct parsing goal.</p>
+<p>Will respect the <a href="http://eslint.org/docs/user-guide/configuring#specifying-parser-options"><code>parserOptions.sourceType</code></a> from ESLint config, i.e. files parsed
+as <code>script</code> per that setting will not be reported.</p>
+<p>This plugin uses <a href="https://github.com/nodejs/node-eps/blob/master/002-es6-modules.md#51-determining-if-source-is-an-es-module">Unambiguous JavaScript Grammar</a> internally to decide whether
+dependencies should be parsed as modules and searched for exports matching the
+<code>import</code>ed names, so it may be beneficial to keep this rule on even if your application
+will run in an explicit <code>module</code>-only environment.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>For files parsed as <code>module</code> by ESLint, the following are valid:</p>
+<pre><code class="lang-js">import &#39;foo&#39;
+function x() { return 42 }
+</code></pre>
+<pre><code class="lang-js">export function x() { return 42 }
+</code></pre>
+<pre><code class="lang-js">(function x() { return 42 })()
+export {} // simple way to mark side-effects-only file as &#39;module&#39; without any imports/exports
+</code></pre>
+<p>...whereas the following file would be reported:</p>
+<pre><code class="lang-js">(function x() { return 42 })()
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If your application environment will always know via <a href="https://github.com/nodejs/node-eps/issues/13">some other means</a>
+how to parse, regardless of syntax, you may not need this rule.</p>
+<p>Remember, though, that this plugin uses this strategy internally, so if you were
+to <code>import</code> from a module with no <code>import</code>s or <code>export</code>s, this plugin would not
+report it as it would not be clear whether it should be considered a <code>script</code> or
+a <code>module</code>.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="https://github.com/nodejs/node-eps/blob/master/002-es6-modules.md#51-determining-if-source-is-an-es-module">Unambiguous JavaScript Grammar</a></li>
+<li><a href="http://eslint.org/docs/user-guide/configuring#specifying-parser-options"><code>parserOptions.sourceType</code></a></li>
+<li><a href="https://github.com/nodejs/node-eps/issues/13">node-eps#13</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

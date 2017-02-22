@@ -1,0 +1,83 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-modifying-variables-of-class-declarations-no-class-assign-">Disallow modifying variables of class declarations (no-class-assign)</h1>
+<p><code>ClassDeclaration</code> creates a variable, and we can modify the variable.</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+class A { }
+A = 0;
+</code></pre>
+<p>But the modification is a mistake in most cases.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed to flag modifying variables of class declarations.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-class-assign: &quot;error&quot;*/
+/*eslint-env es6*/
+
+class A { }
+A = 0;
+</code></pre>
+<pre><code class="lang-js">/*eslint no-class-assign: &quot;error&quot;*/
+/*eslint-env es6*/
+
+A = 0;
+class A { }
+</code></pre>
+<pre><code class="lang-js">/*eslint no-class-assign: &quot;error&quot;*/
+/*eslint-env es6*/
+
+class A {
+    b() {
+        A = 0;
+    }
+}
+</code></pre>
+<pre><code class="lang-js">/*eslint no-class-assign: &quot;error&quot;*/
+/*eslint-env es6*/
+
+let A = class A {
+    b() {
+        A = 0;
+        // `let A` is shadowed by the class name.
+    }
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-class-assign: &quot;error&quot;*/
+/*eslint-env es6*/
+
+let A = class A { }
+A = 0; // A is a variable.
+</code></pre>
+<pre><code class="lang-js">/*eslint no-class-assign: &quot;error&quot;*/
+/*eslint-env es6*/
+
+let A = class {
+    b() {
+        A = 0; // A is a variable.
+    }
+}
+</code></pre>
+<pre><code class="lang-js">/*eslint no-class-assign: 2*/
+/*eslint-env es6*/
+
+class A {
+    b(A) {
+        A = 0; // A is a parameter.
+    }
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about modifying variables of class declarations, you can safely disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

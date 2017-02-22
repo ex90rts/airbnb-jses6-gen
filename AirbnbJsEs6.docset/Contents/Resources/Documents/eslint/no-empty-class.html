@@ -1,0 +1,35 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-empty-class-disallow-empty-character-classes-in-regular-expressions">no-empty-class: disallow empty character classes in regular expressions</h1>
+<p class="removed icon">(removed) This rule was <strong>removed</strong> in ESLint v1.0 and <strong>replaced</strong> by the <a href="no-empty-character-class.html">no-empty-character-class</a> rule.</p>
+<p>Empty character classes in regular expressions do not match anything and can result in code that may not work as intended.</p>
+<pre><code class="lang-js">var foo = /^abc[]/;
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at highlighting possible typos and unexpected behavior in regular expressions which may arise from the use of empty character classes.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">var foo = /^abc[]/;
+
+/^abc[]/.test(foo);
+
+bar.match(/^abc[]/);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">var foo = /^abc/;
+
+var foo = /^abc[a-z]/;
+
+var bar = new RegExp(&quot;^abc[]&quot;);
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

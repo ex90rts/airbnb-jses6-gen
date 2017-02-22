@@ -1,0 +1,83 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-unnecessary-labels-no-extra-label-">Disallow Unnecessary Labels (no-extra-label)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>If a loop contains no nested loops or switches, labeling the loop is unnecessary.</p>
+<pre><code class="lang-js">A: while (a) {
+    break A;
+}
+</code></pre>
+<p>You can achieve the same result by removing the label and using <code>break</code> or <code>continue</code> without a label.
+Probably those labels would confuse developers because they expect labels to jump to further.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at eliminating unnecessary labels.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-extra-label: &quot;error&quot;*/
+
+A: while (a) {
+    break A;
+}
+
+B: for (let i = 0; i &lt; 10; ++i) {
+    break B;
+}
+
+C: switch (a) {
+    case 0:
+        break C;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-extra-label: &quot;error&quot;*/
+
+while (a) {
+    break;
+}
+
+for (let i = 0; i &lt; 10; ++i) {
+    break;
+}
+
+switch (a) {
+    case 0:
+        break;
+}
+
+A: {
+    break A;
+}
+
+B: while (a) {
+    while (b) {
+        break B;
+    }
+}
+
+C: switch (a) {
+    case 0:
+        while (b) {
+            break C;
+        }
+        break;
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about usage of labels, then it&#39;s safe to disable this rule.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="./no-labels.html">no-labels</a></li>
+<li><a href="./no-label-var.html">no-label-var</a></li>
+<li><a href="./no-unused-labels.html">no-unused-labels</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-distracting-elements">no-distracting-elements</h1>
+<p>Enforces that no distracting elements are used. Elements that can be visually distracting can cause accessibility issues with visually impaired users. Such elements are most likely deprecated, and should be avoided. By default, the following elements are visually distracting: <code>&lt;marquee&gt;</code> and <code>&lt;blink&gt;</code>.</p>
+<h4 id="references">References</h4>
+<ol>
+<li><a href="https://dequeuniversity.com/rules/axe/1.1/marquee">Deque University</a></li>
+<li><a href="https://dequeuniversity.com/rules/axe/1.1/blink">Deque University</a></li>
+</ol>
+<h2 id="rule-details">Rule details</h2>
+<p>This rule takes one optional object argument of type object:</p>
+<pre><code class="lang-json">{
+    &quot;rules&quot;: {
+        &quot;jsx-a11y/no-distracting-elements&quot;: [ 2, {
+            &quot;elements&quot;: [ &quot;marquee&quot;, &quot;blink&quot; ],
+          }],
+    }
+}
+</code></pre>
+<p>For the <code>elements</code> option, these strings determine which JSX elements should be checked for usage. This shouldn&#39;t need to be configured unless you have a seriously compelling use case for these elements. You cannot add any additional elements than what is offered, as the schema is only valid with the provided enumerated list. If you have another element that you think may cause a11y issues due to visual impairment, please feel free to file an issue or send a PR!</p>
+<h3 id="succeed">Succeed</h3>
+<pre><code class="lang-jsx">&lt;div /&gt;
+</code></pre>
+<h3 id="fail">Fail</h3>
+<pre><code class="lang-jsx">&lt;marquee /&gt;
+&lt;blink /&gt;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

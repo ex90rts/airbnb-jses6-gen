@@ -1,0 +1,75 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="limit-cyclomatic-complexity-complexity-">Limit Cyclomatic Complexity (complexity)</h1>
+<p>Cyclomatic complexity measures the number of linearly independent paths through a program&#39;s source code. This rule allows setting a cyclomatic complexity threshold.</p>
+<pre><code class="lang-js">function a(x) {
+    if (true) {
+        return x; // 1st path
+    } else if (false) {
+        return x+1; // 2nd path
+    } else {
+        return 4; // 3rd path
+    }
+}
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at reducing code complexity by capping the amount of cyclomatic complexity allowed in a program. As such, it will warn when the cyclomatic complexity crosses the configured threshold (default is <code>20</code>).</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for a maximum of 2:</p>
+<pre><code class="lang-js">/*eslint complexity: [&quot;error&quot;, 2]*/
+
+function a(x) {
+    if (true) {
+        return x;
+    } else if (false) {
+        return x+1;
+    } else {
+        return 4; // 3rd path
+    }
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for a maximum of 2:</p>
+<pre><code class="lang-js">/*eslint complexity: [&quot;error&quot;, 2]*/
+
+function a(x) {
+    if (true) {
+        return x;
+    } else {
+        return 4;
+    }
+}
+</code></pre>
+<h2 id="options">Options</h2>
+<p>Optionally, you may specify a <code>max</code> object property:</p>
+<pre><code class="lang-json">&quot;complexity&quot;: [&quot;error&quot;, 2]
+</code></pre>
+<p>is equivalent to</p>
+<pre><code class="lang-json">&quot;complexity&quot;: [&quot;error&quot;, { &quot;max&quot;: 2 }]
+</code></pre>
+<p><strong>Deprecated:</strong> the object property <code>maximum</code> is deprecated. Please use the property <code>max</code> instead.</p>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you can&#39;t determine an appropriate complexity limit for your code, then it&#39;s best to disable this rule.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://jscomplexity.org/complexity">About Complexity</a></li>
+<li><a href="http://ariya.ofilabs.com/2012/12/complexity-analysis-of-javascript-code.html">Complexity Analysis of JavaScript Code</a></li>
+</ul>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="max-depth.html">max-depth</a></li>
+<li><a href="max-len.html">max-len</a></li>
+<li><a href="max-nested-callbacks.html">max-nested-callbacks</a></li>
+<li><a href="max-params.html">max-params</a></li>
+<li><a href="max-statements.html">max-statements</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

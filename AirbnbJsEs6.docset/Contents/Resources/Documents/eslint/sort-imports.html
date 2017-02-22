@@ -1,0 +1,166 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="import-sorting-sort-imports-">Import Sorting (sort-imports)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>The import statement is used to import members (functions, objects or primitives) that have been exported from an external module. Using a specific member syntax:</p>
+<pre><code class="lang-js">// single - Import single member.
+import myMember from &quot;my-module.js&quot;;
+
+// multiple - Import multiple members.
+import {foo, bar} from &quot;my-module.js&quot;;
+
+// all - Import all members, where myModule contains all the exported bindings.
+import * as myModule from &quot;my-module.js&quot;;
+</code></pre>
+<p>The import statement can also import a module without exported bindings. Used when the module does not export anything, but runs it own code or changes the global context object.</p>
+<pre><code class="lang-js">// none - Import module without exported bindings.
+import &quot;my-module.js&quot;
+</code></pre>
+<p>When declaring multiple imports, a sorted list of import declarations make it easier for developers to read the code and find necessary imports later. This rule is purely a matter of style.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule checks all import declarations and verifies that all imports are first sorted by the used member syntax and then alphabetically by the first member or alias name.</p>
+<h2 id="options">Options</h2>
+<p>This rule accepts an object with its properties as</p>
+<ul>
+<li><code>ignoreCase</code> (default: <code>false</code>)</li>
+<li><code>ignoreMemberSort</code> (default: <code>false</code>)</li>
+<li><code>memberSyntaxSortOrder</code> (default: <code>[&quot;none&quot;, &quot;all&quot;, &quot;multiple&quot;, &quot;single&quot;]</code>); all 4 items must be present in the array, but you can change the order:<ul>
+<li><code>none</code> = import module without exported bindings.</li>
+<li><code>all</code> = import all members provided by exported bindings.</li>
+<li><code>multiple</code> = import multiple members.</li>
+<li><code>single</code> = import single member.</li>
+</ul>
+</li>
+</ul>
+<p>Default option settings are:</p>
+<pre><code class="lang-json">{
+    &quot;sort-imports&quot;: [&quot;error&quot;, {
+        &quot;ignoreCase&quot;: false,
+        &quot;ignoreMemberSort&quot;: false,
+        &quot;memberSyntaxSortOrder&quot;: [&quot;none&quot;, &quot;all&quot;, &quot;multiple&quot;, &quot;single&quot;]
+    }]
+}
+</code></pre>
+<h2 id="examples">Examples</h2>
+<h3 id="default-settings">Default settings</h3>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule when using default options:</p>
+<pre><code class="lang-js">/*eslint sort-imports: &quot;error&quot;*/
+import &#39;module-without-export.js&#39;;
+import * as foo from &#39;foo.js&#39;;
+import * as bar from &#39;bar.js&#39;;
+import {alpha, beta} from &#39;alpha.js&#39;;
+import {delta, gamma} from &#39;delta.js&#39;;
+import a from &#39;baz.js&#39;;
+import b from &#39;qux.js&#39;;
+
+/*eslint sort-imports: &quot;error&quot;*/
+import a from &#39;foo.js&#39;;
+import b from &#39;bar.js&#39;;
+import c from &#39;baz.js&#39;;
+
+/*eslint sort-imports: &quot;error&quot;*/
+import &#39;foo.js&#39;
+import * from &#39;bar.js&#39;;
+import {a, b} from &#39;baz.js&#39;;
+import c from &#39;qux.js&#39;;
+
+/*eslint sort-imports: &quot;error&quot;*/
+import {a, b, c} from &#39;foo.js&#39;
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule when using default options:</p>
+<pre><code class="lang-js">/*eslint sort-imports: &quot;error&quot;*/
+import b from &#39;foo.js&#39;;
+import a from &#39;bar.js&#39;;
+
+/*eslint sort-imports: &quot;error&quot;*/
+import a from &#39;foo.js&#39;;
+import A from &#39;bar.js&#39;;
+
+/*eslint sort-imports: &quot;error&quot;*/
+import {b, c} from &#39;foo.js&#39;;
+import {a, b} from &#39;bar.js&#39;;
+
+/*eslint sort-imports: &quot;error&quot;*/
+import a from &#39;foo.js&#39;;
+import {b, c} from &#39;bar.js&#39;;
+
+/*eslint sort-imports: &quot;error&quot;*/
+import a from &#39;foo.js&#39;;
+import * as b from &#39;bar.js&#39;;
+
+/*eslint sort-imports: &quot;error&quot;*/
+import {b, a, c} from &#39;foo.js&#39;
+</code></pre>
+<h3 id="-ignorecase-"><code>ignoreCase</code></h3>
+<p>When <code>true</code> the rule ignores the case-sensitivity of the imports local name.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;ignoreCase&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint sort-imports: [&quot;error&quot;, { &quot;ignoreCase&quot;: true }]*/
+
+import B from &#39;foo.js&#39;;
+import a from &#39;bar.js&#39;;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;ignoreCase&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint sort-imports: [&quot;error&quot;, { &quot;ignoreCase&quot;: true }]*/
+
+import a from &#39;foo.js&#39;;
+import B from &#39;bar.js&#39;;
+import c from &#39;baz.js&#39;;
+</code></pre>
+<p>Default is <code>false</code>.</p>
+<h3 id="-ignoremembersort-"><code>ignoreMemberSort</code></h3>
+<p>Ignores the member sorting within a <code>multiple</code> member import declaration.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>{ &quot;ignoreMemberSort&quot;: false }</code> option:</p>
+<pre><code class="lang-js">/*eslint sort-imports: [&quot;error&quot;, { &quot;ignoreMemberSort&quot;: false }]*/
+import {b, a, c} from &#39;foo.js&#39;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;ignoreMemberSort&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint sort-imports: [&quot;error&quot;, { &quot;ignoreMemberSort&quot;: true }]*/
+import {b, a, c} from &#39;foo.js&#39;
+</code></pre>
+<p>Default is <code>false</code>.</p>
+<h3 id="-membersyntaxsortorder-"><code>memberSyntaxSortOrder</code></h3>
+<p>There are four different styles and the default member syntax sort order is:</p>
+<ul>
+<li><code>none</code> - import module without exported bindings.</li>
+<li><code>all</code> - import all members provided by exported bindings.</li>
+<li><code>multiple</code> - import multiple members.</li>
+<li><code>single</code> - import single member.</li>
+</ul>
+<p>All four options must be specified in the array, but you can customise their order.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>{ &quot;memberSyntaxSortOrder&quot;: [&quot;none&quot;, &quot;all&quot;, &quot;multiple&quot;, &quot;single&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint sort-imports: &quot;error&quot;*/
+import a from &#39;foo.js&#39;;
+import * as b from &#39;bar.js&#39;;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;memberSyntaxSortOrder&quot;: [&#39;single&#39;, &#39;all&#39;, &#39;multiple&#39;, &#39;none&#39;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint sort-imports: [&quot;error&quot;, { &quot;memberSyntaxSortOrder&quot;: [&#39;single&#39;, &#39;all&#39;, &#39;multiple&#39;, &#39;none&#39;] }]*/
+
+import a from &#39;foo.js&#39;;
+import * as b from &#39;bar.js&#39;;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;memberSyntaxSortOrder&quot;: [&#39;all&#39;, &#39;single&#39;, &#39;multiple&#39;, &#39;none&#39;] }</code> option:</p>
+<pre><code>/*eslint sort-imports: [&quot;error&quot;, { &quot;memberSyntaxSortOrder&quot;: [&#39;all&#39;, &#39;single&#39;, &#39;multiple&#39;, &#39;none&#39;] }]*/
+
+import * as foo from &#39;foo.js&#39;;
+import z from &#39;zoo.js&#39;;
+import {a, b} from &#39;foo.js&#39;;
+</code></pre><p>Default is <code>[&quot;none&quot;, &quot;all&quot;, &quot;multiple&quot;, &quot;single&quot;]</code>.</p>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>This rule is a formatting preference and not following it won&#39;t negatively affect the quality of your code. If alphabetizing imports isn&#39;t a part of your coding standards, then you can leave this rule disabled.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="http://eslint.org/docs/rules/sort-keys">sort-keys</a></li>
+<li><a href="http://eslint.org/docs/rules/sort-vars">sort-vars</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

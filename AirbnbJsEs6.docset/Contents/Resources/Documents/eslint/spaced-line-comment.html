@@ -1,0 +1,64 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="spaced-line-comment-enforce-consistent-spacing-after-in-line-comments">spaced-line-comment: enforce consistent spacing after <code>//</code> in line comments</h1>
+<p class="removed icon">(removed) This rule was <strong>removed</strong> in ESLint v1.0 and <strong>replaced</strong> by the <a href="spaced-comment.html">spaced-comment</a> rule.</p>
+<p>Some style guides require or disallow a whitespace immediately after the initial <code>//</code> of a line comment.
+Whitespace after the <code>//</code> makes it easier to read text in comments.
+On the other hand, commenting out code is easier without having to put a whitespace right after the <code>//</code>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule will enforce consistency of spacing after the start of a line comment <code>//</code>.</p>
+<p>This rule takes two arguments. If the first is <code>&quot;always&quot;</code> then the <code>//</code> must be followed by at least once whitespace.
+If <code>&quot;never&quot;</code> then there should be no whitespace following.
+The default is <code>&quot;always&quot;</code>.</p>
+<p>The second argument is an object with one key, <code>&quot;exceptions&quot;</code>.
+The value is an array of string patterns which are considered exceptions to the rule.
+It is important to note that the exceptions are ignored if the first argument is <code>&quot;never&quot;</code>.
+Exceptions cannot be mixed.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">// When [&quot;never&quot;]
+// This is a comment with a whitespace at the beginning
+</code></pre>
+<pre><code class="lang-js">//When [&quot;always&quot;]
+//This is a comment with no whitespace at the beginning
+var foo = 5;
+</code></pre>
+<pre><code class="lang-js">// When [&quot;always&quot;,{&quot;exceptions&quot;:[&quot;-&quot;,&quot;+&quot;]}]
+//------++++++++
+// Comment block
+//------++++++++
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">// When [&quot;always&quot;]
+// This is a comment with a whitespace at the beginning
+var foo = 5;
+</code></pre>
+<pre><code class="lang-js">//When [&quot;never&quot;]
+//This is a comment with no whitespace at the beginning
+var foo = 5;
+</code></pre>
+<pre><code class="lang-js">// When [&quot;always&quot;,{&quot;exceptions&quot;:[&quot;-&quot;]}]
+//--------------
+// Comment block
+//--------------
+</code></pre>
+<pre><code class="lang-js">// When [&quot;always&quot;,{&quot;exceptions&quot;:[&quot;-+&quot;]}]
+//-+-+-+-+-+-+-+
+// Comment block
+//-+-+-+-+-+-+-+
+</code></pre>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="spaced-comment.html">spaced-comment</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

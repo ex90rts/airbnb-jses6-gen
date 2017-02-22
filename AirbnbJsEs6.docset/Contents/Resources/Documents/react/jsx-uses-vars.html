@@ -1,0 +1,28 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-variables-used-in-jsx-to-be-incorrectly-marked-as-unused-jsx-uses-vars-">Prevent variables used in JSX to be incorrectly marked as unused (jsx-uses-vars)</h1>
+<p>Since 0.17.0 the ESLint <code>no-unused-vars</code> rule does not detect variables used in JSX (<a href="http://eslint.org/blog/2015/03/eslint-0.17.0-released#changes-to-jsxreact-handling">see details</a>). This rule will find variables used in JSX and mark them as used.</p>
+<p>This rule only has an effect when the <code>no-unused-vars</code> rule is enabled.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-js">var Hello = require(&#39;./Hello&#39;);
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = require(&#39;./Hello&#39;);
+
+&lt;Hello name=&quot;John&quot; /&gt;;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you are not using JSX or if you do not use the <code>no-unused-vars</code> rule then you can disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-calling-global-object-properties-as-functions-no-obj-calls-">disallow calling global object properties as functions (no-obj-calls)</h1>
+<p>ECMAScript provides several global objects that are intended to be used as-is. Some of these objects look as if they could be constructors due their capitalization (such as <code>Math</code> and <code>JSON</code>) but will throw an error if you try to execute them as functions.</p>
+<p>The <a href="http://es5.github.io/#x15.8">ECMAScript 5 specification</a> makes it clear that both <code>Math</code> and <code>JSON</code> cannot be invoked:</p>
+<blockquote>
+<p>The Math object does not have a <code>[[Call]]</code> internal property; it is not possible to invoke the Math object as a function.</p>
+</blockquote>
+<p>And the <a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect-object">ECMAScript 2015 specification</a> makes it clear that <code>Reflect</code> cannot be invoked:</p>
+<blockquote>
+<p>The Reflect object also does not have a <code>[[Call]]</code> internal method; it is not possible to invoke the Reflect object as a function.</p>
+</blockquote>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows calling the <code>Math</code>, <code>JSON</code> and <code>Reflect</code> objects as functions.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-obj-calls: &quot;error&quot;*/
+
+var math = Math();
+var json = JSON();
+var reflect = Reflect();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-obj-calls: &quot;error&quot;*/
+
+function area(r) {
+    return Math.PI * r * r;
+}
+var object = JSON.parse(&quot;{}&quot;);
+var value = Reflect.get({ x: 1, y: 2 }, &quot;x&quot;);
+</code></pre>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://es5.github.io/#x15.8">The Math Object</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

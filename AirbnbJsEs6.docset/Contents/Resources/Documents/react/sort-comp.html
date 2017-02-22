@@ -1,0 +1,187 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-component-methods-order-sort-comp-">Enforce component methods order (sort-comp)</h1>
+<p>When creating React components it is more convenient to always follow the same organisation for methods order to helps you to easily find lifecyle methods, event handlers, etc.</p>
+<p><strong>Fixable:</strong> This rule is automatically fixable using the <a href="https://github.com/reactjs/react-codemod/blob/master/transforms/sort-comp.js"><code>sort-comp</code> transform</a> in <a href="https://www.npmjs.com/package/react-codemod">react-codemod</a>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The default configuration ensures that the following order must be followed:</p>
+<ol>
+<li>static methods and properties</li>
+<li>lifecycle methods: <code>displayName</code>, <code>propTypes</code>, <code>contextTypes</code>, <code>childContextTypes</code>, <code>mixins</code>, <code>statics</code>,<code>defaultProps</code>, <code>constructor</code>, <code>getDefaultProps</code>, <code>getInitialState</code>, <code>state</code>, <code>getChildContext</code>, <code>componentWillMount</code>, <code>componentDidMount</code>, <code>componentWillReceiveProps</code>, <code>shouldComponentUpdate</code>, <code>componentWillUpdate</code>, <code>componentDidUpdate</code>, <code>componentWillUnmount</code> (in this order).</li>
+<li>custom methods</li>
+<li><code>render</code> method</li>
+</ol>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  render: function() {
+    return &lt;div&gt;Hello&lt;/div&gt;;
+  },
+  displayName : &#39;Hello&#39;
+});
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  displayName : &#39;Hello&#39;,
+  render: function() {
+    return &lt;div&gt;Hello&lt;/div&gt;;
+  }
+});
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<p>This rule can take one argument to customize the components organisation.</p>
+<pre><code>...
+&quot;react/sort-comp&quot;: [&lt;enabled&gt;, { order: &lt;order&gt;, groups: &lt;groups&gt; }]
+...
+</code></pre><ul>
+<li><code>enabled</code>: for enabling the rule. 0=off, 1=warn, 2=error. Defaults to 0.</li>
+<li><code>order</code>: optional array of methods to validate.</li>
+<li><code>groups</code>: optional object of methods groups.</li>
+</ul>
+<p>The default configuration is:</p>
+<pre><code class="lang-js">{
+  order: [
+    &#39;static-methods&#39;,
+    &#39;lifecycle&#39;,
+    &#39;everything-else&#39;,
+    &#39;render&#39;
+  ],
+  groups: {
+    lifecycle: [
+      &#39;displayName&#39;,
+      &#39;propTypes&#39;,
+      &#39;contextTypes&#39;,
+      &#39;childContextTypes&#39;,
+      &#39;mixins&#39;,
+      &#39;statics&#39;,
+      &#39;defaultProps&#39;,
+      &#39;constructor&#39;,
+      &#39;getDefaultProps&#39;,
+      &#39;getInitialState&#39;,
+      &#39;state&#39;,
+      &#39;getChildContext&#39;,
+      &#39;componentWillMount&#39;,
+      &#39;componentDidMount&#39;,
+      &#39;componentWillReceiveProps&#39;,
+      &#39;shouldComponentUpdate&#39;,
+      &#39;componentWillUpdate&#39;,
+      &#39;componentDidUpdate&#39;,
+      &#39;componentWillUnmount&#39;
+    ]
+  }
+}
+</code></pre>
+<ul>
+<li><code>static-methods</code> is a special keyword that refers to static class methods.</li>
+<li><code>lifecycle</code> is referring to the <code>lifecycle</code> group defined in <code>groups</code>.</li>
+<li><code>everything-else</code> is a special group that match all the methods that do not match any of the other groups.</li>
+<li><code>render</code> is referring to the <code>render</code> method.</li>
+<li><code>type-annotations</code>. This group is not specified by default, but can be used to enforce flow annotations to be at the top.</li>
+</ul>
+<p>You can override this configuration to match your needs.</p>
+<p>For example, if you want to place your event handlers (<code>onClick</code>, <code>onSubmit</code>, etc.) before <code>render</code> but the other methods after it:</p>
+<pre><code class="lang-js">&quot;react/sort-comp&quot;: [1, {
+  order: [
+    &#39;static-methods&#39;,
+    &#39;lifecycle&#39;,
+    &#39;/^on.+$/&#39;,
+    &#39;render&#39;,
+    &#39;everything-else&#39;
+  ]
+}]
+</code></pre>
+<p>With the above configuration, the following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  render: function() {
+    return &lt;div&gt;Hello&lt;/div&gt;;
+  },
+  onClick: function() {}
+});
+</code></pre>
+<p>With the above configuration, the following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  onClick: function() {},
+  render: function() {
+    return &lt;div&gt;Hello&lt;/div&gt;;
+  }
+});
+</code></pre>
+<p>If you want to split your <code>render</code> method into smaller ones and keep them just before render:</p>
+<pre><code class="lang-js">&quot;react/sort-comp&quot;: [1, {
+  order: [
+    &#39;static-methods&#39;,
+    &#39;lifecycle&#39;,
+    &#39;everything-else&#39;,
+    &#39;rendering&#39;,
+  ],
+  groups: {
+    rendering: [
+      &#39;/^render.+$/&#39;,
+      &#39;render&#39;
+    ]
+  }
+}]
+</code></pre>
+<p>With the above configuration, the following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  renderButton: function() {},
+  onClick: function() {},
+  render: function() {
+    return &lt;div&gt;Hello&lt;/div&gt;;
+  }
+});
+</code></pre>
+<p>With the above configuration, the following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  onClick: function() {},
+  renderButton: function() {},
+  render: function() {
+    return &lt;div&gt;Hello&lt;/div&gt;;
+  }
+});
+</code></pre>
+<p>If you want to flow annotations to be at the top:</p>
+<pre><code class="lang-js">&quot;react/sort-comp&quot;: [1, {
+  order: [
+    &#39;type-annotations&#39;,
+    &#39;static-methods&#39;,
+    &#39;lifecycle&#39;,
+    &#39;everything-else&#39;,
+    &#39;render&#39;,
+  ],
+}]
+</code></pre>
+<p>With the above configuration, the following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">class Hello extends React.Component&lt;any, Props, void&gt; {
+  onClick() { this._someElem = true; }
+  props: Props;
+  _someElem: bool;
+  render() {
+    return &lt;div&gt;Hello&lt;/div&gt;;
+  }
+}
+</code></pre>
+<p>With the above configuration, the following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">type Props = {};
+class Hello extends React.Component&lt;any, Props, void&gt; {
+  props: Props;
+  _someElem: bool;
+  onClick() { this._someElem = true; }
+  render() {
+    return &lt;div&gt;Hello&lt;/div&gt;;
+  }
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>This rule is a formatting preference and not following it won&#39;t negatively affect the quality of your code. If components organisation isn&#39;t a part of your coding standards, then you can leave this rule off.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

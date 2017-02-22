@@ -1,0 +1,57 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="first">first</h1>
+<p>This rule reports any imports that come after non-import
+statements.</p>
+<h2 id="rule-details">Rule Details</h2>
+<pre><code class="lang-js">import foo from &#39;./foo&#39;
+
+// some module-level initializer
+initWith(foo)
+
+import bar from &#39;./bar&#39; // &lt;- reported
+</code></pre>
+<p>Providing <code>absolute-first</code> as an option will report any absolute imports (i.e.
+packages) that come after any relative imports:</p>
+<pre><code class="lang-js">import foo from &#39;foo&#39;
+import bar from &#39;./bar&#39;
+
+import * as _ from &#39;lodash&#39; // &lt;- reported
+</code></pre>
+<p>If you really want import type ordering, check out <a href="./order.html"><code>import/order</code></a>.</p>
+<p>Notably, <code>import</code>s are hoisted, which means the imported modules will be evaluated
+before any of the statements interspersed between them. Keeping all <code>import</code>s together
+at the top of the file may prevent surprises resulting from this part of the spec.</p>
+<h3 id="on-directives">On directives</h3>
+<p>Directives are allowed as long as they occur strictly before any <code>import</code> declarations,
+as follows:</p>
+<pre><code class="lang-js">&#39;use super-mega-strict&#39;
+
+import { suchFoo } from &#39;lame-fake-module-name&#39;  // no report here
+</code></pre>
+<p>A directive in this case is assumed to be a single statement that contains only
+a literal string-valued expression.</p>
+<p><code>&#39;use strict&#39;</code> would be a good example, except that <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-strict-mode-code">modules are always in strict
+mode</a> so it would be surprising to see a <code>&#39;use strict&#39;</code> sharing a file with <code>import</code>s and
+<code>export</code>s.</p>
+<p>Given that, see <a href="https://github.com/benmosher/eslint-plugin-import/issues/255">#255</a> for the reasoning.</p>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t mind imports being sprinkled throughout, you may not want to
+enable this rule.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="./order.html"><code>import/order</code></a>: a major step up from <code>absolute-first</code></li>
+<li>Issue <a href="https://github.com/benmosher/eslint-plugin-import/issues/255">#255</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

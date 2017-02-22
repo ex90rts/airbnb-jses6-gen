@@ -1,0 +1,12 @@
+[submodule "docs/eslint"]
+	path = docs/eslint
+	url = https://github.com/eslint/eslint.git
+[submodule "docs/eslint-plugin-react"]
+	path = docs/eslint-plugin-react
+	url = https://github.com/yannickcr/eslint-plugin-react.git
+[submodule "docs/eslint-plugin-jsx-a11y"]
+	path = docs/eslint-plugin-jsx-a11y
+	url = https://github.com/evcohen/eslint-plugin-jsx-a11y.git
+[submodule "docs/eslint-plugin-import"]
+	path = docs/eslint-plugin-import
+	url = https://github.com/benmosher/eslint-plugin-import.git

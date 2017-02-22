@@ -1,0 +1,42 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-negating-the-left-operand-in-in-expressions-no-negated-in-lhs-">disallow negating the left operand in <code>in</code> expressions (no-negated-in-lhs)</h1>
+<p>This rule was <strong>deprecated</strong> in ESLint v3.3.0 and replaced by the <a href="no-unsafe-negation.html">no-unsafe-negation</a> rule.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>Just as developers might type <code>-a + b</code> when they mean <code>-(a + b)</code> for the negative of a sum, they might type <code>!key in object</code> by mistake when they almost certainly mean <code>!(key in object)</code> to test that a key is not in an object.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows negating the left operand in <code>in</code> expressions.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-negated-in-lhs: &quot;error&quot;*/
+
+if(!key in object) {
+    // operator precedence makes it equivalent to (!key) in object
+    // and type conversion makes it equivalent to (key ? &quot;false&quot; : &quot;true&quot;) in object
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-negated-in-lhs: &quot;error&quot;*/
+
+if(!(key in object)) {
+    // key is not in object
+}
+
+if((&#39;&#39; + !key) in object) {
+    // make operator precedence and type conversion explicit
+    // in a rare situation when that is the intended meaning
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>Never.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-usage-of-array-index-in-keys">Prevent usage of Array index in keys</h1>
+<p>Warn if an element uses an Array index in its <code>key</code>.</p>
+<p>The <code>key</code> is used by React to <a href="https://facebook.github.io/react/docs/lists-and-keys.html#keys">identify which items have changed, are added, or are removed and should be stable</a>.</p>
+<p>It&#39;s a bad idea to use the array index since it doesn&#39;t uniquely identify your elements. In cases where the array is sorted or an element is added to the beginning of the array, the index will be changed even though the element representing that index may be the same. This results in unnecessary renders.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">things.map((thing, index) =&gt; (
+  &lt;Hello key={index} /&gt;
+));
+
+things.map((thing, index) =&gt; (
+  React.cloneElement(thing, { key: index })
+));
+
+things.forEach((thing, index) =&gt; {
+  otherThings.push(&lt;Hello key={index} /&gt;);
+});
+
+things.filter((thing, index) =&gt; {
+  otherThings.push(&lt;Hello key={index} /&gt;);
+});
+
+things.some((thing, index) =&gt; {
+  otherThings.push(&lt;Hello key={index} /&gt;);
+});
+
+things.every((thing, index) =&gt; {
+  otherThings.push(&lt;Hello key={index} /&gt;);
+});
+
+things.find((thing, index) =&gt; {
+  otherThings.push(&lt;Hello key={index} /&gt;);
+});
+
+things.findIndex((thing, index) =&gt; {
+  otherThings.push(&lt;Hello key={index} /&gt;);
+});
+
+things.reduce((collection, thing, index) =&gt; (
+  collection.concat(&lt;Hello key={index} /&gt;)
+), []);
+
+things.reduceRight((collection, thing, index) =&gt; (
+  collection.concat(&lt;Hello key={index} /&gt;)
+), []);
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">things.map((thing) =&gt; (
+  &lt;Hello key={thing.id} /&gt;
+));
+
+things.map((thing) =&gt; (
+  React.cloneElement(thing, { key: thing.id })
+));
+
+things.forEach((thing) =&gt; {
+  otherThings.push(&lt;Hello key={thing.id} /&gt;);
+});
+
+things.filter((thing) =&gt; {
+  otherThings.push(&lt;Hello key={thing.id} /&gt;);
+});
+
+things.some((thing) =&gt; {
+  otherThings.push(&lt;Hello key={thing.id} /&gt;);
+});
+
+things.every((thing) =&gt; {
+  otherThings.push(&lt;Hello key={thing.id} /&gt;);
+});
+
+things.find((thing) =&gt; {
+  otherThings.push(&lt;Hello key={thing.id} /&gt;);
+});
+
+things.findIndex((thing) =&gt; {
+  otherThings.push(&lt;Hello key={thing.id} /&gt;);
+});
+
+things.reduce((collection, thing) =&gt; (
+  collection.concat(&lt;Hello key={thing.id} /&gt;)
+), []);
+
+things.reduceRight((collection, thing) =&gt; (
+  collection.concat(&lt;Hello key={thing.id} /&gt;)
+), []);
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

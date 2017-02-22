@@ -1,0 +1,38 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="max-dependencies">max-dependencies</h1>
+<p>Forbid modules to have too many dependencies (<code>import</code> or <code>require</code> statements).</p>
+<p>This is a useful rule because a module with too many dependencies is a code smell, and usually indicates the module is doing too much and/or should be broken up into smaller modules.</p>
+<p>Importing multiple named exports from a single module will only count once (e.g. <code>import {x, y, z} from &#39;./foo&#39;</code> will only count as a single dependency).</p>
+<h3 id="options">Options</h3>
+<p>This rule takes the following option:</p>
+<p><code>max</code>: The maximum number of dependencies allowed. Anything over will trigger the rule. <strong>Default is 10</strong> if the rule is enabled and no <code>max</code> is specified.</p>
+<p>You can set the option like this:</p>
+<pre><code class="lang-js">&quot;import/max-dependencies&quot;: [&quot;error&quot;, {&quot;max&quot;: 10}]
+</code></pre>
+<h2 id="example">Example</h2>
+<p>Given a max value of <code>{&quot;max&quot;: 2}</code>:</p>
+<h3 id="fail">Fail</h3>
+<pre><code class="lang-js">import a from &#39;./a&#39;; // 1
+const b = require(&#39;./b&#39;); // 2
+import c from &#39;./c&#39;; // 3 - exceeds max!
+</code></pre>
+<h3 id="pass">Pass</h3>
+<pre><code class="lang-js">import a from &#39;./a&#39;; // 1
+const anotherA = require(&#39;./a&#39;); // still 1
+import {x, y, z} from &#39;./foo&#39;; // 2
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t care how many dependencies a module has.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

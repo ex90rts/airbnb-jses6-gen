@@ -1,0 +1,48 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-array-constructors-no-array-constructor-">disallow <code>Array</code> constructors (no-array-constructor)</h1>
+<p>Use of the <code>Array</code> constructor to construct a new array is generally
+discouraged in favour of array literal notation because of the single-argument
+pitfall and because the <code>Array</code> global may be redefined. The exception is when
+the Array constructor is used to intentionally create sparse arrays of a
+specified size by giving the constructor a single numeric argument.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows <code>Array</code> constructors.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-array-constructor: &quot;error&quot;*/
+
+Array(0, 1, 2)
+</code></pre>
+<pre><code class="lang-js">/*eslint no-array-constructor: &quot;error&quot;*/
+
+new Array(0, 1, 2)
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-array-constructor: &quot;error&quot;*/
+
+Array(500)
+</code></pre>
+<pre><code class="lang-js">/*eslint no-array-constructor: &quot;error&quot;*/
+
+new Array(someOtherArray.length)
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>This rule enforces a nearly universal stylistic concern. That being said, this
+rule may be disabled if the constructor style is preferred.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-new-object.html">no-new-object</a></li>
+<li><a href="no-new-wrappers.html">no-new-wrappers</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

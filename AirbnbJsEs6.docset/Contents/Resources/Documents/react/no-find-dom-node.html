@@ -1,0 +1,38 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-usage-of-finddomnode-no-find-dom-node-">Prevent usage of findDOMNode (no-find-dom-node)</h1>
+<p>Facebook will eventually deprecate <code>findDOMNode</code> as it blocks certain improvements in React in the future.</p>
+<p>It is recommended to use callback refs instead. See <a href="https://github.com/yannickcr/eslint-plugin-react/issues/678#issue-165177220">Dan Abramov comments and examples</a>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">class MyComponent extends Component {
+  componentDidMount() {
+    findDOMNode(this).scrollIntoView();
+  }
+  render() {
+    return &lt;div /&gt;
+  }
+}
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">class MyComponent extends Component {
+  componentDidMount() {
+    this.node.scrollIntoView();
+  }
+  render() {
+    return &lt;div ref={node =&gt; this.node = node} /&gt;
+  }
+}
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

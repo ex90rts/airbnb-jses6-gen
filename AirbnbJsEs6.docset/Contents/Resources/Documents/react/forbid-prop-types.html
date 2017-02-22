@@ -1,0 +1,58 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="forbid-certain-proptypes-forbid-prop-types-">Forbid certain propTypes (forbid-prop-types)</h1>
+<p>By default this rule prevents vague prop types with more specific alternatives available (<code>any</code>, <code>array</code>, <code>object</code>), but any prop type can be disabled if desired. The defaults are chosen because they have obvious replacements. <code>any</code> should be replaced with, well, anything. <code>array</code> and <code>object</code> can be replaced with <code>arrayOf</code> and <code>shape</code>, respectively.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule checks all JSX components and verifies that no forbidden propsTypes are used.
+This rule is off by default.</p>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Component = React.createClass({
+  propTypes: {
+    a: React.PropTypes.any,
+    r: React.PropTypes.array,
+    o: React.PropTypes.object
+  },
+...
+});
+
+class Component extends React.Component {
+  ...
+}
+Component.propTypes = {
+  a: React.PropTypes.any,
+  r: React.PropTypes.array,
+  o: React.PropTypes.object
+};
+
+class Component extends React.Component {
+  static propTypes = {
+    a: React.PropTypes.any,
+    r: React.PropTypes.array,
+    o: React.PropTypes.object
+  }
+  render() {
+    return &lt;div /&gt;;
+  }
+}
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<pre><code class="lang-js">...
+&quot;react/forbid-prop-types&quot;: [&lt;enabled&gt;, { &quot;forbid&quot;: [&lt;string&gt;] }]
+...
+</code></pre>
+<h3 id="-forbid-"><code>forbid</code></h3>
+<p>An array of strings, with the names of <code>React.PropTypes</code> keys that are forbidden. The default value for this option is <code>[&#39;any&#39;, &#39;array&#39;, &#39;object&#39;]</code>.</p>
+<h2 id="when-not-to-use">When not to use</h2>
+<p>This rule is a formatting/documenting preference and not following it won&#39;t negatively affect the quality of your code. This rule encourages prop types that more specifically document their usage.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

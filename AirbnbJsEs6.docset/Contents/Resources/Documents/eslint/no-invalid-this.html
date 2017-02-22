@@ -1,0 +1,202 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-this-keywords-outside-of-classes-or-class-like-objects-no-invalid-this-">Disallow <code>this</code> keywords outside of classes or class-like objects. (no-invalid-this)</h1>
+<p>Under the strict mode, <code>this</code> keywords outside of classes or class-like objects might be <code>undefined</code> and raise a <code>TypeError</code>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to flag usage of <code>this</code> keywords outside of classes or class-like objects.</p>
+<p>Basically this rule checks whether or not a function which are containing <code>this</code> keywords is a constructor or a method.</p>
+<p>This rule judges from following conditions whether or not the function is a constructor:</p>
+<ul>
+<li>The name of the function starts with uppercase.</li>
+<li>The function is assigned to a variable which starts with an uppercase letter.</li>
+<li>The function is a constructor of ES2015 Classes.</li>
+</ul>
+<p>This rule judges from following conditions whether or not the function is a method:</p>
+<ul>
+<li>The function is on an object literal.</li>
+<li>The function is assigned to a property.</li>
+<li>The function is a method/getter/setter of ES2015 Classes. (excepts static methods)</li>
+</ul>
+<p>And this rule allows <code>this</code> keywords in functions below:</p>
+<ul>
+<li>The <code>call/apply/bind</code> method of the function is called directly.</li>
+<li>The function is a callback of array methods (such as <code>.forEach()</code>) if <code>thisArg</code> is given.</li>
+<li>The function has <code>@this</code> tag in its JSDoc comment.</li>
+</ul>
+<p>Otherwise are considered problems.</p>
+<p>This rule applies <strong>only</strong> in strict mode.
+With <code>&quot;parserOptions&quot;: { &quot;sourceType&quot;: &quot;module&quot; }</code> in the ESLint configuration, your code is in strict mode even without a <code>&quot;use strict&quot;</code> directive.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule in strict mode:</p>
+<pre><code class="lang-js">/*eslint no-invalid-this: &quot;error&quot;*/
+/*eslint-env es6*/
+
+&quot;use strict&quot;;
+
+this.a = 0;
+baz(() =&gt; this);
+
+(function() {
+    this.a = 0;
+    baz(() =&gt; this);
+})();
+
+function foo() {
+    this.a = 0;
+    baz(() =&gt; this);
+}
+
+var foo = function() {
+    this.a = 0;
+    baz(() =&gt; this);
+};
+
+foo(function() {
+    this.a = 0;
+    baz(() =&gt; this);
+});
+
+obj.foo = () =&gt; {
+    // `this` of arrow functions is the outer scope&#39;s.
+    this.a = 0;
+};
+
+var obj = {
+    aaa: function() {
+        return function foo() {
+            // There is in a method `aaa`, but `foo` is not a method.
+            this.a = 0;
+            baz(() =&gt; this);
+        };
+    }
+};
+
+foo.forEach(function() {
+    this.a = 0;
+    baz(() =&gt; this);
+});
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule in strict mode:</p>
+<pre><code class="lang-js">/*eslint no-invalid-this: &quot;error&quot;*/
+/*eslint-env es6*/
+
+&quot;use strict&quot;;
+
+function Foo() {
+    // OK, this is in a legacy style constructor.
+    this.a = 0;
+    baz(() =&gt; this);
+}
+
+class Foo {
+    constructor() {
+        // OK, this is in a constructor.
+        this.a = 0;
+        baz(() =&gt; this);
+    }
+}
+
+var obj = {
+    foo: function foo() {
+        // OK, this is in a method (this function is on object literal).
+        this.a = 0;
+    }
+};
+
+var obj = {
+    foo() {
+        // OK, this is in a method (this function is on object literal).
+        this.a = 0;
+    }
+};
+
+var obj = {
+    get foo() {
+        // OK, this is in a method (this function is on object literal).
+        return this.a;
+    }
+};
+
+var obj = Object.create(null, {
+    foo: {value: function foo() {
+        // OK, this is in a method (this function is on object literal).
+        this.a = 0;
+    }}
+});
+
+Object.defineProperty(obj, &quot;foo&quot;, {
+    value: function foo() {
+        // OK, this is in a method (this function is on object literal).
+        this.a = 0;
+    }
+});
+
+Object.defineProperties(obj, {
+    foo: {value: function foo() {
+        // OK, this is in a method (this function is on object literal).
+        this.a = 0;
+    }}
+});
+
+function Foo() {
+    this.foo = function foo() {
+        // OK, this is in a method (this function assigns to a property).
+        this.a = 0;
+        baz(() =&gt; this);
+    };
+}
+
+obj.foo = function foo() {
+    // OK, this is in a method (this function assigns to a property).
+    this.a = 0;
+};
+
+Foo.prototype.foo = function foo() {
+    // OK, this is in a method (this function assigns to a property).
+    this.a = 0;
+};
+
+class Foo {
+    foo() {
+        // OK, this is in a method.
+        this.a = 0;
+        baz(() =&gt; this);
+    }
+
+    static foo() {
+        // OK, this is in a method (static methods also have valid this).
+        this.a = 0;
+        baz(() =&gt; this);
+    }
+}
+
+var foo = (function foo() {
+    // OK, the `bind` method of this function is called directly.
+    this.a = 0;
+}).bind(obj);
+
+foo.forEach(function() {
+    // OK, `thisArg` of `.forEach()` is given.
+    this.a = 0;
+    baz(() =&gt; this);
+}, thisArg);
+
+/** @this Foo */
+function foo() {
+    // OK, this function has a `@this` tag in its JSDoc comment.
+    this.a = 0;
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about usage of <code>this</code> keyword outside of classes or class-like objects, you can safely disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

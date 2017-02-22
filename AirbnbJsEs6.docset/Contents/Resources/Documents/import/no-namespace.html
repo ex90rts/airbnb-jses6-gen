@@ -1,0 +1,28 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-namespace">no-namespace</h1>
+<p>Reports if namespace import is used.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>Valid:</p>
+<pre><code class="lang-js">import defaultExport from &#39;./foo&#39;
+import { a, b }  from &#39;./bar&#39;
+import defaultExport, { a, b }  from &#39;./foobar&#39;
+</code></pre>
+<p>...whereas here imports will be reported:</p>
+<pre><code class="lang-js">import * as foo from &#39;foo&#39;;
+import defaultExport, * as foo from &#39;foo&#39;;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you want to use namespaces, you don&#39;t want to use this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

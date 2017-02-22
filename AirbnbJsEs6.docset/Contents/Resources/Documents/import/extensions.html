@@ -1,0 +1,74 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="extensions-ensure-consistent-use-of-file-extension-within-the-import-path">extensions - Ensure consistent use of file extension within the import path</h1>
+<p>Some file resolve algorithms allow you to omit the file extension within the import source path. For example the <code>node</code> resolver can resolve <code>./foo/bar</code> to the absolute path <code>/User/someone/foo/bar.js</code> because the <code>.js</code> extension is resolved automatically by default. Depending on the resolver you can configure more extensions to get resolved automatically.</p>
+<p>In order to provide a consistent use of file extensions across your code base, this rule can enforce or disallow the use of certain file extensions.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule either takes one string option, one object option, or a string and an object option. If it is the string <code>&quot;never&quot;</code> (the default value), then the rule forbids the use for any extension. If it is the string <code>&quot;always&quot;</code>, then the rule enforces the use of extensions for all import statements.</p>
+<p>By providing an object you can configure each extension separately, so for example <code>{ &quot;js&quot;: &quot;always&quot;, &quot;json&quot;: &quot;never&quot; }</code> would always enforce the use of the <code>.js</code> extension but never allow the use of the <code>.json</code> extension.</p>
+<p>By providing both a string and an object, the string will set the default setting for all extensions, and the object can be used to set granular overrides for specific extensions. For example, <code>[&lt;enabled&gt;, &quot;never&quot;, { &quot;svg&quot;: &quot;always&quot; }]</code> would require that all extensions are omitted, except for &quot;svg&quot;.</p>
+<h3 id="exception">Exception</h3>
+<p>When disallowing the use of certain extensions this rule makes an exception and allows the use of extension when the file would not be resolvable without extension.</p>
+<p>For example, given the following folder structure:</p>
+<pre><code>├── foo
+│   ├── bar.js
+│   ├── bar.json
+</code></pre><p>and this import statement:</p>
+<pre><code class="lang-js">import bar from &#39;./foo/bar.json&#39;;
+</code></pre>
+<p>then the extension can’t be omitted because it would then resolve to <code>./foo/bar.js</code>.</p>
+<h3 id="examples">Examples</h3>
+<p>The following patterns are considered problems when configuration set to &quot;never&quot;:</p>
+<pre><code class="lang-js">import foo from &#39;./foo.js&#39;;
+
+import bar from &#39;./bar.json&#39;;
+
+import Component from &#39;./Component.jsx&#39;
+
+import express from &#39;express/index.js&#39;;
+</code></pre>
+<p>The following patterns are not considered problems when configuration set to &quot;never&quot;:</p>
+<pre><code class="lang-js">import foo from &#39;./foo&#39;;
+
+import bar from &#39;./bar&#39;;
+
+import Component from &#39;./Component&#39;
+
+import express from &#39;express/index&#39;;
+
+import * as path from &#39;path&#39;;
+</code></pre>
+<p>The following patterns are considered problems when configuration set to &quot;always&quot;:</p>
+<pre><code class="lang-js">import foo from &#39;./foo&#39;;
+
+import bar from &#39;./bar&#39;;
+
+import Component from &#39;./Component&#39;
+
+import express from &#39;express&#39;;
+</code></pre>
+<p>The following patterns are not considered problems when configuration set to &quot;always&quot;:</p>
+<pre><code class="lang-js">import foo from &#39;./foo.js&#39;;
+
+import bar from &#39;./bar.json&#39;;
+
+import Component from &#39;./Component.jsx&#39;
+
+import express from &#39;express/index.js&#39;;
+
+import * as path from &#39;path&#39;;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you are not concerned about a consistent usage of file extension.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

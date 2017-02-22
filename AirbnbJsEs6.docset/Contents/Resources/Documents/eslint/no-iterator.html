@@ -1,0 +1,45 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-iterator-no-iterator-">Disallow Iterator (no-iterator)</h1>
+<p>The <code>__iterator__</code> property was a SpiderMonkey extension to JavaScript that could be used to create custom iterators that are compatible with JavaScript&#39;s <code>for in</code> and <code>for each</code> constructs. However, this property is now obsolete, so it should not be used. Here&#39;s an example of how this used to work:</p>
+<pre><code class="lang-js">Foo.prototype.__iterator__ = function() {
+    return new FooIterator(this);
+}
+</code></pre>
+<p>You should use ECMAScript 6 iterators and generators instead.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at preventing errors that may arise from using the <code>__iterator__</code> property, which is not implemented in several browsers. As such, it will warn whenever it encounters the <code>__iterator__</code> property.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-iterator: &quot;error&quot;*/
+
+Foo.prototype.__iterator__ = function() {
+    return new FooIterator(this);
+};
+
+foo.__iterator__ = function () {};
+
+foo[&quot;__iterator__&quot;] = function () {};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-iterator: &quot;error&quot;*/
+
+var __iterator__ = foo; // Not using the `__iterator__` property.
+</code></pre>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators">MDN - Iterators and Generators</a></li>
+<li><a href="http://kangax.github.io/es5-compat-table/es6/#Iterators">ECMAScript 6 compatibility table - Iterators</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Deprecated_and_obsolete_features#Object_methods">Deprecated and Obsolete Features</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

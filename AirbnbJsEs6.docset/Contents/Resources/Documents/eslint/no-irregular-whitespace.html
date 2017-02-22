@@ -1,0 +1,160 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-irregular-whitespace-no-irregular-whitespace-">disallow irregular whitespace (no-irregular-whitespace)</h1>
+<p>Invalid or irregular whitespace causes issues with ECMAScript 5 parsers and also makes code harder to debug in a similar nature to mixed tabs and spaces.</p>
+<p>Various whitespace characters can be inputted by programmers by mistake for example from copying or keyboard shortcuts. Pressing Alt + Space on OS X adds in a non breaking space character for example.</p>
+<p>Known issues these spaces cause:</p>
+<ul>
+<li>Zero Width Space<ul>
+<li>Is NOT considered a separator for tokens and is often parsed as an <code>Unexpected token ILLEGAL</code></li>
+<li>Is NOT shown in modern browsers making code repository software expected to resolve the visualisation</li>
+</ul>
+</li>
+<li>Line Separator<ul>
+<li>Is NOT a valid character within JSON which would cause parse errors</li>
+</ul>
+</li>
+</ul>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at catching invalid whitespace that is not a normal tab and space. Some of these characters may cause issues in modern browsers and others will be a debugging issue to spot.</p>
+<p>This rule disallows the following characters except where the options allow:</p>
+<pre><code>\u000B - Line Tabulation (\v) - &lt;VT&gt;
+\u000C - Form Feed (\f) - &lt;FF&gt;
+\u00A0 - No-Break Space - &lt;NBSP&gt;
+\u0085 - Next Line
+\u1680 - Ogham Space Mark
+\u180E - Mongolian Vowel Separator - &lt;MVS&gt;
+\ufeff - Zero Width No-Break Space - &lt;BOM&gt;
+\u2000 - En Quad
+\u2001 - Em Quad
+\u2002 - En Space - &lt;ENSP&gt;
+\u2003 - Em Space - &lt;EMSP&gt;
+\u2004 - Tree-Per-Em
+\u2005 - Four-Per-Em
+\u2006 - Six-Per-Em
+\u2007 - Figure Space
+\u2008 - Punctuation Space - &lt;PUNCSP&gt;
+\u2009 - Thin Space
+\u200A - Hair Space
+\u200B - Zero Width Space - &lt;ZWSP&gt;
+\u2028 - Line Separator
+\u2029 - Paragraph Separator
+\u202F - Narrow No-Break Space
+\u205f - Medium Mathematical Space
+\u3000 - Ideographic Space
+</code></pre><h2 id="options">Options</h2>
+<p>This rule has an object option for exceptions:</p>
+<ul>
+<li><code>&quot;skipStrings&quot;: true</code> (default) allows any whitespace characters in string literals</li>
+<li><code>&quot;skipComments&quot;: true</code> allows any whitespace characters in comments</li>
+<li><code>&quot;skipRegExps&quot;: true</code> allows any whitespace characters in regular expression literals</li>
+<li><code>&quot;skipTemplates&quot;: true</code> allows any whitespace characters in template literals</li>
+</ul>
+<h3 id="skipstrings">skipStrings</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>{ &quot;skipStrings&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-irregular-whitespace: &quot;error&quot;*/
+
+function thing() /*&lt;NBSP&gt;*/{
+    return &#39;test&#39;;
+}
+
+function thing( /*&lt;NBSP&gt;*/){
+    return &#39;test&#39;;
+}
+
+function thing /*&lt;NBSP&gt;*/(){
+    return &#39;test&#39;;
+}
+
+function thing᠎/*&lt;MVS&gt;*/(){
+    return &#39;test&#39;;
+}
+
+function thing() {
+    return &#39;test&#39;; /*&lt;ENSP&gt;*/
+}
+
+function thing() {
+    return &#39;test&#39;; /*&lt;NBSP&gt;*/
+}
+
+function thing() {
+    // Description &lt;NBSP&gt;: some descriptive text
+}
+
+/*
+Description &lt;NBSP&gt;: some descriptive text
+*/
+
+function thing() {
+    return / &lt;NBSP&gt;regexp/;
+}
+
+/*eslint-env es6*/
+function thing() {
+    return `template &lt;NBSP&gt;string`;
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>{ &quot;skipStrings&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-irregular-whitespace: &quot;error&quot;*/
+
+function thing() {
+    return &#39; &lt;NBSP&gt;thing&#39;;
+}
+
+function thing() {
+    return &#39;​&lt;ZWSP&gt;thing&#39;;
+}
+
+function thing() {
+    return &#39;th &lt;NBSP&gt;ing&#39;;
+}
+</code></pre>
+<h3 id="skipcomments">skipComments</h3>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>{ &quot;skipComments&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-irregular-whitespace: [&quot;error&quot;, { &quot;skipComments&quot;: true }]*/
+
+function thing() {
+    // Description &lt;NBSP&gt;: some descriptive text
+}
+
+/*
+Description &lt;NBSP&gt;: some descriptive text
+*/
+</code></pre>
+<h3 id="skipregexps">skipRegExps</h3>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>{ &quot;skipRegExps&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-irregular-whitespace: [&quot;error&quot;, { &quot;skipRegExps&quot;: true }]*/
+
+function thing() {
+    return / &lt;NBSP&gt;regexp/;
+}
+</code></pre>
+<h3 id="skiptemplates">skipTemplates</h3>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>{ &quot;skipTemplates&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-irregular-whitespace: [&quot;error&quot;, { &quot;skipTemplates&quot;: true }]*/
+/*eslint-env es6*/
+
+function thing() {
+    return `template &lt;NBSP&gt;string`;
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you decide that you wish to use whitespace other than tabs and spaces outside of strings in your application.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="https://es5.github.io/#x7.2 \xA0">ECMA whitespace</a></li>
+<li><a href="http://timelessrepo.com/json-isnt-a-javascript-subset">JSON whitespace issues</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

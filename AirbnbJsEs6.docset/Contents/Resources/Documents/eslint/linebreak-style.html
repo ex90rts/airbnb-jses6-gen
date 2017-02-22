@@ -1,0 +1,67 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-consistent-linebreak-style-linebreak-style-">enforce consistent linebreak style (linebreak-style)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>When developing with a lot of people all having different editors, VCS applications and operating systems it may occur that
+different line endings are written by either of the mentioned (might especially happen when using the windows and mac versions of SourceTree together).</p>
+<p>The linebreaks (new lines) used in windows operating system are usually <em>carriage returns</em> (CR) followed by a <em>line feed</em> (LF) making it a <em>carriage return line feed</em> (CRLF)
+whereas Linux and Unix use a simple <em>line feed</em> (LF). The corresponding <em>control sequences</em> are <code>&quot;\n&quot;</code> (for LF) and <code>&quot;\r\n&quot;</code> for (CRLF).</p>
+<p>Many versioning systems (like git and subversion) can automatically ensure the correct ending. However to cover all contingencies, you can activate this rule.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces consistent line endings independent of operating system, VCS, or editor used across your codebase.</p>
+<h3 id="options">Options</h3>
+<p>This rule has a string option:</p>
+<ul>
+<li><code>&quot;unix&quot;</code> (default) enforces the usage of Unix line endings: <code>\n</code> for LF.</li>
+<li><code>&quot;windows&quot;</code> enforces the usage of Windows line endings: <code>\r\n</code> for CRLF.</li>
+</ul>
+<h3 id="unix">unix</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;unix&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint linebreak-style: [&quot;error&quot;, &quot;unix&quot;]*/
+
+var a = &#39;a&#39;; // \r\n
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;unix&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint linebreak-style: [&quot;error&quot;, &quot;unix&quot;]*/
+
+var a = &#39;a&#39;, // \n
+    b = &#39;b&#39;; // \n
+// \n
+function foo(params) { // \n
+    // do stuff \n
+}// \n
+</code></pre>
+<h3 id="windows">windows</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;windows&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint linebreak-style: [&quot;error&quot;, &quot;windows&quot;]*/
+
+var a = &#39;a&#39;; // \n
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;windows&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint linebreak-style: [&quot;error&quot;, &quot;windows&quot;]*/
+
+var a = &#39;a&#39;, // \r\n
+    b = &#39;b&#39;; // \r\n
+// \r\n
+function foo(params) { // \r\n
+    // do stuff \r\n
+} // \r\n
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you aren&#39;t concerned about having different line endings within you code, then you can safely turn this rule off.</p>
+<h2 id="compatibility">Compatibility</h2>
+<ul>
+<li><strong>JSCS</strong>: <a href="http://jscs.info/rule/validateLineBreaks">validateLineBreaks</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

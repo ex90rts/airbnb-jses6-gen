@@ -1,0 +1,34 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="space-unary-word-ops-require-spaces-after-unary-word-operators">space-unary-word-ops: require spaces after unary word operators</h1>
+<p class="removed icon">(removed) This rule was <strong>removed</strong> in ESLint v0.10.0 and <strong>replaced</strong> by the <a href="space-unary-ops.html">space-unary-ops</a> rule.</p>
+<p>Require spaces following unary word operators.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">typeof!a
+</code></pre>
+<pre><code class="lang-js">void{a:0}
+</code></pre>
+<pre><code class="lang-js">new[a][0]
+</code></pre>
+<pre><code class="lang-js">delete(a.b)
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">delete a.b
+</code></pre>
+<pre><code class="lang-js">new C
+</code></pre>
+<pre><code class="lang-js">void 0
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

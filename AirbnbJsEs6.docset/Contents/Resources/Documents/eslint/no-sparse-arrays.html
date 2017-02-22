@@ -1,0 +1,46 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-sparse-arrays-no-sparse-arrays-">disallow sparse arrays (no-sparse-arrays)</h1>
+<p>Sparse arrays contain empty slots, most frequently due to multiple commas being used in an array literal, such as:</p>
+<pre><code class="lang-js">var items = [,,];
+</code></pre>
+<p>While the <code>items</code> array in this example has a <code>length</code> of 2, there are actually no values in <code>items[0]</code> or <code>items[1]</code>. The fact that the array literal is valid with only commas inside, coupled with the <code>length</code> being set and actual item values not being set, make sparse arrays confusing for many developers. Consider the following:</p>
+<pre><code class="lang-js">var colors = [ &quot;red&quot;,, &quot;blue&quot; ];
+</code></pre>
+<p>In this example, the <code>colors</code> array has a <code>length</code> of 3. But did the developer intend for there to be an empty spot in the middle of the array? Or is it a typo?</p>
+<p>The confusion around sparse arrays defined in this manner is enough that it&#39;s recommended to avoid using them unless you are certain that they are useful in your code.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows sparse array literals which have &quot;holes&quot; where commas are not preceded by elements. It does not apply to a trailing comma following the last element.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-sparse-arrays: &quot;error&quot;*/
+
+var items = [,];
+var colors = [ &quot;red&quot;,, &quot;blue&quot; ];
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-sparse-arrays: &quot;error&quot;*/
+
+var items = [];
+var items = new Array(23);
+
+// trailing comma (after the last element) is not a problem
+var colors = [ &quot;red&quot;, &quot;blue&quot;, ];
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you want to use sparse arrays, then it is safe to disable this rule.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://www.nczonline.net/blog/2007/09/09/inconsistent-array-literals/">Inconsistent array literals</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-magic-numbers-no-magic-numbers-">Disallow Magic Numbers (no-magic-numbers)</h1>
+<p>&#39;Magic numbers&#39; are numbers that occur multiple time in code without an explicit meaning.
+They should preferably be replaced by named constants.</p>
+<pre><code class="lang-js">var now = Date.now(),
+    inOneHour = now + (60 * 60 * 1000);
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>The <code>no-magic-numbers</code> rule aims to make code more readable and refactoring easier by ensuring that special numbers
+are declared as constants to make their meaning explicit.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-magic-numbers: &quot;error&quot;*/
+
+var dutyFreePrice = 100,
+    finalPrice = dutyFreePrice + (dutyFreePrice * 0.25);
+</code></pre>
+<pre><code class="lang-js">/*eslint no-magic-numbers: &quot;error&quot;*/
+
+var data = [&#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39;];
+
+var dataLast = data[2];
+</code></pre>
+<pre><code class="lang-js">/*eslint no-magic-numbers: &quot;error&quot;*/
+
+var SECONDS;
+
+SECONDS = 60;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-magic-numbers: &quot;error&quot;*/
+
+var TAX = 0.25;
+
+var dutyFreePrice = 100,
+    finalPrice = dutyFreePrice + (dutyFreePrice * TAX);
+</code></pre>
+<h2 id="options">Options</h2>
+<h3 id="ignore">ignore</h3>
+<p>An array of numbers to ignore. It&#39;s set to <code>[]</code> by default.
+If provided, it must be an <code>Array</code>.</p>
+<p class="correct icon">Examples of <strong>correct</strong> code for the sample <code>{ &quot;ignore&quot;: [1] }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-magic-numbers: [&quot;error&quot;, { &quot;ignore&quot;: [1] }]*/
+
+var data = [&#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39;];
+var dataLast = data.length &amp;&amp; data[data.length - 1];
+</code></pre>
+<h3 id="ignorearrayindexes">ignoreArrayIndexes</h3>
+<p>A boolean to specify if numbers used as array indexes are considered okay. <code>false</code> by default.</p>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;ignoreArrayIndexes&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-magic-numbers: [&quot;error&quot;, { &quot;ignoreArrayIndexes&quot;: true }]*/
+
+var data = [&#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39;];
+var dataLast = data[2];
+</code></pre>
+<h3 id="enforceconst">enforceConst</h3>
+<p>A boolean to specify if we should check for the const keyword in variable declaration of numbers. <code>false</code> by default.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{ &quot;enforceConst&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-magic-numbers: [&quot;error&quot;, { &quot;enforceConst&quot;: true }]*/
+
+var TAX = 0.25;
+
+var dutyFreePrice = 100,
+    finalPrice = dutyFreePrice + (dutyFreePrice * TAX);
+</code></pre>
+<h3 id="detectobjects">detectObjects</h3>
+<p>A boolean to specify if we should detect numbers when setting object properties for example. <code>false</code> by default.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{ &quot;detectObjects&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-magic-numbers: [&quot;error&quot;, { &quot;detectObjects&quot;: true }]*/
+
+var magic = {
+  tax: 0.25
+};
+
+var dutyFreePrice = 100,
+    finalPrice = dutyFreePrice + (dutyFreePrice * magic.tax);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;detectObjects&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint no-magic-numbers: [&quot;error&quot;, { &quot;detectObjects&quot;: true }]*/
+
+var TAX = 0.25;
+
+var magic = {
+  tax: TAX
+};
+
+var dutyFreePrice = 100,
+    finalPrice = dutyFreePrice + (dutyFreePrice * magic.tax);
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

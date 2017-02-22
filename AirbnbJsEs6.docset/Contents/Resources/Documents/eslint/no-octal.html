@@ -1,0 +1,37 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-octal-literals-no-octal-">disallow octal literals (no-octal)</h1>
+<p>Octal literals are numerals that begin with a leading zero, such as:</p>
+<pre><code class="lang-js">var num = 071;      // 57
+</code></pre>
+<p>Because the leading zero which identifies an octal literal has been a source of confusion and error in JavaScript code, ECMAScript 5 deprecates the use of octal numeric literals.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The rule disallows octal literals.</p>
+<p>If ESLint parses code in strict mode, the parser (instead of this rule) reports the error.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-octal: &quot;error&quot;*/
+
+var num = 071;
+var result = 5 + 07;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-octal: &quot;error&quot;*/
+
+var num  = &quot;071&quot;;
+</code></pre>
+<h2 id="compatibility">Compatibility</h2>
+<ul>
+<li><strong>JSHint</strong>: W115</li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

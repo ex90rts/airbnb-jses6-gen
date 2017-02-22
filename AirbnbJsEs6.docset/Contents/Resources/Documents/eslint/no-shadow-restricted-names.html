@@ -1,0 +1,47 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-shadowing-of-restricted-names-no-shadow-restricted-names-">Disallow Shadowing of Restricted Names (no-shadow-restricted-names)</h1>
+<p>ES5 §15.1.1 Value Properties of the Global Object (<code>NaN</code>, <code>Infinity</code>, <code>undefined</code>) as well as strict mode restricted identifiers <code>eval</code> and <code>arguments</code> are considered to be restricted names in JavaScript. Defining them to mean something else can have unintended consequences and confuse others reading the code. For example, there&#39;s nothing prevent you from writing:</p>
+<pre><code class="lang-js">var undefined = &quot;foo&quot;;
+</code></pre>
+<p>Then any code used within the same scope would not get the global <code>undefined</code>, but rather the local version with a very different meaning.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-shadow-restricted-names: &quot;error&quot;*/
+
+function NaN(){}
+
+!function(Infinity){};
+
+var undefined;
+
+try {} catch(eval){}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-shadow-restricted-names: &quot;error&quot;*/
+
+var Object;
+
+function f(a, b){}
+</code></pre>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://es5.github.io/#x15.1.1">Annotated ES5 - §15.1.1</a></li>
+<li><a href="http://es5.github.io/#C">Annotated ES5 - Annex C</a></li>
+</ul>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-shadow.html">no-shadow</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

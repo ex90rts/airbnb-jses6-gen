@@ -1,0 +1,33 @@
+{
+  "name": "airbnb-jses6-gen",
+  "version": "1.0.0",
+  "description": "The generator for airbnb javascript es6 eslint rules dash docset",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test",
+    "build": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ex90rts/airbnb-jses6-gen.git"
+  },
+  "keywords": [
+    "dash",
+    "docset",
+    "airbnb",
+    "javascript",
+    "es6"
+  ],
+  "author": "ex90rts",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ex90rts/airbnb-jses6-gen/issues"
+  },
+  "homepage": "https://github.com/ex90rts/airbnb-jses6-gen#readme",
+  "dependencies": {
+    "co": "^4.6.0",
+    "marked": "^0.3.6",
+    "sqlite3": "^3.1.8",
+    "wrench": "^1.5.9"
+  }
+}

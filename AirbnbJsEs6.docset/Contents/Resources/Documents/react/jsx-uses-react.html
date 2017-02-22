@@ -1,0 +1,43 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-react-to-be-incorrectly-marked-as-unused-jsx-uses-react-">Prevent React to be incorrectly marked as unused (jsx-uses-react)</h1>
+<p>JSX expands to a call to <code>React.createElement</code>, a file which includes <code>React</code>
+but only uses JSX should consider the <code>React</code> variable as used.</p>
+<p>If you are using the @jsx pragma this rule will mark the designated variable and not the <code>React</code> one.</p>
+<p>This rule has no effect if the <code>no-unused-vars</code> rule is not enabled.</p>
+<p>You can use the <a href="/README.md#configuration">shared settings</a> to specify a custom pragma.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-js">var React = require(&#39;react&#39;);
+
+// nothing to do with React
+</code></pre>
+<pre><code class="lang-jsx">/** @jsx Foo */
+var React = require(&#39;react&#39;);
+
+var Hello = &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var React = require(&#39;react&#39;);
+
+var Hello = &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+</code></pre>
+<pre><code class="lang-jsx">/** @jsx Foo */
+var Foo = require(&#39;foo&#39;);
+
+var Hello = &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you are not using JSX, if React is declared as global variable or if you do not use the <code>no-unused-vars</code> rule then you can disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

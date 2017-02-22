@@ -1,0 +1,175 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-a-defaultprops-definition-for-every-prop-that-is-not-a-required-prop-require-default-props-">Enforce a defaultProps definition for every prop that is not a required prop (require-default-props)</h1>
+<p>This rule aims to ensure that any non-required <code>PropType</code> declaration of a component has a corresponding <code>defaultProps</code> value.</p>
+<p>One advantage of <code>defaultProps</code> over custom default logic in your code is that <code>defaultProps</code> are resolved by React before the <code>PropTypes</code> typechecking happens, so typechecking will also apply to your <code>defaultProps</code>.
+The same also holds true for stateless functional components: default function parameters do not behave the same as <code>defaultProps</code> and thus using <code>defaultProps</code> is still preferred.</p>
+<p>To illustrate, consider the following example:</p>
+<p>With <code>defaultProps</code>:</p>
+<pre><code class="lang-jsx">const HelloWorld = ({ name }) =&gt; (
+  &lt;h1&gt;Hello, {name.first} {name.last}!&lt;/h1&gt;
+);
+
+HelloWorld.propTypes = {
+  name: React.PropTypes.shape({
+    first: React.PropTypes.string,
+    last: React.PropTypes.string,
+  })
+};
+
+HelloWorld.defaultProps = {
+  name: &#39;john&#39;
+};
+
+// Logs:
+// Invalid prop `name` of type `string` supplied to `HelloWorld`, expected `object`.
+ReactDOM.render(&lt;HelloWorld /&gt;,  document.getElementById(&#39;app&#39;));
+</code></pre>
+<p>Without <code>defaultProps</code>:</p>
+<pre><code class="lang-jsx">const HelloWorld = ({ name = &#39;John Doe&#39; }) =&gt; (
+  &lt;h1&gt;Hello, {name.first} {name.last}!&lt;/h1&gt;
+);
+
+HelloWorld.propTypes = {
+  name: React.PropTypes.shape({
+    first: React.PropTypes.string,
+    last: React.PropTypes.string,
+  })
+};
+
+// Nothing is logged, renders:
+// &quot;Hello,!&quot;
+ReactDOM.render(&lt;HelloWorld /&gt;,  document.getElementById(&#39;app&#39;));
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">function MyStatelessComponent({ foo, bar }) {
+  return &lt;div&gt;{foo}{bar}&lt;/div&gt;;
+}
+
+MyStatelessComponent.propTypes = {
+  foo: React.PropTypes.string.isRequired,
+  bar: React.PropTypes.string
+};
+</code></pre>
+<pre><code class="lang-jsx">var Greeting = React.createClass({
+  render: function() {
+    return &lt;div&gt;Hello {this.props.foo} {this.props.bar}&lt;/div&gt;;
+  },
+
+  propTypes: {
+    foo: React.PropTypes.string,
+    bar: React.PropTypes.string
+  },
+
+  getDefaultProps: function() {
+    return {
+      foo: &quot;foo&quot;
+    };
+  }
+});
+</code></pre>
+<pre><code class="lang-jsx">class Greeting extends React.Component {
+  render() {
+    return (
+      &lt;h1&gt;Hello, {this.props.foo} {this.props.bar}&lt;/h1&gt;
+    );
+  }
+}
+
+Greeting.propTypes = {
+  foo: React.PropTypes.string,
+  bar: React.PropTypes.string
+};
+
+Greeting.defaultProps = {
+  foo: &quot;foo&quot;
+};
+</code></pre>
+<pre><code class="lang-jsx">class Greeting extends React.Component {
+  render() {
+    return (
+      &lt;h1&gt;Hello, {this.props.foo} {this.props.bar}&lt;/h1&gt;
+    );
+  }
+
+  static propTypes = {
+    foo: React.PropTypes.string,
+    bar: React.PropTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    foo: &quot;foo&quot;
+  };
+}
+</code></pre>
+<pre><code class="lang-jsx">type Props = {
+  foo: string,
+  bar?: string
+};
+
+function MyStatelessComponent(props: Props) {
+  return &lt;div&gt;Hello {props.foo} {props.bar}&lt;/div&gt;;
+}
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">function MyStatelessComponent({ foo, bar }) {
+  return &lt;div&gt;{foo}{bar}&lt;/div&gt;;
+}
+
+MyStatelessComponent.propTypes = {
+  foo: React.PropTypes.string.isRequired,
+  bar: React.PropTypes.string.isRequired
+};
+</code></pre>
+<pre><code class="lang-jsx">function MyStatelessComponent({ foo, bar }) {
+  return &lt;div&gt;{foo}{bar}&lt;/div&gt;;
+}
+
+MyStatelessComponent.propTypes = {
+  foo: React.PropTypes.string.isRequired,
+  bar: React.PropTypes.string
+};
+
+MyStatelessComponent.defaultProps = {
+    bar: &#39;some default&#39;
+};
+</code></pre>
+<pre><code class="lang-jsx">type Props = {
+  foo: string,
+  bar?: string
+};
+
+function MyStatelessComponent(props: Props) {
+  return &lt;div&gt;Hello {props.foo} {props.bar}&lt;/div&gt;;
+}
+
+MyStatelessComponent.defaultProps = {
+  bar: &#39;some default&#39;
+};
+</code></pre>
+<pre><code class="lang-js">function NotAComponent({ foo, bar }) {}
+
+NotAComponent.propTypes = {
+  foo: React.PropTypes.string,
+  bar: React.PropTypes.string.isRequired
+};
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t care about using <code>defaultsProps</code> for your component&#39;s props that are not required, you can disable this rule.</p>
+<h1 id="resources">Resources</h1>
+<ul>
+<li><a href="https://facebook.github.io/react/docs/typechecking-with-proptypes.html#default-prop-values">Official React documentation on defaultProps</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

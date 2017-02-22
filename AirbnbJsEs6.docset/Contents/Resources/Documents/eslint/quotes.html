@@ -1,0 +1,115 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-the-consistent-use-of-either-backticks-double-or-single-quotes-quotes-">enforce the consistent use of either backticks, double, or single quotes (quotes)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>JavaScript allows you to define strings in one of three ways: double quotes, single quotes, and backticks (as of ECMAScript 6). For example:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+var double = &quot;double&quot;;
+var single = &#39;single&#39;;
+var backtick = `backtick`;    // ES6 only
+</code></pre>
+<p>Each of these lines creates a string and, in some cases, can be used interchangeably. The choice of how to define strings in a codebase is a stylistic one outside of template literals (which allow embedded of expressions to be interpreted).</p>
+<p>Many codebases require strings to be defined in a consistent manner.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces the consistent use of either backticks, double, or single quotes.</p>
+<h2 id="options">Options</h2>
+<p>This rule has two options, a string option and an object option.</p>
+<p>String option:</p>
+<ul>
+<li><code>&quot;double&quot;</code> (default) requires the use of double quotes wherever possible</li>
+<li><code>&quot;single&quot;</code> requires the use of single quotes wherever possible</li>
+<li><code>&quot;backtick&quot;</code> requires the use of backticks wherever possible</li>
+</ul>
+<p>Object option:</p>
+<ul>
+<li><code>&quot;avoidEscape&quot;: true</code> allows strings to use single-quotes or double-quotes so long as the string contains a quote that would have to be escaped otherwise</li>
+<li><code>&quot;allowTemplateLiterals&quot;: true</code> allows strings to use backticks</li>
+</ul>
+<p><strong>Deprecated</strong>: The object property <code>avoid-escape</code> is deprecated; please use the object property <code>avoidEscape</code> instead.</p>
+<h3 id="double">double</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;double&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint quotes: [&quot;error&quot;, &quot;double&quot;]*/
+
+var single = &#39;single&#39;;
+var unescaped = &#39;a string containing &quot;double&quot; quotes&#39;;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;double&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint quotes: [&quot;error&quot;, &quot;double&quot;]*/
+/*eslint-env es6*/
+
+var double = &quot;double&quot;;
+var backtick = `back\ntick`;  // backticks are allowed due to newline
+var backtick = tag`backtick`; // backticks are allowed due to tag
+</code></pre>
+<h3 id="single">single</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;single&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint quotes: [&quot;error&quot;, &quot;single&quot;]*/
+
+var double = &quot;double&quot;;
+var unescaped = &quot;a string containing &#39;single&#39; quotes&quot;;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;single&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint quotes: [&quot;error&quot;, &quot;single&quot;]*/
+/*eslint-env es6*/
+
+var single = &#39;single&#39;;
+var backtick = `back${x}tick`; // backticks are allowed due to substitution
+</code></pre>
+<h3 id="backticks">backticks</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;backtick&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint quotes: [&quot;error&quot;, &quot;backtick&quot;]*/
+
+var single = &#39;single&#39;;
+var double = &quot;double&quot;;
+var unescaped = &#39;a string containing `backticks`&#39;;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;backtick&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint quotes: [&quot;error&quot;, &quot;backtick&quot;]*/
+/*eslint-env es6*/
+
+var backtick = `backtick`;
+</code></pre>
+<h3 id="avoidescape">avoidEscape</h3>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>&quot;double&quot;, { &quot;avoidEscape&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint quotes: [&quot;error&quot;, &quot;double&quot;, { &quot;avoidEscape&quot;: true }]*/
+
+var single = &#39;a string containing &quot;double&quot; quotes&#39;;
+</code></pre>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>&quot;single&quot;, { &quot;avoidEscape&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint quotes: [&quot;error&quot;, &quot;single&quot;, { &quot;avoidEscape&quot;: true }]*/
+
+var double = &quot;a string containing &#39;single&#39; quotes&quot;;
+</code></pre>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>&quot;backtick&quot;, { &quot;avoidEscape&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint quotes: [&quot;error&quot;, &quot;backtick&quot;, { &quot;avoidEscape&quot;: true }]*/
+
+var double = &quot;a string containing `backtick` quotes&quot;
+</code></pre>
+<h3 id="allowtemplateliterals">allowTemplateLiterals</h3>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>&quot;double&quot;, { &quot;allowTemplateLiterals&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint quotes: [&quot;error&quot;, &quot;double&quot;, { &quot;allowTemplateLiterals&quot;: true }]*/
+
+var double = &quot;double&quot;;
+var double = `double`;
+</code></pre>
+<p class="correct icon">Examples of additional <strong>correct</strong> code for this rule with the <code>&quot;single&quot;, { &quot;allowTemplateLiterals&quot;: true }</code> options:</p>
+<pre><code class="lang-js">/*eslint quotes: [&quot;error&quot;, &quot;single&quot;, { &quot;allowTemplateLiterals&quot;: true }]*/
+
+var single = &#39;single&#39;;
+var single = `single`;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you do not need consistency in your string styles, you can safely disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

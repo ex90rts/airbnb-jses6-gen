@@ -1,0 +1,59 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-props-alphabetical-sorting-jsx-sort-props-">Enforce props alphabetical sorting (jsx-sort-props)</h1>
+<p>Some developers prefer to sort props names alphabetically to be able to find necessary props easier at the later time. Others feel that it adds complexity and becomes burden to maintain.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule checks all JSX components and verifies that all props are sorted alphabetically. A spread attribute resets the verification. The default configuration of the rule is case-sensitive.</p>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">&lt;Hello lastName=&quot;Smith&quot; firstName=&quot;John&quot; /&gt;;
+</code></pre>
+<p>The following patterns are considered okay and do not cause warnings:</p>
+<pre><code class="lang-jsx">&lt;Hello firstName=&quot;John&quot; lastName=&quot;Smith&quot; /&gt;;
+&lt;Hello tel={5555555} {...this.props} firstName=&quot;John&quot; lastName=&quot;Smith&quot; /&gt;;
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<pre><code class="lang-js">...
+&quot;jsx-sort-props&quot;: [&lt;enabled&gt;, {
+  &quot;callbacksLast&quot;: &lt;boolean&gt;,
+  &quot;shorthandFirst&quot;: &lt;boolean&gt;,
+  &quot;shorthandLast&quot;: &lt;boolean&gt;,
+  &quot;ignoreCase&quot;: &lt;boolean&gt;,
+  &quot;noSortAlphabetically&quot;: &lt;boolean&gt;
+}]
+...
+</code></pre>
+<h3 id="-ignorecase-"><code>ignoreCase</code></h3>
+<p>When <code>true</code> the rule ignores the case-sensitivity of the props order.</p>
+<p>The following patterns are considered okay and do not cause warnings:</p>
+<pre><code class="lang-jsx">&lt;Hello name=&quot;John&quot; Number=&quot;2&quot; /&gt;;
+</code></pre>
+<h3 id="-callbackslast-"><code>callbacksLast</code></h3>
+<p>When <code>true</code>, callbacks must be listed after all other props, even if <code>shorthandLast</code> is set :</p>
+<pre><code class="lang-jsx">&lt;Hello tel={5555555} onClick={this._handleClick} /&gt;
+</code></pre>
+<h3 id="-shorthandfirst-"><code>shorthandFirst</code></h3>
+<p>When <code>true</code>, short hand props must be listed before all other props, but still respecting the alphabetical order:</p>
+<pre><code class="lang-jsx">&lt;Hello active validate name=&quot;John&quot; tel={5555555} /&gt;
+</code></pre>
+<h3 id="-shorthandlast-"><code>shorthandLast</code></h3>
+<p>When <code>true</code>, short hand props must be listed after all other props (unless <code>callbacksLast</code> is set), but still respecting the alphabetical order:</p>
+<pre><code class="lang-jsx">&lt;Hello name=&quot;John&quot; tel={5555555} active validate /&gt;
+</code></pre>
+<h3 id="-nosortalphabetically-"><code>noSortAlphabetically</code></h3>
+<p>When <code>true</code>, alphabetical order is not enforced:</p>
+<pre><code class="lang-jsx">&lt;Hello tel={5555555} name=&quot;John&quot; /&gt;
+</code></pre>
+<h2 id="when-not-to-use">When not to use</h2>
+<p>This rule is a formatting preference and not following it won&#39;t negatively affect the quality of your code. If alphabetizing props isn&#39;t a part of your coding standards, then you can leave this rule off.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

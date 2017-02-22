@@ -1,0 +1,308 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-or-disallow-padding-within-blocks-padded-blocks-">require or disallow padding within blocks (padded-blocks)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Some style guides require block statements to start and end with blank lines. The goal is
+to improve readability by visually separating the block content and the surrounding code.</p>
+<pre><code class="lang-js">if (a) {
+
+    b();
+
+}
+</code></pre>
+<p>Since it&#39;s good to have a consistent code style, you should either always write
+padded blocks or never do it.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces consistent empty line padding within blocks.</p>
+<h2 id="options">Options</h2>
+<p>This rule has one option, which can be a string option or an object option.</p>
+<p>String option:</p>
+<ul>
+<li><code>&quot;always&quot;</code> (default) requires empty lines at the beginning and ending of block statements (except <code>switch</code> statements and classes)</li>
+<li><code>&quot;never&quot;</code> disallows empty lines at the beginning and ending of block statements (except <code>switch</code> statements and classes)</li>
+</ul>
+<p>Object option:</p>
+<ul>
+<li><code>&quot;blocks&quot;</code> require or disallow padding within block statements</li>
+<li><code>&quot;classes&quot;</code> require or disallow padding within classes</li>
+<li><code>&quot;switches&quot;</code> require or disallow padding within <code>switch</code> statements</li>
+</ul>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, &quot;always&quot;]*/
+
+if (a) {
+    b();
+}
+
+if (a) { b(); }
+
+if (a)
+{
+    b();
+}
+
+if (a) {
+
+    b();
+}
+
+if (a) {
+    b();
+
+}
+
+if (a) {
+    // comment
+    b();
+
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, &quot;always&quot;]*/
+
+if (a) {
+
+    b();
+
+}
+
+if (a)
+{
+
+    b();
+
+}
+
+if (a) {
+
+    // comment
+    b();
+
+}
+</code></pre>
+<h3 id="never">never</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, &quot;never&quot;]*/
+
+if (a) {
+
+    b();
+
+}
+
+if (a)
+{
+
+    b();
+
+}
+
+if (a) {
+
+    b();
+}
+
+if (a) {
+    b();
+
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, &quot;never&quot;]*/
+
+if (a) {
+    b();
+}
+
+if (a)
+{
+    b();
+}
+</code></pre>
+<h3 id="blocks">blocks</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;blocks&quot;: &quot;always&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, { &quot;blocks&quot;: &quot;always&quot; }]*/
+
+if (a) {
+    b();
+}
+
+if (a) { b(); }
+
+if (a)
+{
+    b();
+}
+
+if (a) {
+
+    b();
+}
+
+if (a) {
+    b();
+
+}
+
+if (a) {
+    // comment
+    b();
+
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;blocks&quot;: &quot;always&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, { &quot;blocks&quot;: &quot;always&quot; }]*/
+
+if (a) {
+
+    b();
+
+}
+
+if (a)
+{
+
+    b();
+
+}
+
+if (a) {
+
+    // comment
+    b();
+
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;blocks&quot;: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, { &quot;blocks&quot;: &quot;never&quot; }]*/
+
+if (a) {
+
+    b();
+
+}
+
+if (a)
+{
+
+    b();
+
+}
+
+if (a) {
+
+    b();
+}
+
+if (a) {
+    b();
+
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;blocks&quot;: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, { &quot;blocks&quot;: &quot;never&quot; }]*/
+
+if (a) {
+    b();
+}
+
+if (a)
+{
+    b();
+}
+</code></pre>
+<h3 id="classes">classes</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;classes&quot;: &quot;always&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, { &quot;classes&quot;: &quot;always&quot; }]*/
+
+class  A {
+    constructor(){
+    }
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;classes&quot;: &quot;always&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, { &quot;classes&quot;: &quot;always&quot; }]*/
+
+class  A {
+
+    constructor(){
+    }
+
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;classes&quot;: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, { &quot;classes&quot;: &quot;never&quot; }]*/
+
+class  A {
+
+    constructor(){
+    }
+
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;classes&quot;: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, { &quot;classes&quot;: &quot;never&quot; }]*/
+
+class  A {
+    constructor(){
+    }
+}
+</code></pre>
+<h3 id="switches">switches</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;switches&quot;: &quot;always&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, { &quot;switches&quot;: &quot;always&quot; }]*/
+
+switch (a) {
+    case 0: foo();
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;switches&quot;: &quot;always&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, { &quot;switches&quot;: &quot;always&quot; }]*/
+
+switch (a) {
+
+    case 0: foo();
+
+}
+
+if (a) {
+    b();
+}
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;switches&quot;: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, { &quot;switches&quot;: &quot;never&quot; }]*/
+
+switch (a) {
+
+    case 0: foo();
+
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;switches&quot;: &quot;never&quot; }</code> option:</p>
+<pre><code class="lang-js">/*eslint padded-blocks: [&quot;error&quot;, { &quot;switches&quot;: &quot;never&quot; }]*/
+
+switch (a) {
+    case 0: foo();
+}
+
+if (a) {
+
+    b();
+
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You can turn this rule off if you are not concerned with the consistency of padding within blocks.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

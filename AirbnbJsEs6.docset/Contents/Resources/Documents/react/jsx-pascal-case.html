@@ -1,0 +1,46 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-pascalcase-for-user-defined-jsx-components-jsx-pascal-case-">Enforce PascalCase for user-defined JSX components (jsx-pascal-case)</h1>
+<p>Enforces coding style that user-defined JSX components are defined and referenced in PascalCase.</p>
+<p>Note that since React&#39;s JSX uses the upper vs. lower case convention to distinguish between local component classes and HTML tags this rule will not warn on components that start with a lower case letter.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">&lt;Test_component /&gt;
+</code></pre>
+<pre><code class="lang-jsx">&lt;TEST_COMPONENT /&gt;
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">&lt;div /&gt;
+</code></pre>
+<pre><code class="lang-jsx">&lt;TestComponent /&gt;
+</code></pre>
+<pre><code class="lang-jsx">&lt;TestComponent&gt;
+  &lt;div /&gt;
+&lt;/TestComponent&gt;
+</code></pre>
+<pre><code class="lang-jsx">&lt;CSSTransitionGroup /&gt;
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<pre><code class="lang-js">...
+&quot;jsx-pascal-case&quot;: [&lt;enabled&gt;, { allowAllCaps: &lt;allowAllCaps&gt;, ignore: &lt;ignore&gt; }]
+...
+</code></pre>
+<ul>
+<li><code>enabled</code>: for enabling the rule. 0=off, 1=warn, 2=error. Defaults to 0.</li>
+<li><code>allowAllCaps</code>: optional boolean set to <code>true</code> to allow components name in all caps (default to <code>false</code>).</li>
+<li><code>ignore</code>: optional array of components name to ignore during validation.</li>
+</ul>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you are not using JSX.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

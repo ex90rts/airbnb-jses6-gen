@@ -1,0 +1,193 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-or-enforce-spaces-inside-of-parentheses-space-in-parens-">Disallow or enforce spaces inside of parentheses (space-in-parens)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Some style guides require or disallow spaces inside of parentheses:</p>
+<pre><code class="lang-js">foo( &#39;bar&#39; );
+var x = ( 1 + 2 ) * 3;
+
+foo(&#39;bar&#39;);
+var x = (1 + 2) * 3;
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule will enforce consistency of spacing directly inside of parentheses, by disallowing or requiring one or more spaces to the right of <code>(</code> and to the left of <code>)</code>. In either case, <code>()</code> will still be allowed.</p>
+<h2 id="options">Options</h2>
+<p>There are two options for this rule:</p>
+<ul>
+<li><code>&quot;never&quot;</code> (default) enforces zero spaces inside of parentheses</li>
+<li><code>&quot;always&quot;</code> enforces a space inside of parentheses</li>
+</ul>
+<p>Depending on your coding conventions, you can choose either option by specifying it in your configuration:</p>
+<pre><code class="lang-json">&quot;space-in-parens&quot;: [&quot;error&quot;, &quot;always&quot;]
+</code></pre>
+<h3 id="-never-">&quot;never&quot;</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;never&quot;]*/
+
+foo( &#39;bar&#39;);
+foo(&#39;bar&#39; );
+foo( &#39;bar&#39; );
+
+var foo = ( 1 + 2 ) * 3;
+( function () { return &#39;bar&#39;; }() );
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;never&quot;]*/
+
+foo();
+
+foo(&#39;bar&#39;);
+
+var foo = (1 + 2) * 3;
+(function () { return &#39;bar&#39;; }());
+</code></pre>
+<h3 id="-always-">&quot;always&quot;</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;always&quot;]*/
+
+foo( &#39;bar&#39;);
+foo(&#39;bar&#39; );
+foo(&#39;bar&#39;);
+
+var foo = (1 + 2) * 3;
+(function () { return &#39;bar&#39;; }());
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;always&quot;]*/
+
+foo();
+
+foo( &#39;bar&#39; );
+
+var foo = ( 1 + 2 ) * 3;
+( function () { return &#39;bar&#39;; }() );
+</code></pre>
+<h3 id="exceptions">Exceptions</h3>
+<p>An object literal may be used as a third array item to specify exceptions, with the key <code>&quot;exceptions&quot;</code> and an array as the value. These exceptions work in the context of the first option. That is, if <code>&quot;always&quot;</code> is set to enforce spacing, then any &quot;exception&quot; will <em>disallow</em> spacing. Conversely, if <code>&quot;never&quot;</code> is set to disallow spacing, then any &quot;exception&quot; will <em>enforce</em> spacing.</p>
+<p>The following exceptions are available: <code>[&quot;{}&quot;, &quot;[]&quot;, &quot;()&quot;, &quot;empty&quot;]</code>.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;never&quot;, { &quot;exceptions&quot;: [&quot;{}&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;never&quot;, { &quot;exceptions&quot;: [&quot;{}&quot;] }]*/
+
+foo({bar: &#39;baz&#39;});
+foo(1, {bar: &#39;baz&#39;});
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;never&quot;, { &quot;exceptions&quot;: [&quot;{}&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;never&quot;, { &quot;exceptions&quot;: [&quot;{}&quot;] }]*/
+
+foo( {bar: &#39;baz&#39;} );
+foo(1, {bar: &#39;baz&#39;} );
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;, { &quot;exceptions&quot;: [&quot;{}&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;{}&quot;] }]*/
+
+foo( {bar: &#39;baz&#39;} );
+foo( 1, {bar: &#39;baz&#39;} );
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;, { &quot;exceptions&quot;: [&quot;{}&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;{}&quot;] }]*/
+
+foo({bar: &#39;baz&#39;});
+foo( 1, {bar: &#39;baz&#39;});
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;never&quot;, { &quot;exceptions&quot;: [&quot;[]&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;never&quot;, { &quot;exceptions&quot;: [&quot;[]&quot;] }]*/
+
+foo([bar, baz]);
+foo([bar, baz], 1);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;never&quot;, { &quot;exceptions&quot;: [&quot;[]&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;never&quot;, { &quot;exceptions&quot;: [&quot;[]&quot;] }]*/
+
+foo( [bar, baz] );
+foo( [bar, baz], 1);
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;, { &quot;exceptions&quot;: [&quot;[]&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;[]&quot;] }]*/
+
+foo( [bar, baz] );
+foo( [bar, baz], 1 );
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;, { &quot;exceptions&quot;: [&quot;[]&quot;] }</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;[]&quot;] }]*/
+
+foo([bar, baz]);
+foo([bar, baz], 1 );
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;never&quot;, { &quot;exceptions&quot;: [&quot;()&quot;] }]</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;never&quot;, { &quot;exceptions&quot;: [&quot;()&quot;] }]*/
+
+foo((1 + 2));
+foo((1 + 2), 1);
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;never&quot;, { &quot;exceptions&quot;: [&quot;()&quot;] }]</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;never&quot;, { &quot;exceptions&quot;: [&quot;()&quot;] }]*/
+
+foo( (1 + 2) );
+foo( (1 + 2), 1);
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;, { &quot;exceptions&quot;: [&quot;()&quot;] }]</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;()&quot;] }]*/
+
+foo( ( 1 + 2 ) );
+foo( ( 1 + 2 ), 1 );
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;, { &quot;exceptions&quot;: [&quot;()&quot;] }]</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;()&quot;] }]*/
+
+foo(( 1 + 2 ));
+foo(( 1 + 2 ), 1 );
+</code></pre>
+<p>The <code>&quot;empty&quot;</code> exception concerns empty parentheses, and works the same way as the other exceptions, inverting the first option.</p>
+<p class="incorrect icon">Example of <strong>incorrect</strong> code for this rule with the <code>&quot;never&quot;, { &quot;exceptions&quot;: [&quot;empty&quot;] }]</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;never&quot;, { &quot;exceptions&quot;: [&quot;empty&quot;] }]*/
+
+foo();
+</code></pre>
+<p class="correct icon">Example of <strong>correct</strong> code for this rule with the <code>&quot;never&quot;, { &quot;exceptions&quot;: [&quot;empty&quot;] }]</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;never&quot;, { &quot;exceptions&quot;: [&quot;empty&quot;] }]*/
+
+foo( );
+</code></pre>
+<p class="incorrect icon">Example of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;, { &quot;exceptions&quot;: [&quot;empty&quot;] }]</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;empty&quot;] }]*/
+
+foo( );
+</code></pre>
+<p class="correct icon">Example of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;, { &quot;exceptions&quot;: [&quot;empty&quot;] }]</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;empty&quot;] }]*/
+
+foo();
+</code></pre>
+<p>You can include multiple entries in the <code>&quot;exceptions&quot;</code> array.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;, { &quot;exceptions&quot;: [&quot;{}&quot;, &quot;[]&quot;] }]</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;{}&quot;, &quot;[]&quot;] }]*/
+
+bar( {bar:&#39;baz&#39;} );
+baz( 1, [1,2] );
+foo( {bar: &#39;baz&#39;}, [1, 2] );
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;, { &quot;exceptions&quot;: [&quot;{}&quot;, &quot;[]&quot;] }]</code> option:</p>
+<pre><code class="lang-js">/*eslint space-in-parens: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;{}&quot;, &quot;[]&quot;] }]*/
+
+bar({bar:&#39;baz&#39;});
+baz( 1, [1,2]);
+foo({bar: &#39;baz&#39;}, [1, 2]);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You can turn this rule off if you are not concerned with the consistency of spacing between parentheses.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="space-in-brackets.html">space-in-brackets</a> (deprecated)</li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

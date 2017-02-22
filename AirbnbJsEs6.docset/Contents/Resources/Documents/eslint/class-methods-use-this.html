@@ -1,0 +1,105 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-that-class-methods-utilize-this-class-methods-use-this-">Enforce that class methods utilize <code>this</code> (class-methods-use-this)</h1>
+<p>If a class method does not use <code>this</code>, it can safely be made a static function.</p>
+<p>It&#39;s possible to have a class method which doesn&#39;t use <code>this</code>, such as:</p>
+<pre><code class="lang-js">class A {
+    constructor() {
+        this.a = &quot;hi&quot;;
+    }
+
+    print() {
+        console.log(this.a);
+    }
+
+    sayHi() {
+        console.log(&quot;hi&quot;);
+    }
+}
+
+let a = new A();
+a.sayHi(); // =&gt; &quot;hi&quot;
+</code></pre>
+<p>In the example above, the <code>sayHi</code> method doesn&#39;t use <code>this</code>, so we can make it a static method:</p>
+<pre><code class="lang-js">class A {
+    constructor() {
+        this.a = &quot;hi&quot;;
+    }
+
+    print() {
+        console.log(this.a);
+    }
+
+    static sayHi() {
+        console.log(&quot;hi&quot;);
+    }
+}
+
+A.sayHi(); // =&gt; &quot;hi&quot;
+</code></pre>
+<p>Also note in the above examples that the code calling the function on an <em>instance</em> of the class (<code>let a = new A(); a.sayHi();</code>) changes to calling it on the <em>class</em> itself (<code>A.sayHi();</code>).</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed to flag class methods that do not use <code>this</code>.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint class-methods-use-this: &quot;error&quot;*/
+/*eslint-env es6*/
+
+class A {
+    foo() {
+        console.log(&quot;Hello World&quot;);     /*error Expected &#39;this&#39; to be used by class method &#39;foo&#39;.*/
+    }
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint class-methods-use-this: &quot;error&quot;*/
+/*eslint-env es6*/
+class A {
+    foo() {
+        this.bar = &quot;Hello World&quot;; // OK, this is used
+    }
+}
+
+class A {
+    constructor() {
+        // OK. constructor is exempt
+    }
+}
+
+class A {
+    static foo() {
+        // OK. static methods aren&#39;t expected to use this.
+    }
+}
+</code></pre>
+<h2 id="options">Options</h2>
+<h3 id="exceptions">Exceptions</h3>
+<pre><code>&quot;class-methods-use-this&quot;: [&lt;enabled&gt;, { &quot;exceptMethods&quot;: [&lt;...exceptions&gt;] }]
+</code></pre><p>The <code>exceptMethods</code> option allows you to pass an array of method names for which you would like to ignore warnings.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule when used without exceptMethods:</p>
+<pre><code class="lang-js">/*eslint class-methods-use-this: &quot;error&quot;*/
+
+class A {
+    foo() {
+    }
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule when used with exceptMethods:</p>
+<pre><code class="lang-js">/*eslint class-methods-use-this: [&quot;error&quot;, { &quot;exceptMethods&quot;: [&quot;foo&quot;] }] */
+
+class A {
+    foo() {
+    }
+}
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

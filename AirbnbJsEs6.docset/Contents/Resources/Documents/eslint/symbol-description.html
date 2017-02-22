@@ -1,0 +1,53 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-symbol-description-symbol-description-">require symbol description (symbol-description)</h1>
+<p>The <code>Symbol</code> function may have optional description:</p>
+<pre><code class="lang-js">var foo = Symbol(&quot;some description&quot;);
+
+var someString = &quot;some description&quot;;
+var bar = Symbol(someString);
+</code></pre>
+<p>Using <code>description</code> promotes easier debugging: when a symbol is logged the description is used:</p>
+<pre><code class="lang-js">var foo = Symbol(&quot;some description&quot;);
+
+&gt; console.log(foo);
+// Symbol(some description)
+</code></pre>
+<p>It may facilitate identifying symbols when one is observed during debugging.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rules requires a description when creating symbols.</p>
+<h2 id="examples">Examples</h2>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint symbol-description: &quot;error&quot;*/
+/*eslint-env es6*/
+
+var foo = Symbol();
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint symbol-description: &quot;error&quot;*/
+/*eslint-env es6*/
+
+var foo = Symbol(&quot;some description&quot;);
+
+var someString = &quot;some description&quot;;
+var bar = Symbol(someString);
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>This rule should not be used in ES3/5 environments.
+In addition, this rule can be safely turned off if you don&#39;t want to enforce presence of <code>description</code> when creating Symbols.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-symbol-description">Symbol Objects specification: Symbol description</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

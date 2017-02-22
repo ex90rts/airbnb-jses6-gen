@@ -1,0 +1,220 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="requires-or-disallows-a-whitespace-space-or-tab-beginning-a-comment-spaced-comment-">Requires or disallows a whitespace (space or tab) beginning a comment (spaced-comment)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes problems reported by this rule.</p>
+<p>Some style guides require or disallow a whitespace immediately after the initial <code>//</code> or <code>/*</code> of a comment.
+Whitespace after the <code>//</code> or <code>/*</code> makes it easier to read text in comments.
+On the other hand, commenting out code is easier without having to put a whitespace right after the <code>//</code> or <code>/*</code>.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule will enforce consistency of spacing after the start of a comment <code>//</code> or <code>/*</code>. It also provides several
+exceptions for various documentation styles.</p>
+<h2 id="options">Options</h2>
+<p>The rule takes two options.</p>
+<ul>
+<li><p>The first is a string which be either <code>&quot;always&quot;</code> or <code>&quot;never&quot;</code>. The default is <code>&quot;always&quot;</code>.</p>
+<ul>
+<li><p>If <code>&quot;always&quot;</code> then the <code>//</code> or <code>/*</code> must be followed by at least one whitespace.</p>
+</li>
+<li><p>If <code>&quot;never&quot;</code> then there should be no whitespace following.</p>
+</li>
+</ul>
+</li>
+<li><p>This rule can also take a 2nd option, an object with any of the following keys: <code>&quot;exceptions&quot;</code> and <code>&quot;markers&quot;</code>.</p>
+<ul>
+<li><p>The <code>&quot;exceptions&quot;</code> value is an array of string patterns which are considered exceptions to the rule.
+Please note that exceptions are ignored if the first argument is <code>&quot;never&quot;</code>.</p>
+<pre><code>&quot;spaced-comment&quot;: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;-&quot;, &quot;+&quot;] }]
+</code></pre></li>
+<li><p>The <code>&quot;markers&quot;</code> value is an array of string patterns which are considered markers for docblock-style comments,
+such as an additional <code>/</code>, used to denote documentation read by doxygen, vsdoc, etc. which must have additional characters.
+The <code>&quot;markers&quot;</code> array will apply regardless of the value of the first argument, e.g. <code>&quot;always&quot;</code> or <code>&quot;never&quot;</code>.</p>
+<pre><code>&quot;spaced-comment&quot;: [&quot;error&quot;, &quot;always&quot;, { &quot;markers&quot;: [&quot;/&quot;] }]
+</code></pre></li>
+</ul>
+</li>
+</ul>
+<p>The difference between a marker and an exception is that a marker only appears at the beginning of the comment whereas
+exceptions can occur anywhere in the comment string.</p>
+<p>You can also define separate exceptions and markers for block and line comments. The <code>&quot;block&quot;</code> object can have an additional key <code>&quot;balanced&quot;</code>, a boolean that specifies if inline block comments should have balanced spacing. The default value is <code>false</code>.</p>
+<ul>
+<li><p>If <code>&quot;balanced&quot;: true</code> and <code>&quot;always&quot;</code> then the <code>/*</code> must be followed by at least one whitespace, and the <code>*/</code> must be preceded by at least one whitespace.</p>
+</li>
+<li><p>If <code>&quot;balanced&quot;: true</code> and <code>&quot;never&quot;</code> then there should be no whitespace following <code>/*</code> or preceding <code>*/</code>.</p>
+</li>
+<li><p>If <code>&quot;balanced&quot;: false</code> then balanced whitespace is not enforced.</p>
+</li>
+</ul>
+<pre><code class="lang-json">&quot;spaced-comment&quot;: [&quot;error&quot;, &quot;always&quot;, {
+    &quot;line&quot;: {
+        &quot;markers&quot;: [&quot;/&quot;],
+        &quot;exceptions&quot;: [&quot;-&quot;, &quot;+&quot;]
+    },
+    &quot;block&quot;: {
+        &quot;markers&quot;: [&quot;!&quot;],
+        &quot;exceptions&quot;: [&quot;*&quot;],
+        &quot;balanced&quot;: true
+    }
+}]
+</code></pre>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;]*/
+
+//This is a comment with no whitespace at the beginning
+
+/*This is a comment with no whitespace at the beginning */
+</code></pre>
+<pre><code class="lang-js">/* eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;, { &quot;block&quot;: { &quot;balanced&quot;: true } }] */
+/* This is a comment with whitespace at the beginning but not the end*/
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/* eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;] */
+
+// This is a comment with a whitespace at the beginning
+
+/* This is a comment with a whitespace at the beginning */
+
+/*
+ * This is a comment with a whitespace at the beginning
+ */
+
+/*
+This comment has a newline
+*/
+</code></pre>
+<pre><code class="lang-js">/* eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;] */
+
+/**
+* I am jsdoc
+*/
+</code></pre>
+<h3 id="never">never</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint spaced-comment: [&quot;error&quot;, &quot;never&quot;]*/
+
+// This is a comment with a whitespace at the beginning
+
+/* This is a comment with a whitespace at the beginning */
+
+/* \nThis is a comment with a whitespace at the beginning */
+</code></pre>
+<pre><code class="lang-js">/*eslint spaced-comment: [&quot;error&quot;, &quot;never&quot;, { &quot;block&quot;: { &quot;balanced&quot;: true } }]*/
+/*This is a comment with whitespace at the end */
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint spaced-comment: [&quot;error&quot;, &quot;never&quot;]*/
+
+/*This is a comment with no whitespace at the beginning */
+</code></pre>
+<pre><code class="lang-js">/*eslint spaced-comment: [&quot;error&quot;, &quot;never&quot;]*/
+
+/**
+* I am jsdoc
+*/
+</code></pre>
+<h3 id="exceptions">exceptions</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;</code> option combined with <code>&quot;exceptions&quot;</code>:</p>
+<pre><code class="lang-js">/* eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;, { &quot;block&quot;: { &quot;exceptions&quot;: [&quot;-&quot;] } }] */
+
+//--------------
+// Comment block
+//--------------
+</code></pre>
+<pre><code class="lang-js">/* eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;-&quot;, &quot;+&quot;] }] */
+
+//------++++++++
+// Comment block
+//------++++++++
+</code></pre>
+<pre><code class="lang-js">/* eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;-&quot;, &quot;+&quot;] }] */
+
+/*------++++++++*/
+/* Comment block */
+/*------++++++++*/
+</code></pre>
+<pre><code class="lang-js">/* eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;, { &quot;line&quot;: { &quot;exceptions&quot;: [&quot;-+&quot;] } }] */
+
+/*-+-+-+-+-+-+-+*/
+// Comment block
+/*-+-+-+-+-+-+-+*/
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;</code> option combined with <code>&quot;exceptions&quot;</code>:</p>
+<pre><code class="lang-js">/* eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;-&quot;] }] */
+
+//--------------
+// Comment block
+//--------------
+</code></pre>
+<pre><code class="lang-js">/* eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;, { &quot;line&quot;: { &quot;exceptions&quot;: [&quot;-&quot;] } }] */
+
+//--------------
+// Comment block
+//--------------
+</code></pre>
+<pre><code class="lang-js">/* eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;*&quot;] }] */
+
+/****************
+ * Comment block
+ ****************/
+</code></pre>
+<pre><code class="lang-js">/* eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;, { &quot;exceptions&quot;: [&quot;-+&quot;] }] */
+
+//-+-+-+-+-+-+-+
+// Comment block
+//-+-+-+-+-+-+-+
+
+/*-+-+-+-+-+-+-+*/
+// Comment block
+/*-+-+-+-+-+-+-+*/
+</code></pre>
+<pre><code class="lang-js">/* eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;, { &quot;block&quot;: { &quot;exceptions&quot;: [&quot;-+&quot;] } }] */
+
+/*-+-+-+-+-+-+-+*/
+// Comment block
+/*-+-+-+-+-+-+-+*/
+</code></pre>
+<h3 id="markers">markers</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;</code> option combined with <code>&quot;markers&quot;</code>:</p>
+<pre><code class="lang-js">/* eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;, { &quot;markers&quot;: [&quot;/&quot;] }] */
+
+///This is a comment with a marker but without whitespace
+</code></pre>
+<pre><code class="lang-js">/*eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;, { &quot;block&quot;: { &quot;markers&quot;: [&quot;!&quot;], &quot;balanced&quot;: true } }]*/
+/*! This is a comment with a marker but without whitespace at the end*/
+</code></pre>
+<pre><code class="lang-js">/*eslint spaced-comment: [&quot;error&quot;, &quot;never&quot;, { &quot;block&quot;: { &quot;markers&quot;: [&quot;!&quot;], &quot;balanced&quot;: true } }]*/
+/*!This is a comment with a marker but with whitespace at the end */
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;</code> option combined with <code>&quot;markers&quot;</code>:</p>
+<pre><code class="lang-js">/* eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;, { &quot;markers&quot;: [&quot;/&quot;] }] */
+
+/// This is a comment with a marker
+</code></pre>
+<pre><code class="lang-js">/*eslint spaced-comment: [&quot;error&quot;, &quot;never&quot;, { &quot;markers&quot;: [&quot;!&lt;&quot;] }]*/
+
+//!&lt;This is a line comment with a marker
+
+/*!&lt;this is a block comment with a marker
+subsequent lines are ignored
+*/
+</code></pre>
+<pre><code class="lang-js">/* eslint spaced-comment: [&quot;error&quot;, &quot;always&quot;, { &quot;markers&quot;: [&quot;global&quot;] }] */
+
+/*global ABC*/
+</code></pre>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="spaced-line-comment.html">spaced-line-comment</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

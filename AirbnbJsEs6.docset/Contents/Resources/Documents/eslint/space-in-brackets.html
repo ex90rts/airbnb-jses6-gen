@@ -1,0 +1,248 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="space-in-brackets-enforce-consistent-spacing-inside-braces-of-object-literals-and-brackets-of-array-literals">space-in-brackets: enforce consistent spacing inside braces of object literals and brackets of array literals</h1>
+<p class="removed icon">(removed) This rule was <strong>removed</strong> in ESLint v1.0 and <strong>replaced</strong> by the <a href="object-curly-spacing.html">object-curly-spacing</a> and <a href="array-bracket-spacing.html">array-bracket-spacing</a> rules.</p>
+<p>While formatting preferences are very personal, a number of style guides require or disallow spaces between brackets:</p>
+<pre><code class="lang-js">var obj = { foo: &#39;bar&#39; };
+var arr = [ &#39;foo&#39;, &#39;bar&#39; ];
+foo[ &#39;bar&#39; ];
+
+var obj = {foo: &#39;bar&#39;};
+var arr = [&#39;foo&#39;, &#39;bar&#39;];
+foo[&#39;bar&#39;];
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to maintain consistency around the spacing inside of square brackets, either by disallowing spaces inside of brackets between the brackets and other tokens or enforcing spaces. Brackets that are separated from the adjacent value by a new line are excepted from this rule, as this is a common pattern.  Object literals that are used as the first or last element in an array are also ignored.</p>
+<h2 id="options">Options</h2>
+<p>There are two options for this rule:</p>
+<ul>
+<li><code>&quot;always&quot;</code> enforces a space inside of object and array literals</li>
+<li><code>&quot;never&quot;</code> enforces zero spaces inside of object and array literals (default)</li>
+</ul>
+<p>Depending on your coding conventions, you can choose either option by specifying it in your configuration:</p>
+<pre><code class="lang-json">&quot;space-in-brackets&quot;: [&quot;error&quot;, &quot;always&quot;]
+</code></pre>
+<h3 id="-never-">&quot;never&quot;</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+foo[ &#39;bar&#39; ];
+foo[&#39;bar&#39; ];
+
+var arr = [ &#39;foo&#39;, &#39;bar&#39; ];
+var arr = [&#39;foo&#39;, &#39;bar&#39; ];
+var arr = [ [&#39;foo&#39;], &#39;bar&#39;];
+var arr = [[ &#39;foo&#39; ], &#39;bar&#39;];
+var arr = [&#39;foo&#39;,
+  &#39;bar&#39;
+];
+
+var obj = { &#39;foo&#39;: &#39;bar&#39; };
+var obj = {&#39;foo&#39;: &#39;bar&#39; };
+var obj = { baz: {&#39;foo&#39;: &#39;qux&#39;}, bar};
+var obj = {baz: { &#39;foo&#39;: &#39;qux&#39; }, bar};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;never&quot;</code> option:</p>
+<pre><code class="lang-js">// When options are [&quot;error&quot;, &quot;never&quot;]
+
+foo[&#39;bar&#39;];
+foo[
+  &#39;bar&#39;
+];
+foo[
+  &#39;bar&#39;];
+
+var arr = [];
+var arr = [&#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39;];
+var arr = [[&#39;foo&#39;], &#39;bar&#39;, &#39;baz&#39;];
+var arr = [
+  &#39;foo&#39;,
+  &#39;bar&#39;,
+  &#39;baz&#39;
+];
+
+var arr = [
+  &#39;foo&#39;,
+  &#39;bar&#39;];
+
+var obj = {&#39;foo&#39;: &#39;bar&#39;};
+
+var obj = {&#39;foo&#39;: {&#39;bar&#39;: &#39;baz&#39;}, &#39;qux&#39;: &#39;quxx&#39;};
+
+var obj = {
+  &#39;foo&#39;: &#39;bar&#39;
+};
+var obj = {&#39;foo&#39;: &#39;bar&#39;
+};
+var obj = {
+  &#39;foo&#39;:&#39;bar&#39;};
+
+var obj = {};
+</code></pre>
+<h3 id="-always-">&quot;always&quot;</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint-env es6*/
+
+foo[&#39;bar&#39;];
+foo[&#39;bar&#39; ];
+foo[ &#39;bar&#39;];
+
+var arr = [&#39;foo&#39;, &#39;bar&#39;];
+var arr = [&#39;foo&#39;, &#39;bar&#39; ];
+var arr = [ [&#39;foo&#39;], &#39;bar&#39; ];
+var arr = [&#39;foo&#39;,
+  &#39;bar&#39;
+];
+
+var arr = [
+  &#39;foo&#39;,
+  &#39;bar&#39;];
+
+var obj = {&#39;foo&#39;: &#39;bar&#39;};
+var obj = {&#39;foo&#39;: &#39;bar&#39; };
+var obj = { baz: {&#39;foo&#39;: &#39;qux&#39;}, bar};
+var obj = {baz: { &#39;foo&#39;: &#39;qux&#39; }, bar};
+var obj = {&#39;foo&#39;: &#39;bar&#39;
+};
+
+var obj = {
+  &#39;foo&#39;:&#39;bar&#39;};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">foo[ &#39;bar&#39; ];
+foo[
+  &#39;bar&#39;
+];
+
+var arr = [];
+var arr = [ &#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39; ];
+var arr = [ [ &#39;foo&#39; ], &#39;bar&#39;, &#39;baz&#39; ];
+
+var arr = [
+  &#39;foo&#39;,
+  &#39;bar&#39;,
+  &#39;baz&#39;
+];
+
+var obj = {};
+var obj = { &#39;foo&#39;: &#39;bar&#39; };
+var obj = { &#39;foo&#39;: { &#39;bar&#39;: &#39;baz&#39; }, &#39;qux&#39;: &#39;quxx&#39; };
+var obj = {
+  &#39;foo&#39;: &#39;bar&#39;
+};
+</code></pre>
+<p>Note that <code>&quot;always&quot;</code> has a special case where <code>{}</code> and <code>[]</code> are not considered problems.</p>
+<h3 id="exceptions">Exceptions</h3>
+<p>An object literal may be used as a third array item to specify spacing exceptions. These exceptions work in the context of the first option. That is, if <code>&quot;always&quot;</code> is set to enforce spacing and an exception is set to <code>false</code>, it will disallow spacing for cases matching the exception. Likewise, if <code>&quot;never&quot;</code> is set to disallow spacing and an exception is set to <code>true</code>, it will enforce spacing for cases matching the exception.</p>
+<p>You can add exceptions like so:</p>
+<p>In case of <code>&quot;always&quot;</code> option, set an exception to <code>false</code> to enable it:</p>
+<pre><code class="lang-json">&quot;space-in-brackets&quot;: [&quot;error&quot;, &quot;always&quot;, {
+  &quot;singleValue&quot;: false,
+  &quot;objectsInArrays&quot;: false,
+  &quot;arraysInArrays&quot;: false,
+  &quot;arraysInObjects&quot;: false,
+  &quot;objectsInObjects&quot;: false,
+  &quot;propertyName&quot;: false
+}]
+</code></pre>
+<p>In case of <code>&quot;never&quot;</code> option, set an exception to <code>true</code> to enable it:</p>
+<pre><code class="lang-json">&quot;space-in-brackets&quot;: [&quot;error&quot;, &quot;never&quot;, {
+  &quot;singleValue&quot;: true,
+  &quot;objectsInArrays&quot;: true,
+  &quot;arraysInArrays&quot;: true,
+  &quot;arraysInObjects&quot;: true,
+  &quot;objectsInObjects&quot;: true,
+  &quot;propertyName&quot;: true
+}]
+</code></pre>
+<p>The following exceptions are available:</p>
+<ul>
+<li><code>singleValue</code> sets the spacing of a single value inside of square brackets of an array.</li>
+<li><code>objectsInArrays</code> sets the spacings between the curly braces and square brackets of object literals that are the first or last element in an array.</li>
+<li><code>arraysInArrays</code> sets the spacing between the square brackets of array literals that are the first or last element in an array.</li>
+<li><code>arraysInObjects</code> sets the spacing between the square bracket and the curly brace of an array literal that is the last element in an object.</li>
+<li><code>objectsInObjects</code> sets the spacing between the curly brace of an object literal that is the last element in an object and the curly brace of the containing object.</li>
+<li><code>propertyName</code> sets the spacing in square brackets of computed member expressions.</li>
+</ul>
+<p>In each of the following examples, the <code>&quot;always&quot;</code> option is assumed.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule when <code>&quot;singleValue&quot;</code> is set to <code>false</code>:</p>
+<pre><code class="lang-js">var foo = [ &#39;foo&#39; ];
+var foo = [ &#39;foo&#39;];
+var foo = [&#39;foo&#39; ];
+var foo = [ 1 ];
+var foo = [ 1];
+var foo = [1 ];
+var foo = [ [ 1, 2 ] ];
+var foo = [ { &#39;foo&#39;: &#39;bar&#39; } ];
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule when <code>&quot;singleValue&quot;</code> is set to <code>false</code>:</p>
+<pre><code class="lang-js">var foo = [&#39;foo&#39;];
+var foo = [1];
+var foo = [[ 1, 1 ]];
+var foo = [{ &#39;foo&#39;: &#39;bar&#39; }];
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code when <code>&quot;objectsInArrays&quot;</code> is set to <code>false</code>:</p>
+<pre><code class="lang-js">var arr = [ { &#39;foo&#39;: &#39;bar&#39; } ];
+var arr = [ {
+  &#39;foo&#39;: &#39;bar&#39;
+} ]
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code when <code>&quot;objectsInArrays&quot;</code> is set to <code>false</code>:</p>
+<pre><code class="lang-js">var arr = [{ &#39;foo&#39;: &#39;bar&#39; }];
+var arr = [{
+  &#39;foo&#39;: &#39;bar&#39;
+}];
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code when <code>&quot;arraysInArrays&quot;</code> is set to <code>false</code>:</p>
+<pre><code class="lang-js">var arr = [ [ 1, 2 ], 2, 3, 4 ];
+var arr = [ [ 1, 2 ], 2, [ 3, 4 ] ];
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code when <code>&quot;arraysInArrays&quot;</code> is set to <code>false</code>:</p>
+<pre><code class="lang-js">var arr = [[ 1, 2 ], 2, 3, 4 ];
+var arr = [[ 1, 2 ], 2, [ 3, 4 ]];
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code when <code>&quot;arraysInObjects&quot;</code> is set to <code>false</code>:</p>
+<pre><code class="lang-js">var obj = { &quot;foo&quot;: [ 1, 2 ] };
+var obj = { &quot;foo&quot;: [ &quot;baz&quot;, &quot;bar&quot; ] };
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code when <code>&quot;arraysInObjects&quot;</code> is set to <code>false</code>:</p>
+<pre><code class="lang-js">var obj = { &quot;foo&quot;: [ 1, 2 ]};
+var obj = { &quot;foo&quot;: [ &quot;baz&quot;, &quot;bar&quot; ]};
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code when <code>&quot;objectsInObjects&quot;</code> is set to <code>false</code>:</p>
+<pre><code class="lang-js">var obj = { &quot;foo&quot;: { &quot;baz&quot;: 1, &quot;bar&quot;: 2 } };
+var obj = { &quot;foo&quot;: [ &quot;baz&quot;, &quot;bar&quot; ], &quot;qux&quot;: { &quot;baz&quot;: 1, &quot;bar&quot;: 2 } };
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code when <code>&quot;objectsInObjects&quot;</code> is set to <code>false</code>:</p>
+<pre><code class="lang-js">var obj = { &quot;foo&quot;: { &quot;baz&quot;: 1, &quot;bar&quot;: 2 }};
+var obj = { &quot;foo&quot;: [ &quot;baz&quot;, &quot;bar&quot; ], &quot;qux&quot;: { &quot;baz&quot;: 1, &quot;bar&quot;: 2 }};
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code when <code>&quot;propertyName&quot;</code> is set to <code>false</code>:</p>
+<pre><code class="lang-js">var foo = obj[ 1 ];
+var foo = obj[ bar ];
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code when <code>&quot;propertyName&quot;</code> is set to <code>false</code>:</p>
+<pre><code class="lang-js">var foo = obj[bar];
+var foo = obj[0, 1];
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You can turn this rule off if you are not concerned with the consistency of spacing between brackets.</p>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="array-bracket-spacing.html">array-bracket-spacing</a></li>
+<li><a href="object-curly-spacing.html">object-curly-spacing</a></li>
+<li><a href="space-in-parens.html">space-in-parens</a></li>
+<li><a href="computed-property-spacing.html">computed-property-spacing</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

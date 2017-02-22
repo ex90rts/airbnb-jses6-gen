@@ -1,0 +1,43 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="restrict-file-extensions-that-may-be-required-require-extension-">Restrict file extensions that may be required (require-extension)</h1>
+<p><strong>Deprecation notice</strong>: This rule is deprecated. Please use the eslint-plugin-import <a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/extensions.html">extensions</a> rule instead.</p>
+<p><code>require()</code> statements should generally not include a file extension as there is a well defined mechanism for resolving a module ID to a specific file. This rule inspects the module ID being required and creates a warning if the ID contains a &#39;.jsx&#39; file extension.</p>
+<p>Note: this rule does not prevent required files from containing these extensions, it merely prevents the extension from being included in the <code>require()</code> statement.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-js">var index = require(&#39;./index.jsx&#39;);
+
+// When [1, {extensions: [&#39;.js&#39;]}]
+var index = require(&#39;./index.js&#39;);
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-js">var index = require(&#39;./index&#39;);
+
+var eslint = require(&#39;eslint&#39;);
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<p>The set of forbidden extensions is configurable. By default &#39;.jsx&#39; is blocked. If you wanted to forbid both &#39;.jsx&#39; and &#39;.js&#39;, the configuration would be:</p>
+<pre><code class="lang-js">&quot;rules&quot;: {
+  &quot;react/require-extension&quot;: [1, { &quot;extensions&quot;: [&quot;.js&quot;, &quot;.jsx&quot;] }],
+}
+</code></pre>
+<p>To configure WebPack to resolve &#39;.jsx&#39; add the following to <code>webpack.config.js</code>:</p>
+<pre><code class="lang-js">resolve: {
+    extensions: [&quot;&quot;, &quot;.js&quot;, &quot;.jsx&quot;]
+  },
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you have file in your project with a &#39;.jsx&#39; file extension and do not have <code>require()</code> configured to automatically resolve &#39;.jsx&#39; files.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

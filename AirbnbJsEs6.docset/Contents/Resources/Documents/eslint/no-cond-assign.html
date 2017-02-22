@@ -1,0 +1,120 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-assignment-operators-in-conditional-statements-no-cond-assign-">disallow assignment operators in conditional statements (no-cond-assign)</h1>
+<p>In conditional statements, it is very easy to mistype a comparison operator (such as <code>==</code>) as an assignment operator (such as <code>=</code>). For example:</p>
+<pre><code class="lang-js">// Check the user&#39;s job title
+if (user.jobTitle = &quot;manager&quot;) {
+    // user.jobTitle is now incorrect
+}
+</code></pre>
+<p>There are valid reasons to use assignment operators in conditional statements. However, it can be difficult to tell whether a specific assignment was intentional.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule disallows ambiguous assignment operators in test conditions of <code>if</code>, <code>for</code>, <code>while</code>, and <code>do...while</code> statements.</p>
+<h2 id="options">Options</h2>
+<p>This rule has a string option:</p>
+<ul>
+<li><code>&quot;except-parens&quot;</code> (default) allows assignments in test conditions <em>only if</em> they are enclosed in parentheses (for example, to allow reassigning a variable in the test of a <code>while</code> or <code>do...while</code> loop)</li>
+<li><code>&quot;always&quot;</code> disallows all assignments in test conditions</li>
+</ul>
+<h3 id="except-parens">except-parens</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the default <code>&quot;except-parens&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint no-cond-assign: &quot;error&quot;*/
+
+// Unintentional assignment
+var x;
+if (x = 0) {
+    var b = 1;
+}
+
+// Practical example that is similar to an error
+function setHeight(someNode) {
+    &quot;use strict&quot;;
+    do {
+        someNode.height = &quot;100px&quot;;
+    } while (someNode = someNode.parentNode);
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the default <code>&quot;except-parens&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint no-cond-assign: &quot;error&quot;*/
+
+// Assignment replaced by comparison
+var x;
+if (x === 0) {
+    var b = 1;
+}
+
+// Practical example that wraps the assignment in parentheses
+function setHeight(someNode) {
+    &quot;use strict&quot;;
+    do {
+        someNode.height = &quot;100px&quot;;
+    } while ((someNode = someNode.parentNode));
+}
+
+// Practical example that wraps the assignment and tests for &#39;null&#39;
+function setHeight(someNode) {
+    &quot;use strict&quot;;
+    do {
+        someNode.height = &quot;100px&quot;;
+    } while ((someNode = someNode.parentNode) !== null);
+}
+</code></pre>
+<h3 id="always">always</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint no-cond-assign: [&quot;error&quot;, &quot;always&quot;]*/
+
+// Unintentional assignment
+var x;
+if (x = 0) {
+    var b = 1;
+}
+
+// Practical example that is similar to an error
+function setHeight(someNode) {
+    &quot;use strict&quot;;
+    do {
+        someNode.height = &quot;100px&quot;;
+    } while (someNode = someNode.parentNode);
+}
+
+// Practical example that wraps the assignment in parentheses
+function setHeight(someNode) {
+    &quot;use strict&quot;;
+    do {
+        someNode.height = &quot;100px&quot;;
+    } while ((someNode = someNode.parentNode));
+}
+
+// Practical example that wraps the assignment and tests for &#39;null&#39;
+function setHeight(someNode) {
+    &quot;use strict&quot;;
+    do {
+        someNode.height = &quot;100px&quot;;
+    } while ((someNode = someNode.parentNode) !== null);
+}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>&quot;always&quot;</code> option:</p>
+<pre><code class="lang-js">/*eslint no-cond-assign: [&quot;error&quot;, &quot;always&quot;]*/
+
+// Assignment replaced by comparison
+var x;
+if (x === 0) {
+    var b = 1;
+}
+</code></pre>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="no-extra-parens.html">no-extra-parens</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

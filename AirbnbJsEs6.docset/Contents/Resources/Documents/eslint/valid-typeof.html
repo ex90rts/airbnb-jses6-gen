@@ -1,0 +1,55 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-comparing-typeof-expressions-against-valid-strings-valid-typeof-">enforce comparing <code>typeof</code> expressions against valid strings (valid-typeof)</h1>
+<p>For a vast majority of use cases, the result of the <code>typeof</code> operator is one of the following string literals: <code>&quot;undefined&quot;</code>, <code>&quot;object&quot;</code>, <code>&quot;boolean&quot;</code>, <code>&quot;number&quot;</code>, <code>&quot;string&quot;</code>, <code>&quot;function&quot;</code> and <code>&quot;symbol&quot;</code>. It is usually a typing mistake to compare the result of a <code>typeof</code> operator to other string literals.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces comparing <code>typeof</code> expressions to valid string literals.</p>
+<h2 id="options">Options</h2>
+<p>This rule has an object option:</p>
+<ul>
+<li><code>&quot;requireStringLiterals&quot;: true</code> requires <code>typeof</code> expressions to only be compared to string literals or other <code>typeof</code> expressions, and disallows comparisons to any other value.</li>
+</ul>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint valid-typeof: &quot;error&quot;*/
+
+typeof foo === &quot;strnig&quot;
+typeof foo == &quot;undefimed&quot;
+typeof bar != &quot;nunber&quot;
+typeof bar !== &quot;fucntion&quot;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint valid-typeof: &quot;error&quot;*/
+
+typeof foo === &quot;string&quot;
+typeof bar == &quot;undefined&quot;
+typeof foo === baz
+typeof bar === typeof qux
+</code></pre>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code with the <code>{ &quot;requireStringLiterals&quot;: true }</code> option:</p>
+<pre><code class="lang-js">typeof foo === undefined
+typeof bar == Object
+typeof baz === &quot;strnig&quot;
+typeof qux === &quot;some invalid type&quot;
+typeof baz === anotherVariable
+typeof foo == 5
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code with the <code>{ &quot;requireStringLiterals&quot;: true }</code> option:</p>
+<pre><code class="lang-js">typeof foo === &quot;undefined&quot;
+typeof bar == &quot;object&quot;
+typeof baz === &quot;string&quot;
+typeof bar === typeof qux
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You may want to turn this rule off if you will be using the <code>typeof</code> operator on host objects.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

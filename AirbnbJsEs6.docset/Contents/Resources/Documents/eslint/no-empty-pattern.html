@@ -1,0 +1,50 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-empty-destructuring-patterns-no-empty-pattern-">Disallow empty destructuring patterns (no-empty-pattern)</h1>
+<p>When using destructuring, it&#39;s possible to create a pattern that has no effect. This happens when empty curly braces are used to the right of an embedded object destructuring pattern, such as:</p>
+<pre><code class="lang-js">// doesn&#39;t create any variables
+var {a: {}} = foo;
+</code></pre>
+<p>In this code, no new variables are created because <code>a</code> is just a location helper while the <code>{}</code> is expected to contain the variables to create, such as:</p>
+<pre><code class="lang-js">// creates variable b
+var {a: { b }} = foo;
+</code></pre>
+<p>In many cases, the empty object pattern is a mistake where the author intended to use a default value instead, such as:</p>
+<pre><code class="lang-js">// creates variable a
+var {a = {}} = foo;
+</code></pre>
+<p>The difference between these two patterns is subtle, especially because the problematic empty pattern looks just like an object literal.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule aims to flag any empty patterns in destructured objects and arrays, and as such, will report a problem whenever one is encountered.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-empty-pattern: &quot;error&quot;*/
+
+var {} = foo;
+var [] = foo;
+var {a: {}} = foo;
+var {a: []} = foo;
+function foo({}) {}
+function foo([]) {}
+function foo({a: {}}) {}
+function foo({a: []}) {}
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-empty-pattern: &quot;error&quot;*/
+
+var {a = {}} = foo;
+var {a = []} = foo;
+function foo({a = {}}) {}
+function foo({a = []}) {}
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

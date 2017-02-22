@@ -1,0 +1,132 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="validate-whitespace-in-and-around-the-jsx-opening-and-closing-brackets-jsx-tag-spacing-">Validate whitespace in and around the JSX opening and closing brackets (jsx-tag-spacing)</h1>
+<p>Enforce or forbid spaces after the opening bracket, before the closing bracket of self-closing elements, and between the angle bracket and slash of JSX closing or self-closing elements.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule checks the whitespace inside and surrounding the JSX syntactic elements.</p>
+<p>This rule takes one argument, an object with 3 possible keys: <code>closingSlash</code>, <code>beforeSelfClosing</code> and <code>afterOpening</code>. Each key can receive the value <code>&quot;allow&quot;</code> to disable that specific check.</p>
+<p>The default values are:</p>
+<pre><code class="lang-json">{
+  &quot;closingSlash&quot;: &quot;never&quot;,
+  &quot;beforeSelfClosing&quot;: &quot;always&quot;,
+  &quot;afterOpening&quot;: &quot;never&quot;
+}
+</code></pre>
+<p>The options for each sub-option are documented in the following subsections.</p>
+<h3 id="-closingslash-"><code>closingSlash</code></h3>
+<p>This check can be set to <code>&quot;always&quot;</code>, <code>&quot;never&quot;</code> or <code>&quot;allow&quot;</code> (to disable it).</p>
+<p>If it is <code>&quot;never&quot;</code>, the check warns whenever a space is separating the two characters in the JSX tokens <code>&lt;/</code> and <code>/&gt;</code>. If it is <code>&quot;always&quot;</code> then it warns whenever a space is missing separating the mentioned two characters. The default value of this check is <code>&quot;never&quot;</code>.</p>
+<p>The following patterns are considered warnings when configured <code>&quot;never&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt;App/ &gt;
+&lt;input/
+&gt;
+&lt;Provider&gt;&lt; /Provider&gt;
+</code></pre>
+<p>The following patterns are not considered warnings when configured <code>&quot;never&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt;App/&gt;
+&lt;input/&gt;
+&lt;Provider&gt;&lt;/Provider&gt;
+</code></pre>
+<p>The following patterns are considered warnings when configured <code>&quot;always&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt;Hello/&gt;
+&lt;Goodbye&gt;&lt;/Goodbye&gt;
+</code></pre>
+<p>The following patterns are not considered warnings when configured <code>&quot;always&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt;Hello/ &gt;
+&lt;Goodbye&gt;&lt; /Goodbye&gt;
+</code></pre>
+<h3 id="-beforeselfclosing-"><code>beforeSelfClosing</code></h3>
+<p>This check can be set to <code>&quot;always&quot;</code>, <code>&quot;never&quot;</code> or <code>&quot;allow&quot;</code> (to disable it).</p>
+<p>If it is <code>&quot;always&quot;</code>, the check warns whenever a space is missing before the closing bracket. If <code>&quot;never&quot;</code> then it warns if a space is present before the closing bracket. The default value of this check is <code>&quot;always&quot;</code>.</p>
+<p>The following patterns are considered warnings when configured <code>&quot;always&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt;Hello/&gt;
+&lt;Hello firstname=&quot;John&quot;/&gt;
+</code></pre>
+<p>The following patterns are not considered warnings when configured <code>&quot;always&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt;Hello /&gt;
+&lt;Hello firstName=&quot;John&quot; /&gt;
+&lt;Hello
+  firstName=&quot;John&quot;
+  lastName=&quot;Smith&quot;
+/&gt;
+</code></pre>
+<p>The following patterns are considered warnings when configured <code>&quot;never&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt;Hello /&gt;
+&lt;Hello firstName=&quot;John&quot; /&gt;
+</code></pre>
+<p>The following patterns are not considered warnings when configured <code>&quot;never&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt;Hello/&gt;
+&lt;Hello firstname=&quot;John&quot;/&gt;
+&lt;Hello
+  firstName=&quot;John&quot;
+  lastName=&quot;Smith&quot;
+/&gt;
+</code></pre>
+<h3 id="-afteropening-"><code>afterOpening</code></h3>
+<p>This check can be set to <code>&quot;always&quot;</code>, <code>&quot;never&quot;</code>, <code>&quot;allow-multiline&quot;</code> or <code>&quot;allow&quot;</code> (to disable it).</p>
+<p>If it is <code>&quot;always&quot;</code>, the check warns whenever a space is missing after the opening bracket of either a JSX opening element or closing element. If <code>&quot;never&quot;</code> then it warns if a space is present after the opening bracket of either a JSX opening element or closing element. If <code>&quot;allow-multiline&quot;</code> then it behaves like <code>&quot;never&quot;</code>, but allows if the separator includes a newline character. The default value of this check is <code>&quot;never&quot;</code>.</p>
+<p>The following patterns are considered warnings when configured <code>&quot;always&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt;Hello&gt;&lt;/Hello&gt;
+&lt;Hello firstname=&quot;John&quot;/&gt;
+&lt;Hello
+  firstName=&quot;John&quot;
+  lastName=&quot;Smith&quot;
+/&gt;
+</code></pre>
+<p>The following patterns are not considered warnings when configured <code>&quot;always&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt; Hello&gt;&lt;/ Hello&gt;
+&lt; Hello firstName=&quot;John&quot;/&gt;
+&lt;
+  Hello
+  firstName=&quot;John&quot;
+  lastName=&quot;Smith&quot;
+/&gt;
+</code></pre>
+<p>The following patterns are considered warnings when configured <code>&quot;never&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt; Hello&gt;&lt;/ Hello&gt;
+&lt; Hello firstName=&quot;John&quot;/&gt;
+&lt;
+  Hello
+  firstName=&quot;John&quot;
+  lastName=&quot;Smith&quot;
+/&gt;
+</code></pre>
+<p>The following patterns are not considered warnings when configured <code>&quot;never&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt;Hello&gt;&lt;/Hello&gt;
+&lt;Hello firstname=&quot;John&quot;/&gt;
+&lt;Hello
+  firstName=&quot;John&quot;
+  lastName=&quot;Smith&quot;
+/&gt;
+</code></pre>
+<p>The following patterns are considered warnings when configured <code>&quot;allow-multiline&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt; Hello&gt;&lt;/ Hello&gt;
+&lt; Hello firstName=&quot;John&quot;/&gt;
+&lt; Hello
+  firstName=&quot;John&quot;
+  lastName=&quot;Smith&quot;
+/&gt;
+</code></pre>
+<p>The following patterns are not considered warnings when configured <code>&quot;allow-multiline&quot;</code>:</p>
+<pre><code class="lang-jsx">&lt;Hello&gt;&lt;/Hello&gt;
+&lt;Hello firstName=&quot;John&quot;/&gt;
+&lt;
+  Hello
+  firstName=&quot;John&quot;
+  lastName=&quot;Smith&quot;
+/&gt;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You can turn this rule off if you are not concerned with the consistency of spacing in or around JSX brackets.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

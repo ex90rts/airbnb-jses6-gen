@@ -1,0 +1,46 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-duplicates">no-duplicates</h1>
+<p>Reports if a resolved path is imported more than once.</p>
+<p>ESLint core has a similar rule (<a href="http://eslint.org/docs/rules/no-duplicate-imports"><code>no-duplicate-imports</code></a>), but this version
+is different in two key ways:</p>
+<ol>
+<li>the paths in the source code don&#39;t have to exactly match, they just have to point to the same module on the filesystem. (i.e. <code>./foo</code> and <code>./foo.js</code>)</li>
+<li>this version distinguishes Flow <code>type</code> imports from standard imports. (<a href="https://github.com/benmosher/eslint-plugin-import/pull/334">#334</a>)</li>
+</ol>
+<h2 id="rule-details">Rule Details</h2>
+<p>Valid:</p>
+<pre><code class="lang-js">import SomeDefaultClass, * as names from &#39;./mod&#39;
+// Flow `type` import from same module is fine
+import type SomeType from &#39;./mod&#39;
+</code></pre>
+<p>...whereas here, both <code>./mod</code> imports will be reported:</p>
+<pre><code class="lang-js">import SomeDefaultClass from &#39;./mod&#39;
+
+// oops, some other import separated these lines
+import foo from &#39;./some-other-mod&#39;
+
+import * as names from &#39;./mod&#39;
+
+// will catch this too, assuming it is the same target module
+import { something } from &#39;./mod.js&#39;
+</code></pre>
+<p>The motivation is that this is likely a result of two developers importing different
+names from the same module at different times (and potentially largely different
+locations in the file.) This rule brings both (or n-many) to attention.</p>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If the core ESLint version is good enough (i.e. you&#39;re <em>not</em> using Flow and you <em>are</em> using <a href="./extensions.html"><code>import/extensions</code></a>), keep it and don&#39;t use this.</p>
+<p>If you like to split up imports across lines or may need to import a default and a namespace,
+you may not want to enable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

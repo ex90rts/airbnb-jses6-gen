@@ -1,0 +1,80 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-warning-comments-no-warning-comments-">Disallow Warning Comments (no-warning-comments)</h1>
+<p>Developers often add comments to code which is not complete or needs review. Most likely you want to fix or review the code, and then remove the comment, before you consider the code to be production ready.</p>
+<pre><code class="lang-js">// TODO: do something
+// FIXME: this is not a good idea
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule reports comments that include any of the predefined terms specified in its configuration.</p>
+<h2 id="options">Options</h2>
+<p>This rule has an options object literal:</p>
+<ul>
+<li><code>&quot;terms&quot;</code>: optional array of terms to match. Defaults to <code>[&quot;todo&quot;, &quot;fixme&quot;, &quot;xxx&quot;]</code>. Terms are matched case-insensitive and as whole words: <code>fix</code> would match <code>FIX</code> but not <code>fixing</code>. Terms can consist of multiple words: <code>really bad idea</code>.</li>
+<li><code>&quot;location&quot;</code>: optional string that configures where in your comments to check for matches. Defaults to <code>&quot;start&quot;</code>. The other value is match <code>anywhere</code> in comments.</li>
+</ul>
+<p class="incorrect icon">Example of <strong>incorrect</strong> code for the default <code>{ &quot;terms&quot;: [&quot;todo&quot;, &quot;fixme&quot;, &quot;xxx&quot;], &quot;location&quot;: &quot;start&quot; }</code> options:</p>
+<pre><code class="lang-js">/*eslint no-warning-comments: &quot;error&quot;*/
+
+function callback(err, results) {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  // TODO
+}
+</code></pre>
+<p class="correct icon">Example of <strong>correct</strong> code for the default <code>{ &quot;terms&quot;: [&quot;todo&quot;, &quot;fixme&quot;, &quot;xxx&quot;], &quot;location&quot;: &quot;start&quot; }</code> options:</p>
+<pre><code class="lang-js">/*eslint no-warning-comments: &quot;error&quot;*/
+
+function callback(err, results) {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  // NOT READY FOR PRIME TIME
+  // but too bad, it is not a predefined warning term
+}
+</code></pre>
+<h3 id="terms-and-location">terms and location</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for the <code>{ &quot;terms&quot;: [&quot;todo&quot;, &quot;fixme&quot;, &quot;any other term&quot;], &quot;location&quot;: &quot;anywhere&quot; }</code> options:</p>
+<pre><code class="lang-js">/*eslint no-warning-comments: [&quot;error&quot;, { &quot;terms&quot;: [&quot;todo&quot;, &quot;fixme&quot;, &quot;any other term&quot;], &quot;location&quot;: &quot;anywhere&quot; }]*/
+
+// TODO: this
+// todo: this too
+// Even this: TODO
+/* /*
+ * The same goes for this TODO comment
+ * Or a fixme
+ * as well as any other term
+ */
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for the <code>{ &quot;terms&quot;: [&quot;todo&quot;, &quot;fixme&quot;, &quot;any other term&quot;], &quot;location&quot;: &quot;anywhere&quot; }</code> options:</p>
+<pre><code class="lang-js">/*eslint no-warning-comments: [&quot;error&quot;, { &quot;terms&quot;: [&quot;todo&quot;, &quot;fixme&quot;, &quot;any other term&quot;], &quot;location&quot;: &quot;anywhere&quot; }]*/
+
+// This is to do
+// even not any other    term
+// any other terminal
+/*
+ * The same goes for block comments
+ * with any other interesting term
+ * or fix me this
+ */
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<ul>
+<li>If you have a large code base that was not developed with a policy to not use such warning terms, you might get hundreds of warnings / errors which might be contra-productive if you can&#39;t fix all of them (e.g. if you don&#39;t get the time to do it) as you might overlook other warnings / errors or get used to many of them and don&#39;t pay attention on it anymore.</li>
+<li>Same reason as the point above: You shouldn&#39;t configure terms that are used very often (e.g. central parts of the native language used in your comments).</li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

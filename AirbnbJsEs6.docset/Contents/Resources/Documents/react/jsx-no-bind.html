@@ -1,0 +1,111 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="no-bind-or-arrow-functions-in-jsx-props-jsx-no-bind-">No <code>.bind()</code> or Arrow Functions in JSX Props (jsx-no-bind)</h1>
+<p>A <code>bind</code> call or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">arrow function</a> in a JSX prop will create a brand new function on every single render. This is bad for performance, as it will result in the garbage collector being invoked way more than is necessary.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">&lt;div onClick={this._handleClick.bind(this)}&gt;&lt;/div&gt;
+</code></pre>
+<pre><code class="lang-jsx">&lt;div onClick={() =&gt; console.log(&#39;Hello!&#39;))}&gt;&lt;/div&gt;
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">&lt;div onClick={this._handleClick}&gt;&lt;/div&gt;
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<pre><code class="lang-js">&quot;jsx-no-bind&quot;: [&lt;enabled&gt;, {
+  &quot;ignoreRefs&quot;: &lt;boolean&gt; || false,
+  &quot;allowArrowFunctions&quot;: &lt;boolean&gt; || false,
+  &quot;allowBind&quot;: &lt;boolean&gt; || false
+}]
+</code></pre>
+<h3 id="-ignorerefs-"><code>ignoreRefs</code></h3>
+<p>When <code>true</code> the following are not considered warnings:</p>
+<pre><code class="lang-jsx">&lt;div ref={c =&gt; this._div = c} /&gt;
+&lt;div ref={this._refCallback.bind(this)} /&gt;
+</code></pre>
+<h3 id="-allowarrowfunctions-"><code>allowArrowFunctions</code></h3>
+<p>When <code>true</code> the following is not considered a warning:</p>
+<pre><code class="lang-jsx">&lt;div onClick={() =&gt; alert(&quot;1337&quot;)} /&gt;
+</code></pre>
+<h3 id="-allowbind-"><code>allowBind</code></h3>
+<p>When <code>true</code> the following is not considered a warning:</p>
+<pre><code class="lang-jsx">&lt;div onClick={this._handleClick.bind(this)} /&gt;
+</code></pre>
+<h2 id="protips">Protips</h2>
+<h3 id="lists-of-items">Lists of Items</h3>
+<p>A common use case of <code>bind</code> in render is when rendering a list, to have a separate callback per list item:</p>
+<pre><code class="lang-jsx">var List = React.createClass({
+  render() {
+    return (
+      &lt;ul&gt;
+        {this.props.items.map(item =&gt;
+          &lt;li key={item.id} onClick={this.props.onItemClick.bind(null, item.id)}&gt;
+            ...
+          &lt;/li&gt;
+        )}
+      &lt;/ul&gt;
+    );
+  }
+});
+</code></pre>
+<p>Rather than doing it this way, pull the repeated section into its own component:</p>
+<pre><code class="lang-jsx">var List = React.createClass({
+  render() {
+    return (
+      &lt;ul&gt;
+        {this.props.items.map(item =&gt;
+          &lt;ListItem key={item.id} item={item} onItemClick={this.props.onItemClick} /&gt;
+        )}
+      &lt;/ul&gt;
+    );
+  }
+});
+
+var ListItem = React.createClass({
+  render() {
+    return (
+      &lt;li onClick={this._onClick}&gt;
+        ...
+      &lt;/li&gt;
+    );
+  },
+  _onClick() {
+    this.props.onItemClick(this.props.item.id);
+  }
+});
+</code></pre>
+<p>This will speed up rendering, as it avoids the need to create new functions (through <code>bind</code> calls) on every render.</p>
+<h3 id="es6-classes">ES6 Classes</h3>
+<p>Unfortunately <a href="https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es6-classes">React ES6 classes</a> do not autobind their methods like components created with the older <code>React.createClass</code> syntax. There are several approaches to binding methods for ES6 classes. A basic approach is to just manually bind the methods in the constructor:</p>
+<pre><code class="lang-jsx">class Foo extends React.Component {
+  constructor() {
+    super();
+    this._onClick = this._onClick.bind(this);
+  }
+  render() {
+    return (
+      &lt;div onClick={this._onClick}&gt;
+        Hello!
+      &lt;/div&gt;
+    );
+  }
+  _onClick() {
+    // Do whatever you like, referencing &quot;this&quot; as appropriate
+  }
+}
+</code></pre>
+<p>A more sophisticated approach would be to use something like an <a href="https://www.npmjs.com/package/core-decorators#autobind">autobind ES7 decorator</a> or <a href="https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#autobinding">property initializers</a>.</p>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you do not use JSX or do not want to enforce that <code>bind</code> or arrow functions are not used in props, then you can disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

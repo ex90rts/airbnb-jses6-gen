@@ -1,0 +1,62 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="disallow-modifying-variables-that-are-declared-using-const-no-const-assign-">Disallow modifying variables that are declared using <code>const</code> (no-const-assign)</h1>
+<p>We cannot modify variables that are declared using <code>const</code> keyword.
+It will raise a runtime error.</p>
+<p>Under non ES2015 environment, it might be ignored merely.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed to flag modifying variables that are declared using <code>const</code> keyword.</p>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-const-assign: &quot;error&quot;*/
+/*eslint-env es6*/
+
+const a = 0;
+a = 1;
+</code></pre>
+<pre><code class="lang-js">/*eslint no-const-assign: &quot;error&quot;*/
+/*eslint-env es6*/
+
+const a = 0;
+a += 1;
+</code></pre>
+<pre><code class="lang-js">/*eslint no-const-assign: &quot;error&quot;*/
+/*eslint-env es6*/
+
+const a = 0;
+++a;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-const-assign: &quot;error&quot;*/
+/*eslint-env es6*/
+
+const a = 0;
+console.log(a);
+</code></pre>
+<pre><code class="lang-js">/*eslint no-const-assign: &quot;error&quot;*/
+/*eslint-env es6*/
+
+for (const a in [1, 2, 3]) { // `a` is re-defined (not modified) on each loop step.
+    console.log(a);
+}
+</code></pre>
+<pre><code class="lang-js">/*eslint no-const-assign: &quot;error&quot;*/
+/*eslint-env es6*/
+
+for (const a of [1, 2, 3]) { // `a` is re-defined (not modified) on each loop step.
+    console.log(a);
+}
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>If you don&#39;t want to be notified about modifying variables that are declared using <code>const</code> keyword, you can safely disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

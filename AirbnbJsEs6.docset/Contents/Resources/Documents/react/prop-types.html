@@ -1,0 +1,132 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="prevent-missing-props-validation-in-a-react-component-definition-prop-types-">Prevent missing props validation in a React component definition (prop-types)</h1>
+<p>PropTypes improve the reusability of your component by validating the received data.</p>
+<p>It can warn other developers if they make a mistake while reusing the component with improper data type.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+});
+
+var Hello = React.createClass({
+  propTypes: {
+    firstname: React.PropTypes.string.isRequired
+  },
+  render: function() {
+    return &lt;div&gt;Hello {this.props.firstname} {this.props.lastname}&lt;/div&gt;; // lastname type is not defined in propTypes
+  }
+});
+
+function Hello({ name }) {
+  return &lt;div&gt;Hello {name}&lt;/div&gt;;
+}
+</code></pre>
+<p>Examples of correct usage without warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  propTypes: {
+    name: React.PropTypes.string.isRequired,
+  },
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  },
+});
+
+// Or in ES6:
+class HelloEs6 extends React.Component {
+  render() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+}
+HelloEs6.propTypes = {
+  name: React.PropTypes.string.isRequired,
+};
+
+// ES6 + Public Class Fields (draft: https://tc39.github.io/proposal-class-public-fields/)
+class HelloEs6WithPublicClassField extends React.Component {
+  static propTypes = {
+    name: React.PropTypes.string.isRequired,
+  }
+  render() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+}
+</code></pre>
+<p>The following patterns are not considered warnings:</p>
+<pre><code class="lang-jsx">var Hello = React.createClass({
+  render: function() {
+    return &lt;div&gt;Hello World&lt;/div&gt;;
+  }
+});
+
+var Hello = React.createClass({
+  propTypes: {
+    name: React.PropTypes.string.isRequired
+  },
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+});
+
+// Referencing an external object disable the rule for the component
+var Hello = React.createClass({
+  propTypes: myPropTypes,
+  render: function() {
+    return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+  }
+});
+
+function Hello({ name }) {
+  return &lt;div&gt;Hello {name}&lt;/div&gt;;
+}
+Hello.propTypes = {
+  name: React.PropTypes.string.isRequired,
+};
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<p>This rule can take one argument to ignore some specific props during validation.</p>
+<pre><code>...
+&quot;prop-types&quot;: [&lt;enabled&gt;, { ignore: &lt;ignore&gt;, customValidators: &lt;customValidator&gt; }]
+...
+</code></pre><ul>
+<li><code>enabled</code>: for enabling the rule. 0=off, 1=warn, 2=error. Defaults to 0.</li>
+<li><code>ignore</code>: optional array of props name to ignore during validation.</li>
+<li><code>customValidators</code>: optional array of validators used for propTypes validation.</li>
+<li><code>skipUndeclared</code>: only error on components that have a propTypes block declared</li>
+</ul>
+<h3 id="as-for-exceptions-">As for &quot;exceptions&quot;</h3>
+<p>It would seem that some common properties such as <code>props.children</code> or <code>props.className</code>
+(and alike) need to be treated as exceptions.</p>
+<p>As it aptly noticed in
+<a href="https://github.com/yannickcr/eslint-plugin-react/issues/7">#7</a></p>
+<blockquote>
+<p>Why should children be an exception?
+Most components don&#39;t need <code>this.props.children</code>, so that makes it extra important
+to document <code>children</code> in the propTypes.</p>
+</blockquote>
+<p>Generally, you should use <code>React.PropTypes.node</code> for <code>children</code>. It accepts
+anything that can be rendered: numbers, strings, elements or an array containing
+these types.</p>
+<p>Since 2.0.0 children is no longer ignored for props validation.</p>
+<h2 id="about-component-detection">About component detection</h2>
+<p>For this rule to work we need to detect React components, this could be very hard since components could be declared in a lot of ways.</p>
+<p>For now we should detect components created with:</p>
+<ul>
+<li><code>React.createClass()</code></li>
+<li>an ES6 class that inherit from <code>React.Component</code> or <code>Component</code></li>
+<li>a stateless function that return JSX or the result of a <code>React.createElement</code> call.</li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

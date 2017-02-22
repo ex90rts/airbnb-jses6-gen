@@ -1,0 +1,104 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="enforce-a-maximum-file-length-max-lines-">enforce a maximum file length (max-lines)</h1>
+<p>Some people consider large files a code smell. Large files tend to do a lot of things and can make it hard following what&#39;s going. While there is not an objective maximum number of lines considered acceptable in a file, most people would agree it should not be in the thousands. Recommendations usually range from 100 to 500 lines.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule enforces a maximum number of lines per file, in order to aid in maintainability and reduce complexity.</p>
+<h2 id="options">Options</h2>
+<p>This rule has a number or object option:</p>
+<ul>
+<li><p><code>&quot;max&quot;</code> (default <code>300</code>) enforces a maximum number of lines in a file</p>
+</li>
+<li><p><code>&quot;skipBlankLines&quot;: true</code> ignore lines made up purely of whitespace.</p>
+</li>
+<li><p><code>&quot;skipComments&quot;: true</code> ignore lines containing just comments</p>
+</li>
+</ul>
+<h3 id="code">code</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with a max value of <code>2</code>:</p>
+<pre><code class="lang-js">/*eslint max-lines: [&quot;error&quot;, 2]*/
+var a,
+    b,
+    c;
+</code></pre>
+<pre><code class="lang-js">/*eslint max-lines: [&quot;error&quot;, 2]*/
+
+var a,
+    b,c;
+</code></pre>
+<pre><code class="lang-js">/*eslint max-lines: [&quot;error&quot;, 2]*/
+// a comment
+var a,
+    b,c;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with a max value of <code>2</code>:</p>
+<pre><code class="lang-js">/*eslint max-lines: [&quot;error&quot;, 2]*/
+var a,
+    b, c;
+</code></pre>
+<pre><code class="lang-js">/*eslint max-lines: [&quot;error&quot;, 2]*/
+
+var a, b, c;
+</code></pre>
+<pre><code class="lang-js">/*eslint max-lines: [&quot;error&quot;, 2]*/
+// a comment
+var a, b, c;
+</code></pre>
+<h3 id="skipblanklines">skipBlankLines</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;skipBlankLines&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint max-lines: [&quot;error&quot;, {&quot;max&quot;: 2, &quot;skipBlankLines&quot;: true}]*/
+
+var a,
+    b,
+    c;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;skipBlankLines&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint max-lines: [&quot;error&quot;, {&quot;max&quot;: 2, &quot;skipBlankLines&quot;: true}]*/
+
+var a,
+    b, c;
+</code></pre>
+<h3 id="skipcomments">skipComments</h3>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule with the <code>{ &quot;skipComments&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint max-lines: [&quot;error&quot;, {&quot;max&quot;: 2, &quot;skipComments&quot;: true}]*/
+// a comment
+var a,
+    b,
+    c;
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule with the <code>{ &quot;skipComments&quot;: true }</code> option:</p>
+<pre><code class="lang-js">/*eslint max-lines: [&quot;error&quot;, {&quot;max&quot;: 2, &quot;skipComments&quot;: true}]*/
+// a comment
+var a,
+    b, c;
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>You can turn this rule off if you are not concerned with the number of lines in your files.</p>
+<h2 id="further-reading">Further reading</h2>
+<ul>
+<li><a href="http://www.mind2b.com/component/content/article/24-software-module-size-and-file-size">Software Module size and file size</a></li>
+</ul>
+<h2 id="related-rules">Related Rules</h2>
+<ul>
+<li><a href="complexity.html">complexity</a></li>
+<li><a href="max-depth.html">max-depth</a></li>
+<li><a href="max-nested-callbacks.html">max-nested-callbacks</a></li>
+<li><a href="max-params.html">max-params</a></li>
+<li><a href="max-statements.html">max-statements</a></li>
+</ul>
+<h2 id="compatibility">Compatibility</h2>
+<ul>
+<li><strong>JSCS</strong>: <a href="http://jscs.info/rule/maximumNumberOfLines">maximumNumberOfLines</a></li>
+</ul>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="require-let-or-const-instead-of-var-no-var-">require <code>let</code> or <code>const</code> instead of <code>var</code> (no-var)</h1>
+<p class="fixable icon">(fixable) The <code>--fix</code> option on the <a href="../user-guide/command-line-interface#fix">command line</a> automatically fixes some instances of problems reported by this rule.</p>
+<p>ECMAScript 6 allows programmers to create variables with block scope instead of function scope using the <code>let</code>
+and <code>const</code> keywords. Block scope is common in many other programming languages and helps programmers avoid mistakes
+such as:</p>
+<pre><code class="lang-js">var count = people.length;
+var enoughFood = count &gt; sandwiches.length;
+
+if (enoughFood) {
+    var count = sandwiches.length; // accidently overriding the count variable
+    console.log(&quot;We have &quot; + count + &quot; sandwiches for everyone. Plenty for all!&quot;);
+}
+
+// our count variable is no longer accurate
+console.log(&quot;We have &quot; + count + &quot; people and &quot; + sandwiches.length + &quot; sandwiches!&quot;);
+</code></pre>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed at discouraging the use of <code>var</code> and encouraging the use of <code>const</code> or <code>let</code> instead.</p>
+<h2 id="examples">Examples</h2>
+<p class="incorrect icon">Examples of <strong>incorrect</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-var: &quot;error&quot;*/
+
+var x = &quot;y&quot;;
+var CONFIG = {};
+</code></pre>
+<p class="correct icon">Examples of <strong>correct</strong> code for this rule:</p>
+<pre><code class="lang-js">/*eslint no-var: &quot;error&quot;*/
+/*eslint-env es6*/
+
+let x = &quot;y&quot;;
+const CONFIG = {};
+</code></pre>
+<h2 id="when-not-to-use-it">When Not To Use It</h2>
+<p>In addition to non-ES6 environments, existing JavaScript projects that are beginning to introduce ES6 into their
+codebase may not want to apply this rule if the cost of migrating from <code>var</code> to <code>let</code> is too costly.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="validate-jsx-indentation-jsx-indent-">Validate JSX indentation (jsx-indent)</h1>
+<p>This option validates a specific indentation style for JSX.</p>
+<p><strong>Fixable:</strong> This rule is automatically fixable using the <code>--fix</code> flag on the command line. 
+Fixer will fix whitespace and tabs indentation.</p>
+<h2 id="rule-details">Rule Details</h2>
+<p>This rule is aimed to enforce consistent indentation style. The default style is <code>4 spaces</code>.</p>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">// 2 spaces indentation
+&lt;App&gt;
+  &lt;Hello /&gt;
+&lt;/App&gt;
+
+// no indentation
+&lt;App&gt;
+&lt;Hello /&gt;
+&lt;/App&gt;
+
+// 1 tab indentation
+&lt;App&gt;
+  &lt;Hello /&gt;
+&lt;/App&gt;
+</code></pre>
+<h2 id="rule-options">Rule Options</h2>
+<p>It takes an option as the second parameter which can be <code>&quot;tab&quot;</code> for tab-based indentation or a positive number for space indentations.</p>
+<pre><code class="lang-js">...
+&quot;react/jsx-indent&quot;: [&lt;enabled&gt;, &#39;tab&#39;|&lt;number&gt;]
+...
+</code></pre>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">// 2 spaces indentation
+// [2, 2]
+&lt;App&gt;
+    &lt;Hello /&gt;
+&lt;/App&gt;
+
+// tab indentation
+// [2, &#39;tab&#39;]
+&lt;App&gt;
+  &lt;Hello /&gt;
+&lt;/App&gt;
+</code></pre>
+<p>The following patterns are not warnings:</p>
+<pre><code class="lang-jsx">
+// 2 spaces indentation
+// [2, 2]
+&lt;App&gt;
+  &lt;Hello /&gt;
+&lt;/App&gt;
+
+// tab indentation
+// [2, &#39;tab&#39;]
+&lt;App&gt;
+  &lt;Hello /&gt;
+&lt;/App&gt;
+
+// no indentation
+// [2, 0]
+&lt;App&gt;
+&lt;Hello /&gt;
+&lt;/App&gt;
+</code></pre>
+<h4 id="indentlogicalexpressions">indentLogicalExpressions</h4>
+<pre><code class="lang-js">...
+&quot;react/jsx-indent&quot;: [&lt;enabled&gt;, &#39;tab&#39;|&lt;number&gt;, {indentLogicalExpressions: true}]
+...
+</code></pre>
+<p>By default this is set to false. When enabled, an additional indentation is required when the JSX is the right of a LogicalExpression</p>
+<p>The following patterns are considered warnings:</p>
+<pre><code class="lang-jsx">// 2 spaces indentation with indentLogicalExpressions as false
+// [2, 2, {indentLogicalExpressions: false}]
+&lt;App&gt;
+  {
+    condition &amp;&amp;
+      &lt;Container&gt;
+        &lt;Child&gt;&lt;/Child&gt;
+      &lt;/Container&gt;
+  }
+&lt;/App&gt;
+
+// 2 spaces indentation with indentLogicalExpressions as true
+// [2, 2, {indentLogicalExpressions: true}]
+&lt;App&gt;
+  {
+    condition &amp;&amp;
+    &lt;Container&gt;
+      &lt;Child&gt;&lt;/Child&gt;
+    &lt;/Container&gt;
+  }
+&lt;/App&gt;
+</code></pre>
+<p>The following patterns are not warnings:</p>
+<pre><code class="lang-jsx">// 2 spaces indentation with indentLogicalExpressions as true
+// [2, 2, {indentLogicalExpressions: true}]
+&lt;App&gt;
+  {
+    condition &amp;&amp;
+      &lt;Container&gt;
+        &lt;Child&gt;&lt;/Child&gt;
+      &lt;/Container&gt;
+  }
+&lt;/App&gt;
+
+// 2 spaces indentation with indentLogicalExpressions as false
+// [2, 2, {indentLogicalExpressions: false}]
+&lt;App&gt;
+  {
+    condition &amp;&amp;
+    &lt;Container&gt;
+      &lt;Child&gt;&lt;/Child&gt;
+    &lt;/Container&gt;
+  }
+&lt;/App&gt;
+</code></pre>
+<h2 id="when-not-to-use">When not to use</h2>
+<p>If you are not using JSX then you can disable this rule.</p>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

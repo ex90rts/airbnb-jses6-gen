@@ -1,0 +1,53 @@
+<!-- single file version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link href="../assets/eslint.css" rel="stylesheet" type="text/css">
+<link href="../assets/xcode.min.css" rel="stylesheet" type="text/css">
+<script src="../assets/highlight.min.js"></script>
+</head>
+<body>
+<h1 id="onclick-has-focus">onclick-has-focus</h1>
+<p>Enforce that visible elements with onClick handlers must be focusable. Visible means that it is not hidden from a screen reader. Examples of non-interactive elements are <code>div</code>, <code>section</code>, and <code>a</code> elements without a href prop. Elements which have click handlers but are not focusable can not be used by keyboard-only users.</p>
+<p>To make an element focusable, you can either set the tabIndex property, or use an element type which is inherently focusable.</p>
+<p>Elements that are inherently focusable are as follows:</p>
+<ul>
+<li><code>&lt;input&gt;</code>, <code>&lt;button&gt;</code>, <code>&lt;select&gt;</code> and <code>&lt;textarea&gt;</code> elements which are not disabled</li>
+<li><code>&lt;a&gt;</code> or <code>&lt;area&gt;</code> elements with an <code>href</code> attribute.</li>
+</ul>
+<p>This rule will only test low-level DOM components, as we can not deterministically map wrapper JSX components to their correct DOM element.</p>
+<h2 id="-tabindex-of-an-element-with-role-gridcell-"><code>tabIndex</code> of an element with role <code>gridcell</code></h2>
+<p>Within a grid, a grid cell may itself be tabbable if it contains text content.
+In this case apply a <code>tabIndex</code> of 0.</p>
+<p>If the content of the grid cell is tabbable -- for example a button or link --
+then apply a <code>tabIndex</code> of -1.</p>
+<h4 id="references">References</h4>
+<ol>
+<li><a href="https://github.com/GoogleChrome/accessibility-developer-tools/wiki/Audit-Rules#ax_focus_02">AX_FOCUS_02</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role#Keyboard_and_focus">MDN</a></li>
+</ol>
+<h2 id="rule-details">Rule details</h2>
+<p>This rule takes no arguments.</p>
+<h3 id="succeed">Succeed</h3>
+<pre><code class="lang-jsx">&lt;!-- Good: div with onClick attribute is hidden from screen reader --&gt;
+&lt;div aria-hidden onClick={() =&gt; void 0} /&gt;
+&lt;!-- Good: span with onClick attribute is in the tab order --&gt;
+&lt;span onClick=&quot;doSomething();&quot; tabIndex=&quot;0&quot;&gt;Click me!&lt;/span&gt;
+&lt;!-- Good: span with onClick attribute may be focused programmatically --&gt;
+&lt;span onClick=&quot;doSomething();&quot; tabIndex=&quot;-1&quot;&gt;Click me too!&lt;/span&gt;
+&lt;!-- Good: anchor element with href is inherently focusable --&gt;
+&lt;a href=&quot;javascript:void(0);&quot; onClick=&quot;doSomething();&quot;&gt;Click ALL the things!&lt;/a&gt;
+&lt;!-- Good: buttons are inherently focusable --&gt;
+&lt;button onClick=&quot;doSomething();&quot;&gt;Click the button :)&lt;/button&gt;
+</code></pre>
+<h3 id="fail">Fail</h3>
+<pre><code class="lang-jsx">&lt;!-- Bad: span with onClick attribute has no tabindex --&gt;
+&lt;span onclick=&quot;submitForm();&quot;&gt;Submit&lt;/span&gt;
+&lt;!-- Bad: anchor element without href is not focusable --&gt;
+&lt;a onclick=&quot;showNextPage();&quot;&gt;Next page&lt;/a&gt;
+</code></pre>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
